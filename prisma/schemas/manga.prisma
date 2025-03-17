@@ -1,0 +1,146 @@
+model Manga {
+    id          Int                  @id @default(autoincrement())
+    titles      MangaTitles[]
+    description MangaDescription?
+    rate        Float                @default(0)
+    releaseDate DateTime?
+    type        MangaType            @default(Manga)
+    status      MangaStatus          @default(Ongoing)
+    mangaCovers MangaCovers[]
+    owner       User                 @relation(fields: [ownerId], references: [id])
+    ownerId     Int
+    banner      String?
+    janres      MangaJanres[]
+    tags        MangaTags[]
+    rating      MangaRating[]
+    comments    MangaComments[]
+    bookmarks   UserMangaBookmarks[]
+    authors     Authors[]
+    artists     Artists[]
+    publishers  Publishers[]
+    chapters    Chapters[]
+    moderated   Boolean              @default(false)
+    createdAt   DateTime             @default(now())
+    updatedAt   DateTime             @default(now()) @updatedAt
+}
+
+model MangaTitles {
+    id        Int      @id @default(autoincrement())
+    ru        String
+    en        String?
+    main      Boolean  @default(false)
+    manga     Manga    @relation(fields: [mangaId], references: [id])
+    mangaId   Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaDescription {
+    id        Int      @id @default(autoincrement())
+    ru        String
+    en        String?
+    manga     Manga    @relation(fields: [mangaId], references: [id])
+    mangaId   Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaCovers {
+    id        Int      @id @default(autoincrement())
+    cover     String
+    main      Boolean  @default(false)
+    manga     Manga    @relation(fields: [mangaId], references: [id])
+    mangaId   Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaJanres {
+    id        Int      @id @default(autoincrement())
+    ru        String   @unique
+    en        String?  @unique
+    mangas    Manga[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaTags {
+    id        Int      @id @default(autoincrement())
+    ru        String   @unique
+    en        String?  @unique
+    mangas    Manga[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaRating {
+    id        Int      @id @default(autoincrement())
+    rate      Int
+    manga     Manga    @relation(fields: [mangaId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    mangaId   Int
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaComments {
+    id            Int                    @id @default(autoincrement())
+    content       String
+    manga         Manga                  @relation(fields: [mangaId], references: [id])
+    user          User                   @relation(fields: [userId], references: [id])
+    mangaId       Int
+    userId        Int
+    usersLike     UserLikeMangaComment[]
+    predesessorId Int?
+    predecessor   MangaComments?         @relation("MangaCommentFamily", fields: [predesessorId], references: [id])
+    successors    MangaComments[]        @relation("MangaCommentFamily")
+    createdAt     DateTime               @default(now())
+    updatedAt     DateTime               @default(now()) @updatedAt
+}
+
+model UserLikeMangaComment {
+    id             Int           @id @default(autoincrement())
+    mangaComment   MangaComments @relation(fields: [mangaCommentId], references: [id])
+    user           User          @relation(fields: [userId], references: [id])
+    mangaCommentId Int
+    userId         Int
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @default(now()) @updatedAt
+}
+
+model UserMangaBookmarks {
+    id        Int       @id @default(autoincrement())
+    manga     Manga     @relation(fields: [mangaId], references: [id])
+    user      User      @relation(fields: [userId], references: [id])
+    bookmark  Bookmarks @default(Reading)
+    mangaId   Int
+    userId    Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now()) @updatedAt
+}
+
+enum MangaType {
+    Manga
+    Manhwa
+    Manhua
+    OEL
+    Rumanga
+    Comic
+}
+
+enum MangaStatus {
+    Ongoing
+    Announced
+    Completed
+    Frozen
+    Canceled
+}
+
+enum Bookmarks {
+    Reading
+    Planned
+    Readed
+    Abandoned
+    Postponed
+}

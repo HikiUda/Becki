@@ -1,0 +1,61 @@
+model Chapters {
+    id        Int               @id @default(autoincrement())
+    title     String?
+    tome      Int               @default(1)
+    chapter   Float
+    pages     Json
+    private   Boolean           @default(true)
+    manga     Manga             @relation(fields: [mangaId], references: [id])
+    mangaId   Int
+    comments  ChapterComments[]
+    usersLike UserLikeChapter[]
+    usersView UserViewChapter[]
+    createdAt DateTime          @default(now())
+    updatedAt DateTime          @default(now()) @updatedAt
+}
+
+model UserLikeChapter {
+    id        Int      @id @default(autoincrement())
+    chapter   Chapters @relation(fields: [chapterId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model UserViewChapter {
+    id        Int      @id @default(autoincrement())
+    chapter   Chapters @relation(fields: [chapterId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ChapterComments {
+    id            Int                      @id @default(autoincrement())
+    content       String
+    page          Int
+    chapter       Chapters                 @relation(fields: [chapterId], references: [id])
+    user          User                     @relation(fields: [userId], references: [id])
+    chapterId     Int
+    userId        Int
+    usersLike     UserLikeChapterComment[]
+    predesessorId Int?
+    predecessor   ChapterComments?         @relation("ChapterCommentFamily", fields: [predesessorId], references: [id])
+    successors    ChapterComments[]        @relation("ChapterCommentFamily")
+    createdAt     DateTime                 @default(now())
+    updatedAt     DateTime                 @default(now()) @updatedAt
+}
+
+model UserLikeChapterComment {
+    id               Int             @id @default(autoincrement())
+    chapterComment   ChapterComments @relation(fields: [chapterCommentId], references: [id])
+    user             User            @relation(fields: [userId], references: [id])
+    chapterCommentId Int
+    userId           Int
+    createdAt        DateTime        @default(now())
+    updatedAt        DateTime        @default(now()) @updatedAt
+}
