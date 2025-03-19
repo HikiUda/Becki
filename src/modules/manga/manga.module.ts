@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { GetMangaModule } from './getManga/getManga.module';
-import { MutateMangaModule } from './mutateManga/mutateManga.module';
+import { PublicMangaModule } from './publicManga/publicManga.module';
+import { EditMangaModule } from './editManga/editManga.module';
 
 @Module({
-    imports: [GetMangaModule, MutateMangaModule],
+    imports: [PublicMangaModule, EditMangaModule],
 })
 export class MangaModule {}
