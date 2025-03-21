@@ -8,6 +8,7 @@ export interface MangaTitle {
 
 export interface MangaDto {
     id: number;
+    urlId: string;
     title: MangaTitle;
     description: string;
     chaptersCount: number;

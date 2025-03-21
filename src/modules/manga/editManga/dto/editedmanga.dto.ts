@@ -1,43 +1,44 @@
 import { MangaStatus, MangaType } from '@prisma/client';
 
-interface EditedTitle {
+export interface EditedMangaTitle {
     id: number;
     ru: string;
     en: string | null;
     main: boolean;
 }
 
-interface EditedDescription {
+export interface EditedMangaDescription {
     ru: string;
     en: string | null;
 }
 
-interface EditedjanresAndTags {
+export interface EditedMangaJanresAndTags {
     id: number;
     title: string;
 }
-interface EditedAuthors {
+export interface EditedMangaAuthors {
     id: number;
     name: string;
 }
 
-interface EditedCovers {
+export interface EditedMangaCovers {
     id: number;
     cover: string;
 }
 
 export interface EditedMangaDto {
     id: number;
-    titles: EditedTitle[];
-    description: EditedDescription;
+    urlId: string;
+    titles: EditedMangaTitle[];
+    description: EditedMangaDescription;
     releaseDate: Date | null;
     status: MangaStatus;
     type: MangaType;
-    janres: EditedjanresAndTags[];
-    tags: EditedjanresAndTags[];
-    covers: EditedCovers[];
+    janres: EditedMangaJanresAndTags[];
+    tags: EditedMangaJanresAndTags[];
+    covers: EditedMangaCovers[];
     banner: string | null;
-    authors: EditedAuthors[];
-    artists: EditedAuthors[];
-    publishers: EditedAuthors[];
+    authors: EditedMangaAuthors[];
+    artists: EditedMangaAuthors[];
+    publishers: EditedMangaAuthors[];
 }

@@ -1,5 +1,6 @@
 model Manga {
     id          Int                  @id @default(autoincrement())
+    urlId       String               @unique @default(uuid()) @db.VarChar(255)
     titles      MangaTitles[]
     description MangaDescription?
     rate        Float                @default(0)

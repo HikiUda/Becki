@@ -2,10 +2,12 @@ import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
 import { MangaDto } from '../dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
+import { MangaIdsType } from '../../common/types/mangaTypes';
 
 export const MangaSelect = (lang: LangType): Prisma.MangaSelect => {
     return {
         id: true,
+        urlId: true,
         status: true,
         type: true,
         releaseDate: true,
@@ -24,8 +26,11 @@ export const MangaSelect = (lang: LangType): Prisma.MangaSelect => {
     };
 };
 
-export const getManga = async (id: number, lang: LangType) =>
-    await prisma.manga.findUnique({ where: { id }, select: MangaSelect(lang) });
+export const getManga = async (id: MangaIdsType, lang: LangType) =>
+    await prisma.manga.findUnique({
+        where: typeof id === 'number' ? { id } : { urlId: id },
+        select: MangaSelect(lang),
+    });
 
 export type getMangaReturnType = Prisma.PromiseReturnType<typeof getManga>;
 
@@ -33,6 +38,7 @@ export function toMangaDto(data: getMangaReturnType, lang: LangType): MangaDto |
     if (!data) return null;
     const manga: MangaDto = {
         id: data.id,
+        urlId: data.urlId,
         title: { ru: '', en: '' },
         description: '',
         chaptersCount: data._count.chapters,

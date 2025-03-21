@@ -34,6 +34,7 @@ export interface MutateAuthorsInMangaType {
 }
 
 export interface MutateMangaDto {
+    urlId?: string;
     titles?: MutateMangaTitlesType;
     description?: MutateMangaDescriptionType;
     status?: MangaStatus;
@@ -41,7 +42,7 @@ export interface MutateMangaDto {
     releaseDate?: Date;
     janres?: MutateManyToManyInMangaType;
     tags?: MutateManyToManyInMangaType;
-    covers?: string[];
+    coversId?: number;
     banner?: string;
     authors?: MutateAuthorsInMangaType;
     artists?: MutateAuthorsInMangaType;

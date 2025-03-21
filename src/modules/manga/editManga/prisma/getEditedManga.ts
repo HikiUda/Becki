@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
 import { LangType } from 'src/common/types/lang';
 import { EditedMangaDto } from '../dto/editedmanga.dto';
+import { MangaIdsType } from '../../common/types/mangaTypes';
 
 const EditedMangaInclude = (lang: LangType): Prisma.MangaInclude => {
     return {
@@ -16,8 +17,11 @@ const EditedMangaInclude = (lang: LangType): Prisma.MangaInclude => {
     };
 };
 
-export const getEditedManga = async (id: number, lang: LangType) =>
-    await prisma.manga.findUnique({ where: { id }, include: EditedMangaInclude(lang) });
+export const getEditedManga = async (id: MangaIdsType, lang: LangType) =>
+    await prisma.manga.findUnique({
+        where: typeof id === 'number' ? { id } : { urlId: id },
+        include: EditedMangaInclude(lang),
+    });
 
 export type getEditedMangaReturnType = Prisma.PromiseReturnType<typeof getEditedManga>;
 
@@ -28,6 +32,7 @@ export function toEditedMangaDto(
     if (!data) return null;
     const manga: EditedMangaDto = {
         id: data.id,
+        urlId: data.urlId,
         titles: data.titles.map((title) => ({
             id: title.id,
             ru: title.ru,
