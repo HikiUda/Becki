@@ -23,7 +23,8 @@ import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express
 import { MangaFilesUploadType } from './types/fileUpload';
 import { ValidateMangaIdPipe } from '../common/pipes/ValidateMangaIdPipe';
 import { MangaIdsType } from '../common/types/mangaTypes';
-
+import { ValidateCreateMangaBodyPipe } from '../common/pipes/ValidateCreateMangaBodyPipe';
+//TODO edit ageRate
 @Controller('manga/edit')
 export class EditMangaController implements EditMangaControllerInterface {
     constructor(private editMangaService: EditMangaService) {}
@@ -44,12 +45,10 @@ export class EditMangaController implements EditMangaControllerInterface {
         ]),
     )
     async createManga(
-        @Body('body') body: string,
+        @Body('body', new ValidateCreateMangaBodyPipe()) dto: MutateMangaDto,
         @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
         @UploadedFiles() files: MangaFilesUploadType,
     ): Promise<EditedMangaDto> {
-        //TODO pipe for validate dto *body have one title with {main: true}
-        const dto = (await JSON.parse(body)) as MutateMangaDto;
         return await this.editMangaService.createManga(dto, lang, files);
     }
     @Put(':id')
@@ -69,6 +68,11 @@ export class EditMangaController implements EditMangaControllerInterface {
         @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
     ): Promise<EditedMangaDto> {
         return await this.editMangaService.deleteManga(id, lang);
+    }
+
+    @Get(':id/cover')
+    async getMangaCovers(@Param('id', ParseIntPipe) id: number): Promise<EditedMangaCovers[]> {
+        return await this.editMangaService.getMangaCovers(id);
     }
 
     @Post(':id/cover')

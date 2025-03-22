@@ -18,7 +18,7 @@ export interface EditMangaServiceInterface {
         lang: LangType,
     ) => Promise<EditedMangaDto>;
     deleteManga: (mangaId: number, lang: LangType) => Promise<EditedMangaDto>;
-
+    getMangaCovers: (id: number) => Promise<EditedMangaCovers[]>;
     addMangaCovers: (
         mangaId: number,
         covers: Express.Multer.File[],

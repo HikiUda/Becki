@@ -88,8 +88,10 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
             if (dto.publishers?.delete) {
                 await deletePublishers(dto.publishers.delete, manga.id, tx);
             }
+
             return manga;
         });
+
         return await this.getEditedManga(mangaId, lang);
     }
     async deleteManga(dto: EditedMangaDto): Promise<number> {
@@ -128,6 +130,14 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
             return dto.id;
         });
         return mangaId;
+    }
+    async getMangaCovers(mangaId: number): Promise<EditedMangaCovers[]> {
+        const covers = await this.prisma.mangaCovers.findMany({ where: { mangaId } });
+        const dto = toEditedCoversDto(covers);
+        if (!dto) {
+            throw new BadRequestException('Обложки не найдена');
+        }
+        return dto;
     }
     async addCovers(covers: string[], mangaId: number): Promise<EditedMangaCovers[]> {
         const addedCovers = await addMangaCovers(covers, mangaId);

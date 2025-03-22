@@ -7,10 +7,21 @@ import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../common/types/mangaTypes';
 import { ValidateMangaIdPipe } from '../common/pipes/ValidateMangaIdPipe';
 import { Manga } from '@prisma/client';
+import { MangaListQuery } from './dto/mangaListItem.dto';
+import { ValidateMangaListQueryPipe } from '../common/pipes/ValidateMangaListQueryPipe';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {
     constructor(private publicMangaService: PublicMangaService) {}
+
+    @Get()
+    async getMangaList(
+        @Query(new ValidateMangaListQueryPipe()) query: MangaListQuery,
+        @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
+    ): Promise<MangaDto> {
+        return await this.publicMangaService.getMangaList(query, lang);
+    }
+
     @Get(':id')
     async getManga(
         @Param('id', new ValidateMangaIdPipe()) id: MangaIdsType,

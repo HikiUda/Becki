@@ -4,7 +4,6 @@ import { TransactionContextType } from 'src/common/types/prisma';
 import { prisma } from 'src/common/helpers/prisma';
 
 function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
-    // TODO add banner
     const data: Prisma.MangaUpdateInput = {};
     if (dto.urlId) {
         data.urlId = dto.urlId;

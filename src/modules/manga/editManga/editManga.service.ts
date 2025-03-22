@@ -7,7 +7,6 @@ import { MutateMangaDto } from './dto/mutateManga.dto';
 import { MangaFilesUploadType } from './types/fileUpload';
 import { MangaIdsType } from '../common/types/mangaTypes';
 import { FileService } from 'src/modules/file/file.service';
-//TODO rollback for create and update
 @Injectable()
 export class EditMangaService implements EditMangaServiceInterface {
     constructor(
@@ -24,7 +23,6 @@ export class EditMangaService implements EditMangaServiceInterface {
         files: MangaFilesUploadType,
     ): Promise<EditedMangaDto> {
         const mangaId = await this.editMangaRepository.createManga(dto);
-        const deleteFiles: string[] = [];
         try {
             if (files.banner?.length) {
                 const savedBanner = await this.fileService.saveMangaBanner(
@@ -32,8 +30,8 @@ export class EditMangaService implements EditMangaServiceInterface {
                     mangaId,
                 );
                 dto.banner = savedBanner.url;
-                deleteFiles.push(savedBanner.url);
             }
+
             if (files.covers?.length) {
                 const savedCovers = await this.fileService.saveMangaCovers(files.covers, mangaId);
                 const covers = await this.editMangaRepository.addCovers(
@@ -41,14 +39,14 @@ export class EditMangaService implements EditMangaServiceInterface {
                     mangaId,
                 );
                 dto.coversId = covers[0].id;
-                deleteFiles.push(covers[0].cover);
             }
+
             return await this.editMangaRepository.updateManga(dto, mangaId, lang);
-        } catch {
+        } catch (e: any) {
             await this.deleteManga(mangaId, lang);
-            await this.fileService.deleteFiles(deleteFiles);
             throw new BadRequestException(
                 'Что-то пошло не так. Пожалуйста попробуйте создать тайтл повторно.',
+                { description: e.message?.split('\n').slice(-1) },
             );
         }
     }
@@ -72,10 +70,12 @@ export class EditMangaService implements EditMangaServiceInterface {
                 await this.fileService.deleteFiles([prevBanner]);
             }
             return manga;
-        } catch {
+        } catch (e: any) {
             await this.fileService.deleteFiles(deleteFiles);
+
             throw new BadRequestException(
                 'Что-то пошло не так. Пожалуйста попробуйте обновить тайтл повторно.',
+                { description: e.message?.split('\n').slice(-1) },
             );
         }
     }
@@ -86,6 +86,10 @@ export class EditMangaService implements EditMangaServiceInterface {
         if (editedManga.banner) deletefiles.push(editedManga.banner);
         await this.fileService.deleteFiles(deletefiles);
         return editedManga;
+    }
+
+    async getMangaCovers(mangaId: number): Promise<EditedMangaCovers[]> {
+        return await this.editMangaRepository.getMangaCovers(mangaId);
     }
 
     async addMangaCovers(
