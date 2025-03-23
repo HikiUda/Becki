@@ -1,7 +1,8 @@
 model Manga {
     id          Int                  @id @default(autoincrement())
     urlId       String               @unique @default(uuid()) @db.VarChar(255)
-    titles      MangaTitles[]
+    title       MangaTitle?
+    otherTitles MangaOtherTitles[]
     description MangaDescription?
     rate        Float                @default(0)
     releaseDate DateTime?
@@ -26,11 +27,20 @@ model Manga {
     updatedAt   DateTime             @default(now()) @updatedAt
 }
 
-model MangaTitles {
+model MangaTitle {
     id        Int      @id @default(autoincrement())
     ru        String
     en        String?
-    main      Boolean  @default(false)
+    origin    String?
+    manga     Manga    @relation(fields: [mangaId], references: [id])
+    mangaId   Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaOtherTitles {
+    id        Int      @id @default(autoincrement())
+    title     String
     manga     Manga    @relation(fields: [mangaId], references: [id])
     mangaId   Int
     createdAt DateTime @default(now())
