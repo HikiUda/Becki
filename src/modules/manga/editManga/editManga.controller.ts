@@ -40,8 +40,8 @@ export class EditMangaController implements EditMangaControllerInterface {
     @Post()
     @UseInterceptors(
         FileFieldsInterceptor([
-            { name: 'covers', maxCount: 1 },
             { name: 'banner', maxCount: 1 },
+            { name: 'covers', maxCount: 1 },
         ]),
     )
     async createManga(
@@ -60,7 +60,7 @@ export class EditMangaController implements EditMangaControllerInterface {
         @UploadedFile() banner: Express.Multer.File,
     ): Promise<EditedMangaDto> {
         const dto = (await JSON.parse(body)) as MutateMangaDto;
-        return await this.editMangaService.updateManga(dto, banner, id, lang);
+        return await this.editMangaService.updateManga(dto, id, lang, banner);
     }
     @Delete(':id')
     async deleteManga(

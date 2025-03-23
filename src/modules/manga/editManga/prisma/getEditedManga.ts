@@ -6,7 +6,8 @@ import { MangaIdsType } from '../../common/types/mangaTypes';
 
 const EditedMangaInclude = (lang: LangType): Prisma.MangaInclude => {
     return {
-        titles: true,
+        otherTitles: true,
+        title: true,
         description: true,
         janres: { select: { id: true, ru: true, en: lang === 'en' } },
         tags: { select: { id: true, ru: true, en: lang === 'en' } },
@@ -33,11 +34,10 @@ export function toEditedMangaDto(
     const manga: EditedMangaDto = {
         id: data.id,
         urlId: data.urlId,
-        titles: data.titles.map((title) => ({
+        title: { ru: '', en: null, origin: null },
+        otherTitles: data.otherTitles.map((title) => ({
             id: title.id,
-            ru: title.ru,
-            en: title.en,
-            main: title.main,
+            title: title.title,
         })),
         description: { ru: '', en: '' },
         releaseDate: data.releaseDate,
@@ -61,5 +61,7 @@ export function toEditedMangaDto(
         })),
     };
     if (data.description) manga.description = { ru: data.description.ru, en: data.description.en };
+    if (data.title)
+        manga.title = { ru: data.title.ru, en: data.title.en, origin: data.title.origin };
     return manga;
 }

@@ -6,10 +6,17 @@ import { TransactionContextType } from 'src/common/types/prisma';
 function createMangaInput(dto: MutateMangaDto): Prisma.MangaCreateInput {
     const data: Prisma.MangaCreateInput = {
         urlId: dto.urlId,
+        title: {
+            create: {
+                ru: dto.title?.ru || '',
+                en: dto.title?.en || null,
+                origin: dto.title?.origin || null,
+            },
+        },
         description: {
             create: {
                 ru: dto.description?.ru || '',
-                en: dto.description?.en || '',
+                en: dto.description?.en || null,
             },
         },
         releaseDate: dto.releaseDate || null,

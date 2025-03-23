@@ -24,14 +24,6 @@ export class EditMangaService implements EditMangaServiceInterface {
     ): Promise<EditedMangaDto> {
         const mangaId = await this.editMangaRepository.createManga(dto);
         try {
-            if (files.banner?.length) {
-                const savedBanner = await this.fileService.saveMangaBanner(
-                    files.banner[0],
-                    mangaId,
-                );
-                dto.banner = savedBanner.url;
-            }
-
             if (files.covers?.length) {
                 const savedCovers = await this.fileService.saveMangaCovers(files.covers, mangaId);
                 const covers = await this.editMangaRepository.addCovers(
@@ -40,9 +32,14 @@ export class EditMangaService implements EditMangaServiceInterface {
                 );
                 dto.coversId = covers[0].id;
             }
-
-            return await this.editMangaRepository.updateManga(dto, mangaId, lang);
+            if (files?.banner?.length) {
+                return await this.updateManga(dto, mangaId, lang, files.banner[0]);
+            }
+            return await this.updateManga(dto, mangaId, lang);
         } catch (e: any) {
+            if (dto.coversId) {
+                await this.deleteMangaCovers([dto.coversId]);
+            }
             await this.deleteManga(mangaId, lang);
             throw new BadRequestException(
                 'Что-то пошло не так. Пожалуйста попробуйте создать тайтл повторно.',
@@ -52,9 +49,10 @@ export class EditMangaService implements EditMangaServiceInterface {
     }
     async updateManga(
         dto: MutateMangaDto,
-        banner: Express.Multer.File,
+
         mangaId: number,
         lang: LangType,
+        banner?: Express.Multer.File,
     ): Promise<EditedMangaDto> {
         const deleteFiles: string[] = [];
         try {

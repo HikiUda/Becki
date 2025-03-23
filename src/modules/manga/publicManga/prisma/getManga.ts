@@ -13,7 +13,8 @@ export const MangaSelect = (lang: LangType): Prisma.MangaSelect => {
         releaseDate: true,
         rate: true,
         description: { select: { ru: true, en: lang === 'en' } },
-        titles: { where: { main: true }, select: { ru: true, en: true } },
+        title: { select: { ru: true, en: true, origin: true } },
+        otherTitles: { select: { title: true } },
         _count: { select: { chapters: true, rating: true } },
         janres: { select: { ru: true, en: lang === 'en' } },
         tags: { select: { ru: true, en: lang === 'en' } },
@@ -39,7 +40,8 @@ export function toMangaDto(data: getMangaReturnType, lang: LangType): MangaDto |
     const manga: MangaDto = {
         id: data.id,
         urlId: data.urlId,
-        title: { ru: '', en: '' },
+        title: { ru: '', en: null, origin: null },
+        otherTitles: data.otherTitles.map((title) => title.title),
         description: '',
         chaptersCount: data._count.chapters,
         rate: data.rate,
@@ -57,7 +59,8 @@ export function toMangaDto(data: getMangaReturnType, lang: LangType): MangaDto |
         publishers: data.publishers.map((publisher) => publisher.name),
         bookmark: null,
     };
-    if (data?.titles.length) manga.title = data.titles[0];
+    if (data?.title)
+        manga.title = { ru: data.title.ru, en: data.title.en, origin: data.title.origin };
 
     if (data.description)
         manga.description = data.description[lang] ? data.description[lang] : data.description.ru;

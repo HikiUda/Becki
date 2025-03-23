@@ -1,21 +1,20 @@
 import { MangaStatus, MangaType } from '@prisma/client';
 
-export interface CreateMangaTitleType {
-    ru: string;
-    en?: string;
-    main?: boolean;
-}
-export interface UpdateMangaTitleType {
+export interface UpdateMangaOtherTitleType {
     id: number;
-    ru?: string;
-    en?: string;
-    main?: boolean;
+    title: string;
 }
 
-export interface MutateMangaTitlesType {
-    createTitles?: CreateMangaTitleType[];
-    updateTitles?: UpdateMangaTitleType[];
+export interface MutateMangaOtherTitlesType {
+    createTitles?: string[];
+    updateTitles?: UpdateMangaOtherTitleType[];
     deleteTitles?: number[];
+}
+
+export interface MutateMangaTitle {
+    ru?: string;
+    en?: string;
+    origin?: string;
 }
 
 export interface MutateMangaDescriptionType {
@@ -35,7 +34,8 @@ export interface MutateAuthorsInMangaType {
 
 export interface MutateMangaDto {
     urlId?: string;
-    titles?: MutateMangaTitlesType;
+    title?: MutateMangaTitle;
+    otherTitles?: MutateMangaOtherTitlesType;
     description?: MutateMangaDescriptionType;
     status?: MangaStatus;
     type?: MangaType;

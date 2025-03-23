@@ -1,14 +1,23 @@
 import { Bookmarks, MangaStatus, MangaType } from '@prisma/client';
 
+export type OrderType = 'asc' | 'desc';
+export type SortByType =
+    | 'popularity' //TODO
+    | 'rating'
+    | 'views'
+    | 'updateDate'
+    | 'ruAlphabetically'
+    | 'enAlphabetically';
+
 export interface MangaListItemDto {
     id: number;
     urlId: string;
     title: string;
-    description: string;
     chaptersCount: number;
     rate: number;
     type: MangaType;
     cover: string | null;
+    //TODO bookmark
     bookmark: Bookmarks | null;
 }
 
@@ -18,7 +27,8 @@ export interface MangaListQuery {
     type?: MangaType;
     janres: string[];
     tags: string[];
-    order: 'desc' | 'asc';
+    order: OrderType;
+    sortBy: SortByType;
     chapterCountFrom?: number;
     chapterCountTo?: number;
     releaseDateFrom?: Date;

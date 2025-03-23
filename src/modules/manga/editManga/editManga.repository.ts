@@ -7,9 +7,9 @@ import { MutateMangaDto } from './dto/mutateManga.dto';
 import { PrismaService } from 'src/common/services/prisma.service';
 import { createManga } from './prisma/createManga';
 import {
-    createMangaTitles,
-    deleteMangaTitles,
-    updateMangaTitles,
+    createMangaOtherTitles,
+    deleteMangaOtherTitles,
+    updateMangaOtherTitles,
 } from './prisma/mutateMangaTitles';
 import { addJanres, deleteJanres } from './prisma/mutateManyToMany/mutateMangaJanres';
 import { addTags, deleteTags } from './prisma/mutateManyToMany/mutateMangaTags';
@@ -44,14 +44,14 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
         const manga = await this.prisma.$transaction(async (tx) => {
             const manga = await updateManga(dto, mangaId, tx);
             // mutate titles
-            if (dto.titles?.createTitles) {
-                await createMangaTitles(dto.titles.createTitles, manga.id, tx);
+            if (dto.otherTitles?.createTitles) {
+                await createMangaOtherTitles(dto.otherTitles.createTitles, manga.id, tx);
             }
-            if (dto.titles?.updateTitles) {
-                await updateMangaTitles(dto.titles.updateTitles, tx);
+            if (dto.otherTitles?.updateTitles) {
+                await updateMangaOtherTitles(dto.otherTitles.updateTitles, tx);
             }
-            if (dto.titles?.deleteTitles) {
-                await deleteMangaTitles(dto.titles.deleteTitles, tx);
+            if (dto.otherTitles?.deleteTitles) {
+                await deleteMangaOtherTitles(dto.otherTitles.deleteTitles, tx);
             }
             // mutate janres
             if (dto.janres?.add) {
@@ -96,8 +96,8 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
     }
     async deleteManga(dto: EditedMangaDto): Promise<number> {
         const mangaId = this.prisma.$transaction(async (tx) => {
-            await deleteMangaTitles(
-                dto.titles.map((title) => title.id),
+            await deleteMangaOtherTitles(
+                dto.otherTitles.map((title) => title.id),
                 tx,
             );
             await deleteJanres(

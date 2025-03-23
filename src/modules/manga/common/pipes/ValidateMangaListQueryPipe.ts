@@ -7,14 +7,16 @@ import {
 import { MangaListGetQuery, MangaListQuery } from '../../publicManga/dto/mangaListItem.dto';
 import { MangaStatus, MangaType } from '@prisma/client';
 import { isValidDate } from 'src/common/helpers/isValidDate';
+import { isNotLessThenZeroAndNotNan } from 'src/common/helpers/isNotLessThenZeroAndNotNan/isNotLessThenZeroAndNotNan';
 
 @Injectable()
 export class ValidateMangaListQueryPipe implements PipeTransform<MangaListGetQuery> {
     transform(value: MangaListGetQuery, metadata: ArgumentMetadata) {
         const query: MangaListQuery = {
-            page: value.page || 1,
-            limit: value.limit || 10,
+            page: Number(value.page) || 1,
+            limit: Number(value.limit) || 10,
             order: value.order || 'asc',
+            sortBy: value.sortBy || 'popularity',
             janres: value.janres ? value.janres.split(',') : [],
             tags: value.tags ? value.tags.split(',') : [],
         };
@@ -29,16 +31,35 @@ export class ValidateMangaListQueryPipe implements PipeTransform<MangaListGetQue
                 throw new NotAcceptableException('Такого типа тайтла не существует. (type)');
             query.type = value.type;
         }
+
+        // Validate ChapterCount
         if (value.chapterCountFrom) {
-            query.chapterCountFrom = Number(value.chapterCountFrom);
-            if (isNaN(query.chapterCountFrom))
-                throw new NotAcceptableException('Поле chapterCountFrom должно быть числом');
+            const chapterCountFrom = Number(value.chapterCountFrom);
+            if (!isNotLessThenZeroAndNotNan(chapterCountFrom))
+                throw new NotAcceptableException(
+                    'Поле chapterCountFrom должно быть числом не меньше нуля',
+                );
+            query.chapterCountFrom = chapterCountFrom;
         }
         if (value.chapterCountTo) {
-            query.chapterCountTo = Number(value.chapterCountTo);
-            if (isNaN(query.chapterCountTo))
-                throw new NotAcceptableException('Поле chapterCountTo должно быть числом');
+            const chapterCountTo = Number(value.chapterCountTo);
+            if (!isNotLessThenZeroAndNotNan(chapterCountTo))
+                throw new NotAcceptableException(
+                    'Поле chapterCountTo должно быть числом не меньше нуля',
+                );
+            query.chapterCountTo = chapterCountTo;
         }
+        if (
+            query.chapterCountFrom &&
+            query.chapterCountTo &&
+            query.chapterCountFrom > query.chapterCountTo
+        ) {
+            throw new NotAcceptableException(
+                'Поле chapterCountFrom должно быть не больше chapterCountTo',
+            );
+        }
+
+        // Validate ReleaseDate
         if (value.releaseDateFrom) {
             const date = new Date(value.releaseDateFrom);
             if (!isValidDate(date))
@@ -51,6 +72,8 @@ export class ValidateMangaListQueryPipe implements PipeTransform<MangaListGetQue
                 throw new NotAcceptableException('Неправильный формат даты (releaseDateTo)');
             query.releaseDateTo = date;
         }
+
+        // Validate Rate
         if (value.rateFrom) {
             const rateFrom = Number(value.rateFrom);
             if (rateFrom < 0 || rateFrom > 10)
@@ -67,25 +90,49 @@ export class ValidateMangaListQueryPipe implements PipeTransform<MangaListGetQue
                 );
             query.rateTo = rateTo;
         }
+
+        // Validate RateCount
         if (value.rateCountFrom) {
-            query.rateCountFrom = Number(value.rateCountFrom);
-            if (isNaN(query.rateCountFrom))
-                throw new NotAcceptableException('Поле rateCountFrom должно быть числом');
+            const rateCountFrom = Number(value.rateCountFrom);
+            if (!isNotLessThenZeroAndNotNan(rateCountFrom))
+                throw new NotAcceptableException(
+                    'Поле rateCountFrom должно быть числом не меньше нуля',
+                );
+            query.rateCountFrom = rateCountFrom;
         }
         if (value.rateCountTo) {
-            query.rateCountTo = Number(value.rateCountTo);
-            if (isNaN(query.rateCountTo))
-                throw new NotAcceptableException('Поле rateCountTo должно быть числом');
+            const rateCountTo = Number(value.rateCountTo);
+            if (!isNotLessThenZeroAndNotNan(rateCountTo))
+                throw new NotAcceptableException(
+                    'Поле rateCountTo должно быть числом не меньше нуля',
+                );
+            query.rateCountTo = rateCountTo;
         }
+        if (query.rateCountFrom && query.rateCountTo && query.rateCountFrom > query.rateCountTo) {
+            throw new NotAcceptableException(
+                'Поле rateCountFrom должно быть не больше rateCountTo',
+            );
+        }
+
+        // Validate Age
         if (value.ageRateFrom) {
-            query.ageRateFrom = Number(value.ageRateFrom);
-            if (isNaN(query.ageRateFrom))
-                throw new NotAcceptableException('Поле ageRateFrom должно быть числом');
+            const ageRateFrom = Number(value.ageRateFrom);
+            if (!isNotLessThenZeroAndNotNan(ageRateFrom))
+                throw new NotAcceptableException(
+                    'Поле ageRateFrom должно быть числом не меньше нуля',
+                );
+            query.ageRateFrom = ageRateFrom;
         }
         if (value.ageRateTo) {
-            query.ageRateTo = Number(value.ageRateTo);
-            if (isNaN(query.ageRateTo))
-                throw new NotAcceptableException('Поле ageRateTo должно быть числом');
+            const ageRateTo = Number(value.ageRateTo);
+            if (!isNotLessThenZeroAndNotNan(ageRateTo))
+                throw new NotAcceptableException(
+                    'Поле ageRateTo должно быть числом не меньше нуля',
+                );
+            query.ageRateTo = ageRateTo;
+        }
+        if (query.ageRateFrom && query.ageRateTo && query.ageRateFrom > query.ageRateTo) {
+            throw new NotAcceptableException('Поле ageRateFrom должно быть не больше ageRateTo');
         }
         //TODO bookmarks?: Bookmarks[];
 

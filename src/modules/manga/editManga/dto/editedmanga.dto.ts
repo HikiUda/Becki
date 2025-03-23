@@ -1,10 +1,13 @@
 import { MangaStatus, MangaType } from '@prisma/client';
 
 export interface EditedMangaTitle {
-    id: number;
     ru: string;
     en: string | null;
-    main: boolean;
+    origin: string | null;
+}
+export interface EditedMangaOtherTitles {
+    id: number;
+    title: string;
 }
 
 export interface EditedMangaDescription {
@@ -29,7 +32,8 @@ export interface EditedMangaCovers {
 export interface EditedMangaDto {
     id: number;
     urlId: string;
-    titles: EditedMangaTitle[];
+    title: EditedMangaTitle;
+    otherTitles: EditedMangaOtherTitles[];
     description: EditedMangaDescription;
     releaseDate: Date | null;
     status: MangaStatus;

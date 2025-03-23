@@ -5,11 +5,8 @@ import { MutateMangaDto } from '../../editManga/dto/mutateManga.dto';
 export class ValidateCreateMangaBodyPipe implements PipeTransform<string> {
     transform(value: string, metadata: ArgumentMetadata): MutateMangaDto {
         const dto = JSON.parse(value) as MutateMangaDto;
-        if (!dto.titles?.createTitles?.length)
+        if (!dto.title?.ru)
             throw new BadRequestException('Должен быть как минимум одно название тайтла');
-        if (!dto.titles.createTitles.some((title) => title.main)) {
-            dto.titles.createTitles[0].main = true;
-        }
         return dto;
     }
 }

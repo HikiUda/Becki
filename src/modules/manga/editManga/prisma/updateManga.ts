@@ -5,6 +5,14 @@ import { prisma } from 'src/common/helpers/prisma';
 
 function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
     const data: Prisma.MangaUpdateInput = {};
+    if (dto.title?.ru || dto.title?.en || dto.title?.origin) {
+        const { ru, en, origin } = dto.title;
+        data.title = {};
+        data.title.update = {};
+        if (ru) data.title.update.ru = ru;
+        if (en) data.title.update.en = en;
+        if (origin) data.title.update.origin = origin;
+    }
     if (dto.urlId) {
         data.urlId = dto.urlId;
     }

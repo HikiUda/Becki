@@ -8,12 +8,17 @@ function deleteMangaArgs(id: number): Prisma.MangaDeleteArgs {
 function deleteMangaDescriptionArgs(id: number): Prisma.MangaDescriptionDeleteArgs {
     return { where: { mangaId: id } };
 }
+function deleteMangaTitleArgs(id: number): Prisma.MangaTitleDeleteArgs {
+    return { where: { mangaId: id } };
+}
 
 export const deleteManga = async (id: number, tx?: TransactionContextType) => {
     if (tx) {
+        await tx.mangaTitle.delete(deleteMangaTitleArgs(id));
         await tx.mangaDescription.delete(deleteMangaDescriptionArgs(id));
         return await tx.manga.delete(deleteMangaArgs(id));
     }
+    await prisma.mangaTitle.delete(deleteMangaTitleArgs(id));
     await prisma.mangaDescription.delete(deleteMangaDescriptionArgs(id));
     return await prisma.manga.delete(deleteMangaArgs(id));
 };

@@ -1,77 +1,81 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
-import { CreateMangaTitleType, UpdateMangaTitleType } from '../dto/mutateManga.dto';
+import { UpdateMangaOtherTitleType } from '../dto/mutateManga.dto';
 import { TransactionContextType } from 'src/common/types/prisma';
 
-const createMangaTitleInput = (
-    title: CreateMangaTitleType,
+const createMangaOtherTitleInput = (
+    title: string,
     mangaId: number,
-): Prisma.MangaTitlesCreateManyInput => {
+): Prisma.MangaOtherTitlesCreateManyInput => {
     return {
-        ru: title.ru,
-        en: title.en || null,
-        main: !!title.main,
+        title,
         mangaId,
     };
 };
 
-export const createMangaTitles = async (
-    titles: CreateMangaTitleType[],
+export const createMangaOtherTitles = async (
+    titles: string[],
     mangaId: number,
     tx?: TransactionContextType,
 ) => {
     if (tx) {
-        return await tx.mangaTitles.createMany({
-            data: titles.map((title) => createMangaTitleInput(title, mangaId)),
+        return await tx.mangaOtherTitles.createMany({
+            data: titles.map((title) => createMangaOtherTitleInput(title, mangaId)),
         });
     }
-    return await prisma.mangaTitles.createMany({
-        data: titles.map((title) => createMangaTitleInput(title, mangaId)),
+    return await prisma.mangaOtherTitles.createMany({
+        data: titles.map((title) => createMangaOtherTitleInput(title, mangaId)),
     });
 };
 
-export type createMangaTitlesReturnType = Prisma.PromiseReturnType<typeof createMangaTitles>;
+export type createMangaOtherTitlesReturnType = Prisma.PromiseReturnType<
+    typeof createMangaOtherTitles
+>;
 
-const updateMangaTitleInput = (title: UpdateMangaTitleType): Prisma.MangaTitlesUpdateInput => {
-    const data: Prisma.MangaTitlesUpdateInput = {};
-    if (title.ru) data.ru = title.ru;
-    if (title.en) data.en = title.en;
-    if (title.main) data.main = title.main;
+const updateMangaOtherTitleInput = (
+    title: UpdateMangaOtherTitleType,
+): Prisma.MangaOtherTitlesUpdateInput => {
+    const data: Prisma.MangaOtherTitlesUpdateInput = {};
+    if (title.title) data.title = title.title;
     return data;
 };
-export const updateMangaTitles = async (
-    titles: UpdateMangaTitleType[],
+export const updateMangaOtherTitles = async (
+    titles: UpdateMangaOtherTitleType[],
     tx?: TransactionContextType,
 ) => {
     if (tx) {
         return await prisma.$transaction(
             titles.map((title) =>
-                tx.mangaTitles.update({
+                tx.mangaOtherTitles.update({
                     where: { id: title.id },
-                    data: updateMangaTitleInput(title),
+                    data: updateMangaOtherTitleInput(title),
                 }),
             ),
         );
     }
     return await prisma.$transaction(
         titles.map((title) =>
-            prisma.mangaTitles.update({
+            prisma.mangaOtherTitles.update({
                 where: { id: title.id },
-                data: updateMangaTitleInput(title),
+                data: updateMangaOtherTitleInput(title),
             }),
         ),
     );
 };
-export type updateMangaTitlesReturnType = Prisma.PromiseReturnType<typeof updateMangaTitles>;
+export type updateMangaOtherTitlesReturnType = Prisma.PromiseReturnType<
+    typeof updateMangaOtherTitles
+>;
 
-export const deleteMangaTitles = async (titles: number[], tx?: TransactionContextType) => {
+export const deleteMangaOtherTitles = async (titles: number[], tx?: TransactionContextType) => {
     if (tx) {
-        return await tx.mangaTitles.deleteMany({
+        return await tx.mangaOtherTitles.deleteMany({
             where: { id: { in: titles } },
         });
     }
-    return await prisma.mangaTitles.deleteMany({
+    return await prisma.mangaOtherTitles.deleteMany({
         where: { id: { in: titles } },
     });
 };
-export type deleteMangaTitlesReturnType = Prisma.PromiseReturnType<typeof deleteMangaTitles>;
+export type deleteMangaOtherTitlesReturnType = Prisma.PromiseReturnType<
+    typeof deleteMangaOtherTitles
+>;

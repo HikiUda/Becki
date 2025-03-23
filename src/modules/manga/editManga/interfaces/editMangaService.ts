@@ -13,9 +13,9 @@ export interface EditMangaServiceInterface {
     ) => Promise<EditedMangaDto>;
     updateManga: (
         dto: MutateMangaDto,
-        banner: Express.Multer.File,
         mangaId: number,
         lang: LangType,
+        banner?: Express.Multer.File,
     ) => Promise<EditedMangaDto>;
     deleteManga: (mangaId: number, lang: LangType) => Promise<EditedMangaDto>;
     getMangaCovers: (id: number) => Promise<EditedMangaCovers[]>;

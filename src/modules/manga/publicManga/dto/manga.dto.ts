@@ -4,12 +4,14 @@ import { UserBase } from 'src/modules/user/common/dto/user.dto';
 export interface MangaTitle {
     ru: string;
     en: string | null;
+    origin: string | null;
 }
 
 export interface MangaDto {
     id: number;
     urlId: string;
     title: MangaTitle;
+    otherTitles: string[];
     description: string;
     chaptersCount: number;
     rate: number;
