@@ -5,7 +5,8 @@ import * as prismaGetManga from './prisma/getManga';
 import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../common/types/mangaTypes';
 import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem.dto';
-import { getMangaList, toMangaListItemDto } from './prisma/getMangaList';
+import { getMangaList } from './prisma/getMangaList';
+import { toMangaListItemDto } from './prisma/getMangaList/toMangaListItemDto';
 
 @Injectable()
 export class PublicMangaRepository implements PublicMangaRepositoryInterface {
@@ -17,7 +18,7 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
     }
     async getManga(mangaId: MangaIdsType, lang: LangType): Promise<MangaDto> {
         const manga = await prismaGetManga.getManga(mangaId, lang);
-        const dto = prismaGetManga.toMangaDto(manga, lang);
+        const dto = await prismaGetManga.toMangaDto(manga, lang);
         if (!dto) throw new NotFoundException('Тайтл не найден.');
         return dto;
     }

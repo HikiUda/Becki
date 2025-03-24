@@ -4,7 +4,7 @@ import {
     ArgumentMetadata,
     NotAcceptableException,
 } from '@nestjs/common';
-import { MangaListGetQuery, MangaListQuery } from '../../publicManga/dto/mangaListItem.dto';
+import { MangaListGetQuery, MangaListQuery } from '../dto/mangaListItem.dto';
 import { MangaStatus, MangaType } from '@prisma/client';
 import { isValidDate } from 'src/common/helpers/isValidDate';
 import { isNotLessThenZeroAndNotNan } from 'src/common/helpers/isNotLessThenZeroAndNotNan/isNotLessThenZeroAndNotNan';
@@ -17,8 +17,13 @@ export class ValidateMangaListQueryPipe implements PipeTransform<MangaListGetQue
             limit: Number(value.limit) || 10,
             order: value.order || 'asc',
             sortBy: value.sortBy || 'popularity',
-            janres: value.janres ? value.janres.split(',') : [],
-            tags: value.tags ? value.tags.split(',') : [],
+            //TODO validate only number array
+            janres: value.janres ? value.janres.split(',').map((janre) => Number(janre)) : [],
+            tags: value.tags ? value.tags.split(',').map((tag) => Number(tag)) : [],
+            notJanres: value.notJanres
+                ? value.notJanres.split(',').map((janre) => Number(janre))
+                : [],
+            notTags: value.notTags ? value.notTags.split(',').map((tag) => Number(tag)) : [],
         };
         if (value.search) query.search = value.search;
         if (value.status) {

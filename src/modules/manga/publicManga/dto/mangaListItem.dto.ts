@@ -25,10 +25,10 @@ export interface MangaListQuery {
     search?: string;
     status?: MangaStatus;
     type?: MangaType;
-    janres: string[];
-    tags: string[];
-    order: OrderType;
-    sortBy: SortByType;
+    janres: number[];
+    tags: number[];
+    notJanres: number[];
+    notTags: number[];
     chapterCountFrom?: number;
     chapterCountTo?: number;
     releaseDateFrom?: Date;
@@ -39,12 +39,18 @@ export interface MangaListQuery {
     rateCountTo?: number;
     ageRateFrom?: number;
     ageRateTo?: number;
+    // TODO bookmark
     bookmarks?: Bookmarks[];
     page: number;
     limit: number;
+    order: OrderType;
+    sortBy: SortByType;
 }
 
-export interface MangaListGetQuery extends Omit<Partial<MangaListQuery>, 'janres' | 'tags'> {
+export interface MangaListGetQuery
+    extends Omit<Partial<MangaListQuery>, 'janres' | 'tags' | 'notJanres' | 'notTags'> {
     janres: string;
     tags: string;
+    notJanres: string;
+    notTags: string;
 }

@@ -7,7 +7,7 @@ import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../common/types/mangaTypes';
 import { ValidateMangaIdPipe } from '../common/pipes/ValidateMangaIdPipe';
 import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem.dto';
-import { ValidateMangaListQueryPipe } from '../common/pipes/ValidateMangaListQueryPipe';
+import { ValidateMangaListQueryPipe } from './pipes/ValidateMangaListQueryPipe';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {

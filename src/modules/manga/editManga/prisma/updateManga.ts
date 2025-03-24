@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { MutateMangaDto } from '../dto/mutateManga.dto';
 import { TransactionContextType } from 'src/common/types/prisma';
 import { prisma } from 'src/common/helpers/prisma';
+import { mutateMangaJanresAndTags } from './mutateJanresAndTags/mutateMangaJanresAndTags';
 
 function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
     const data: Prisma.MangaUpdateInput = {};
@@ -40,6 +41,14 @@ function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
             },
         };
     }
+    if (dto.janres?.set) {
+        data.janres = {};
+        data.janres.set = dto.janres.set;
+    }
+    if (dto.tags?.set) {
+        data.tags = {};
+        data.tags.set = dto.tags.set;
+    }
 
     return data;
 }
@@ -49,10 +58,20 @@ export const updateManga = async (
     mangaId: number,
     tx?: TransactionContextType,
 ) => {
-    if (tx) {
-        return await tx.manga.update({ where: { id: mangaId }, data: updateMangaInput(dto) });
+    let newDto = null;
+    if (dto.janres || dto.tags) {
+        newDto = await mutateMangaJanresAndTags(dto, mangaId, tx);
     }
-    return await prisma.manga.update({ where: { id: mangaId }, data: updateMangaInput(dto) });
+    if (tx) {
+        return await tx.manga.update({
+            where: { id: mangaId },
+            data: updateMangaInput(newDto ? newDto : dto),
+        });
+    }
+    return await prisma.manga.update({
+        where: { id: mangaId },
+        data: updateMangaInput(newDto ? newDto : dto),
+    });
 };
 
 export type updateMangaReturnType = Prisma.PromiseReturnType<typeof updateManga>;

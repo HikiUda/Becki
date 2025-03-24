@@ -3,11 +3,15 @@ import { prisma } from 'src/common/helpers/prisma';
 import { MangaDto } from '../dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../../common/types/mangaTypes';
+import { getJanresById } from '../../mangaJanres/prisma';
+import { getTagsById } from '../../mangaTags/prisma';
 
 export const MangaSelect = (lang: LangType): Prisma.MangaSelect => {
     return {
         id: true,
         urlId: true,
+        janres: true,
+        tags: true,
         status: true,
         type: true,
         releaseDate: true,
@@ -16,8 +20,6 @@ export const MangaSelect = (lang: LangType): Prisma.MangaSelect => {
         title: { select: { ru: true, en: true, origin: true } },
         otherTitles: { select: { title: true } },
         _count: { select: { chapters: true, rating: true } },
-        janres: { select: { ru: true, en: lang === 'en' } },
-        tags: { select: { ru: true, en: lang === 'en' } },
         mangaCovers: { where: { main: true }, select: { cover: true } },
         banner: true,
         owner: { select: { id: true, name: true, avatar: true } },
@@ -35,7 +37,10 @@ export const getManga = async (id: MangaIdsType, lang: LangType) =>
 
 export type getMangaReturnType = Prisma.PromiseReturnType<typeof getManga>;
 
-export function toMangaDto(data: getMangaReturnType, lang: LangType): MangaDto | null {
+export async function toMangaDto(
+    data: getMangaReturnType,
+    lang: LangType,
+): Promise<MangaDto | null> {
     if (!data) return null;
     const manga: MangaDto = {
         id: data.id,
@@ -49,8 +54,9 @@ export function toMangaDto(data: getMangaReturnType, lang: LangType): MangaDto |
         releaseDate: data.releaseDate,
         status: data.status,
         type: data.type,
-        janres: data.janres.map((janre) => (janre[lang] ? janre[lang] : janre.ru)),
-        tags: data.tags.map((tag) => (tag[lang] ? tag[lang] : tag.ru)),
+        //TODO now
+        janres: [],
+        tags: [],
         cover: null,
         banner: data.banner,
         owner: { id: data.owner.id, name: data.owner.name, avatar: data.owner.avatar },
@@ -66,6 +72,17 @@ export function toMangaDto(data: getMangaReturnType, lang: LangType): MangaDto |
         manga.description = data.description[lang] ? data.description[lang] : data.description.ru;
 
     if (data.mangaCovers.length) manga.cover = data.mangaCovers[0].cover;
-
+    if (data.janres.length) {
+        manga.janres = (await getJanresById(data.janres)).map((janre) => ({
+            id: janre.id,
+            title: janre[lang] ? janre[lang] : janre.ru,
+        }));
+    }
+    if (data.tags.length) {
+        manga.tags = (await getTagsById(data.tags)).map((tag) => ({
+            id: tag.id,
+            title: tag[lang] ? tag[lang] : tag.ru,
+        }));
+    }
     return manga;
 }

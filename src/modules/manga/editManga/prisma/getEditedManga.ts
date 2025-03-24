@@ -3,14 +3,14 @@ import { prisma } from 'src/common/helpers/prisma';
 import { LangType } from 'src/common/types/lang';
 import { EditedMangaDto } from '../dto/editedmanga.dto';
 import { MangaIdsType } from '../../common/types/mangaTypes';
+import { getJanresById } from '../../mangaJanres/prisma';
+import { getTagsById } from '../../mangaTags/prisma';
 
-const EditedMangaInclude = (lang: LangType): Prisma.MangaInclude => {
+const EditedMangaInclude = (): Prisma.MangaInclude => {
     return {
         otherTitles: true,
         title: true,
         description: true,
-        janres: { select: { id: true, ru: true, en: lang === 'en' } },
-        tags: { select: { id: true, ru: true, en: lang === 'en' } },
         mangaCovers: true,
         authors: true,
         artists: true,
@@ -21,15 +21,15 @@ const EditedMangaInclude = (lang: LangType): Prisma.MangaInclude => {
 export const getEditedManga = async (id: MangaIdsType, lang: LangType) =>
     await prisma.manga.findUnique({
         where: typeof id === 'number' ? { id } : { urlId: id },
-        include: EditedMangaInclude(lang),
+        include: EditedMangaInclude(),
     });
 
 export type getEditedMangaReturnType = Prisma.PromiseReturnType<typeof getEditedManga>;
 
-export function toEditedMangaDto(
+export async function toEditedMangaDto(
     data: getEditedMangaReturnType,
     lang: LangType,
-): EditedMangaDto | null {
+): Promise<EditedMangaDto | null> {
     if (!data) return null;
     const manga: EditedMangaDto = {
         id: data.id,
@@ -43,11 +43,8 @@ export function toEditedMangaDto(
         releaseDate: data.releaseDate,
         status: data.status,
         type: data.type,
-        janres: data.janres.map((janre) => ({
-            id: janre.id,
-            title: janre[lang] ? janre[lang] : janre.ru,
-        })),
-        tags: data.tags.map((tag) => ({ id: tag.id, title: tag[lang] ? tag[lang] : tag.ru })),
+        janres: [],
+        tags: [],
         covers: data.mangaCovers.map((mangaCover) => ({
             id: mangaCover.id,
             cover: mangaCover.cover,
@@ -63,5 +60,17 @@ export function toEditedMangaDto(
     if (data.description) manga.description = { ru: data.description.ru, en: data.description.en };
     if (data.title)
         manga.title = { ru: data.title.ru, en: data.title.en, origin: data.title.origin };
+    if (data.janres.length) {
+        manga.janres = (await getJanresById(data.janres)).map((janre) => ({
+            id: janre.id,
+            title: janre[lang] ? janre[lang] : janre.ru,
+        }));
+    }
+    if (data.tags.length) {
+        manga.tags = (await getTagsById(data.tags)).map((tag) => ({
+            id: tag.id,
+            title: tag[lang] ? tag[lang] : tag.ru,
+        }));
+    }
     return manga;
 }

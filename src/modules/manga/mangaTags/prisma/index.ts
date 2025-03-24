@@ -1,0 +1,1 @@
+export { getTagsById } from './getTagsById';

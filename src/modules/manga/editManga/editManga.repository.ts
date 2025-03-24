@@ -11,8 +11,6 @@ import {
     deleteMangaOtherTitles,
     updateMangaOtherTitles,
 } from './prisma/mutateMangaTitles';
-import { addJanres, deleteJanres } from './prisma/mutateManyToMany/mutateMangaJanres';
-import { addTags, deleteTags } from './prisma/mutateManyToMany/mutateMangaTags';
 import { addAuthors, deleteAuthors } from './prisma/mutateManyToMany/mutateMangaAuthors';
 import { addArtists, deleteArtists } from './prisma/mutateManyToMany/mutateMangaArtists';
 import { addPublishers, deletePublishers } from './prisma/mutateManyToMany/mutateMangaPublishers';
@@ -27,7 +25,7 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
 
     async getEditedManga(id: MangaIdsType, lang: LangType): Promise<EditedMangaDto> {
         const data = await getEditedManga(id, lang);
-        const manga = toEditedMangaDto(data, lang);
+        const manga = await toEditedMangaDto(data, lang);
         if (!manga) throw new NotFoundException('Такого тайтла не существует.');
         return manga;
     }
@@ -52,20 +50,6 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
             }
             if (dto.otherTitles?.deleteTitles) {
                 await deleteMangaOtherTitles(dto.otherTitles.deleteTitles, tx);
-            }
-            // mutate janres
-            if (dto.janres?.add) {
-                await addJanres(dto.janres.add, manga.id, tx);
-            }
-            if (dto.janres?.delete) {
-                await deleteJanres(dto.janres.delete, manga.id, tx);
-            }
-            // mutate tags
-            if (dto.tags?.add) {
-                await addTags(dto.tags.add, manga.id, tx);
-            }
-            if (dto.tags?.delete) {
-                await deleteTags(dto.tags.delete, manga.id, tx);
             }
             //mutate authors
             if (dto.authors?.add) {
@@ -98,16 +82,6 @@ export class EditMangaRepository implements EditMangaRepositoryInterface {
         const mangaId = this.prisma.$transaction(async (tx) => {
             await deleteMangaOtherTitles(
                 dto.otherTitles.map((title) => title.id),
-                tx,
-            );
-            await deleteJanres(
-                dto.janres.map((janre) => janre.id),
-                dto.id,
-                tx,
-            );
-            await deleteTags(
-                dto.tags.map((tag) => tag.id),
-                dto.id,
                 tx,
             );
             await deleteAuthors(

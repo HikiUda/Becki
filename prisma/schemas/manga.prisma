@@ -13,8 +13,8 @@ model Manga {
     owner       User                 @relation(fields: [ownerId], references: [id])
     ownerId     Int
     banner      String?
-    janres      MangaJanres[]
-    tags        MangaTags[]
+    janres      Int[]
+    tags        Int[]
     rating      MangaRating[]
     comments    MangaComments[]
     bookmarks   UserMangaBookmarks[]
@@ -71,7 +71,6 @@ model MangaJanres {
     id        Int      @id @default(autoincrement())
     ru        String   @unique
     en        String?  @unique
-    mangas    Manga[]
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 }
@@ -80,7 +79,6 @@ model MangaTags {
     id        Int      @id @default(autoincrement())
     ru        String   @unique
     en        String?  @unique
-    mangas    Manga[]
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 }

@@ -25,6 +25,7 @@ export interface MutateMangaDescriptionType {
 export interface MutateManyToManyInMangaType {
     add?: number[];
     delete?: number[];
+    set?: number[]; // only on becki
 }
 
 export interface MutateAuthorsInMangaType {

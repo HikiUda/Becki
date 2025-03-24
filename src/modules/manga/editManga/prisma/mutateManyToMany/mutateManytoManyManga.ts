@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
 import { TransactionContextType } from 'src/common/types/prisma';
 
-type ManyToManyMangaEntityType = 'janres' | 'tags' | 'authors' | 'artists' | 'publishers';
+type ManyToManyMangaEntityType = 'authors' | 'artists' | 'publishers';
 
 export const disconnectManyToManyManga = (
     ids: number[],

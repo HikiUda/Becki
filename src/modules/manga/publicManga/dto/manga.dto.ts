@@ -7,6 +7,11 @@ export interface MangaTitle {
     origin: string | null;
 }
 
+export interface MangaJanresAndTag {
+    id: number;
+    title: string;
+}
+
 export interface MangaDto {
     id: number;
     urlId: string;
@@ -19,8 +24,8 @@ export interface MangaDto {
     releaseDate: Date | null;
     status: MangaStatus;
     type: MangaType;
-    janres: string[];
-    tags: string[];
+    janres: MangaJanresAndTag[];
+    tags: MangaJanresAndTag[];
     cover: string | null;
     banner: string | null;
     owner: UserBase;
