@@ -47,6 +47,7 @@ export interface MangaListQuery {
     sortBy: SortByType;
 }
 
+//TODO explicit type (string everywhere)
 export interface MangaListGetQuery
     extends Omit<Partial<MangaListQuery>, 'janres' | 'tags' | 'notJanres' | 'notTags'> {
     janres: string;

@@ -14,6 +14,7 @@ export class PublicMangaService implements PublicMangaServiceInterface {
     }
     async getManga(id: MangaIdsType, lang: LangType): Promise<MangaDto> {
         //TODO add bookmark
+
         const manga = await this.publicMangaRepository.getManga(id, lang);
         return manga;
     }

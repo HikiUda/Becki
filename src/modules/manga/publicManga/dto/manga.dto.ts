@@ -1,5 +1,5 @@
 import { Bookmarks, MangaStatus, MangaType } from '@prisma/client';
-import { UserBase } from 'src/modules/user/common/dto/user.dto';
+import { UserBaseDto } from 'src/modules/user/profile/dto/userBase.dto';
 
 export interface MangaTitle {
     ru: string;
@@ -28,7 +28,7 @@ export interface MangaDto {
     tags: MangaJanresAndTag[];
     cover: string | null;
     banner: string | null;
-    owner: UserBase;
+    owner: UserBaseDto;
     authors: string[];
     artists: string[];
     publishers: string[];

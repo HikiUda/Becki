@@ -1,6 +1,7 @@
 model User {
   id                   Int                      @id @default(autoincrement())
-  name                 String                   @unique @db.VarChar(64)
+  login                String                   @unique() @db.VarChar(64)
+  name                 String                   @db.VarChar(64)
   password             String
   avatar               String?
   jsonSettings         Json
@@ -15,15 +16,13 @@ model User {
   bookmarks            UserMangaBookmarks[]
   createdAt            DateTime                 @default(now())
   updatedAt            DateTime                 @default(now()) @updatedAt
-  userAuthToken        UserAuthToken?
+  userAuthToken        UserAuthToken[]
   userLastMangaQueries UserLastMangaQueries[]
 }
 
 model UserAuthToken {
   id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int      @unique
-  access    String
+  user      User[]
   refresh   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
