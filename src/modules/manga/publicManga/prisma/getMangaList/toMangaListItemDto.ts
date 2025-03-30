@@ -14,7 +14,7 @@ export function toMangaListItemDto(
             chaptersCount: mangaData._count.chapters,
             rate: mangaData.rate,
             type: mangaData.type,
-            cover: null,
+            cover: '',
             bookmark: null,
         };
         if (mangaData.title) manga.title = mangaData.title[lang] || mangaData.title.ru;

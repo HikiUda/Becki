@@ -6,7 +6,7 @@ import { FileModule } from './modules/file/file.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
-    imports: [MangaModule, ConfigModule.forRoot(), FileModule, UserModule],
+    imports: [MangaModule, ConfigModule.forRoot({ isGlobal: true }), FileModule, UserModule],
     controllers: [],
     providers: [],
 })

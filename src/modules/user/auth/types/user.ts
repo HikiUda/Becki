@@ -26,3 +26,6 @@ export interface ReturnAuthUser {
 export interface AuthUserRequest extends Request {
     user: AuthUserDto;
 }
+export interface OptionalAuthUserRequest extends Request {
+    user: AuthUserDto | null;
+}

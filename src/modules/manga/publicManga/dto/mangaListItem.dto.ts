@@ -1,4 +1,5 @@
 import { Bookmarks, MangaStatus, MangaType } from '@prisma/client';
+import { MangaListItemBaseDto } from './mangaListItemBase.dto';
 
 export type OrderType = 'asc' | 'desc';
 export type SortByType =
@@ -9,17 +10,10 @@ export type SortByType =
     | 'ruAlphabetically'
     | 'enAlphabetically';
 
-export interface MangaListItemDto {
-    id: number;
-    urlId: string;
-    title: string;
-    chaptersCount: number;
-    rate: number;
-    type: MangaType;
-    cover: string | null;
-    //TODO bookmark
-    bookmark: Bookmarks | null;
-}
+export type MangaListItemDto = Pick<
+    MangaListItemBaseDto,
+    'id' | 'urlId' | 'title' | 'chaptersCount' | 'bookmark' | 'rate' | 'cover' | 'type'
+>;
 
 export interface MangaListQuery {
     search?: string;
@@ -47,11 +41,7 @@ export interface MangaListQuery {
     sortBy: SortByType;
 }
 
-//TODO explicit type (string everywhere)
+type TypedFields = 'order' | 'sortBy' | 'type' | 'status';
 export interface MangaListGetQuery
-    extends Omit<Partial<MangaListQuery>, 'janres' | 'tags' | 'notJanres' | 'notTags'> {
-    janres: string;
-    tags: string;
-    notJanres: string;
-    notTags: string;
-}
+    extends Pick<MangaListQuery, TypedFields>,
+        Record<Exclude<keyof MangaListQuery, TypedFields>, string | undefined> {}

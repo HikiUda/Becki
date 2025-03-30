@@ -4,7 +4,6 @@ import { AuthRepository } from './auth.repository';
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 
@@ -13,7 +12,6 @@ import { JwtStrategy } from './jwt.strategy';
         JwtModule.register({
             global: true,
         }),
-        ConfigModule,
         PassportModule,
     ],
     controllers: [AuthController],

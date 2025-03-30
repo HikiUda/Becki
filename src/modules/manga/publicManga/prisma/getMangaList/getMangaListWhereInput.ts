@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { MangaListQuery } from '../../dto/mangaListItem.dto';
-import { getSearchOtherTitleInput } from './getSearchOtherTitleInput';
-import { getSearchTitleInput } from './getSearchTitleInput';
+import { getSearchOtherTitleInput } from '../common/getSearchOtherTitleInput';
+import { getSearchTitleInput } from '../common/getSearchTitleInput';
 
 export const getMangaListWhereInput = (query: MangaListQuery): Prisma.MangaWhereInput => {
     //TODO search by chapterCount and RateCount
@@ -10,8 +10,8 @@ export const getMangaListWhereInput = (query: MangaListQuery): Prisma.MangaWhere
     if (query.search) {
         AND.push({
             OR: [
-                { otherTitles: getSearchOtherTitleInput(query) },
-                { title: getSearchTitleInput(query) },
+                { otherTitles: getSearchOtherTitleInput(query.search) },
+                { title: getSearchTitleInput(query.search) },
             ],
         });
     }

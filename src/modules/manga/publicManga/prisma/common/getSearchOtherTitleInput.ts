@@ -1,11 +1,8 @@
 import { Prisma } from '@prisma/client';
-import { MangaListQuery } from '../../dto/mangaListItem.dto';
 
 export const getSearchOtherTitleInput = (
-    query: MangaListQuery,
+    search: string,
 ): Prisma.MangaOtherTitlesListRelationFilter => {
-    const { search } = query;
-    if (!search) return {};
     return {
         some: { title: { contains: search, mode: 'insensitive' } },
     };
