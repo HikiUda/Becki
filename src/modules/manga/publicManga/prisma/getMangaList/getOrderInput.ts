@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { MangaListQuery } from '../../dto/mangaListItem.dto';
+import { MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 
 export const getOrderInput = (query: MangaListQuery): Prisma.MangaOrderByWithRelationInput => {
     const { sortBy, order } = query;

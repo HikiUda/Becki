@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { MangaListQuery } from '../../dto/mangaListItem.dto';
+import { MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 import { getSearchOtherTitleInput } from '../common/getSearchOtherTitleInput';
 import { getSearchTitleInput } from '../common/getSearchTitleInput';
 

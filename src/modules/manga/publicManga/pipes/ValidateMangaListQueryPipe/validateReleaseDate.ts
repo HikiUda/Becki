@@ -1,5 +1,5 @@
 import { isValidDate } from 'src/common/helpers/isValidDate';
-import { MangaListGetQuery, MangaListQuery } from '../../dto/mangaListItem.dto';
+import { MangaListGetQuery, MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 import { NotAcceptableException } from '@nestjs/common';
 
 export function validateReleaseDate(valideQuery: MangaListQuery, query: MangaListGetQuery) {

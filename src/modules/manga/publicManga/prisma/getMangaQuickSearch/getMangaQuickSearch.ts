@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
 import { LangType } from 'src/common/types/lang';
-import { MangaListItemStatisticDto } from '../../dto/mangaListItemStatistic.dto';
+import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
 import { getSearchOtherTitleInput } from '../common/getSearchOtherTitleInput';
 import { getSearchTitleInput } from '../common/getSearchTitleInput';
 

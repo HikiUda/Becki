@@ -10,6 +10,7 @@ import {
     Param,
     Query,
     Req,
+    UnauthorizedException,
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
@@ -18,12 +19,17 @@ import { MangaDto } from './dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../common/types/mangaTypes';
 import { ValidateMangaIdPipe } from '../common/pipes/ValidateMangaIdPipe';
-import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem.dto';
+import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem/mangaListItem.dto';
 import { ValidateMangaListQueryPipe } from './pipes/ValidateMangaListQueryPipe/ValidateMangaListQueryPipe';
-import { MangaListItemStatisticDto } from './dto/mangaListItemStatistic.dto';
+import { MangaListItemStatisticDto } from './dto/mangaListItem/mangaListItemStatistic.dto';
 import { AuthInterceptor } from 'src/modules/user/auth/auth.interceptor';
 import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth/types/user';
 import { JwtAuthGuard } from 'src/modules/user/auth/jwt-auth.guard';
+import {
+    MangaListItemLastUpdatedPagination,
+    MangaListItemLastUpdatedQuery,
+} from './dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { ValidateMangaListItemLastUpdatedQueryPipe } from './pipes/ValidateMangaListItemLastUpdatedQueryPipie';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {
@@ -49,7 +55,7 @@ export class PublicMangaController implements PublicMangaControllerInterface {
     @UseInterceptors(AuthInterceptor)
     async getMangaQuickSearch(
         @Query('search') search: string,
-        @Query('lang') lang: LangType,
+        @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
         @Req() req: OptionalAuthUserRequest,
     ): Promise<MangaListItemStatisticDto[]> {
         const userId = req.user ? req.user.id : null;
@@ -69,5 +75,18 @@ export class PublicMangaController implements PublicMangaControllerInterface {
         @Body('search') search: string,
     ): Promise<void> {
         await this.publicMangaService.deleteUserLastSearchQuery(search, req.user.id);
+    }
+
+    @Get('last-updated-mangas')
+    @UseInterceptors(AuthInterceptor)
+    async getLastUpdatedMangas(
+        @Req() req: OptionalAuthUserRequest,
+
+        @Query(new ValidateMangaListItemLastUpdatedQueryPipe())
+        query: MangaListItemLastUpdatedQuery,
+    ): Promise<MangaListItemLastUpdatedPagination> {
+        const userId = req.user ? req.user.id : undefined;
+        if (query.scope === 'my' && !userId) throw new UnauthorizedException();
+        return await this.publicMangaService.getLastUpdatedMangas(query, userId);
     }
 }

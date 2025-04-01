@@ -1,5 +1,5 @@
 import { prisma } from 'src/common/helpers/prisma';
-import { MangaListQuery } from '../../dto/mangaListItem.dto';
+import { MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 import { Prisma } from '@prisma/client';
 import { LangType } from 'src/common/types/lang';
 import { getOrderInput } from './getOrderInput';

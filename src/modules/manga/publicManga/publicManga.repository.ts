@@ -4,10 +4,10 @@ import { MangaDto } from './dto/manga.dto';
 import * as prismaGetManga from './prisma/getManga';
 import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../common/types/mangaTypes';
-import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem.dto';
+import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem/mangaListItem.dto';
 import { getMangaList } from './prisma/getMangaList';
 import { toMangaListItemDto } from './prisma/getMangaList/toMangaListItemDto';
-import { MangaListItemStatisticDto } from './dto/mangaListItemStatistic.dto';
+import { MangaListItemStatisticDto } from './dto/mangaListItem/mangaListItemStatistic.dto';
 import {
     getMangaQuickSearch,
     toMangaItemListStatisticDto,
@@ -15,6 +15,14 @@ import {
 import { saveUserLastSearchQueries } from './prisma/userLastSearchQueries/saveUserLastSearchQueries';
 import { getUserLastSearchQueries } from './prisma/userLastSearchQueries/getUserLastSearchQueries';
 import { deleteUserLastSearchQuery } from './prisma/userLastSearchQueries/deleteUserLastSearchQuery';
+import {
+    MangaListItemLastUpdatedQuery,
+    MangaListItemLastUpdatedPagination,
+} from './dto/mangaListItem/mangaListItemLastUpdated.dto';
+import {
+    getLastUpdatedMangas,
+    toMangaListItemLastUpdatedDto,
+} from './prisma/getLastUpdatedMangas/getLastUpdatedManga';
 
 @Injectable()
 export class PublicMangaRepository implements PublicMangaRepositoryInterface {
@@ -46,5 +54,18 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
     }
     async deleteUserLastSearchQuery(search: string, userId: number): Promise<void> {
         await deleteUserLastSearchQuery(search, userId);
+    }
+    async getLastUpdatedMangas(
+        query: MangaListItemLastUpdatedQuery,
+        userId?: number,
+    ): Promise<MangaListItemLastUpdatedPagination> {
+        const data = await getLastUpdatedMangas(query, userId);
+        const mangas = toMangaListItemLastUpdatedDto(data, query.lang);
+        //TODO pagination
+        return {
+            data: mangas,
+            prevPage: query.page - 1 > 0 ? query.page - 1 : null,
+            nextPage: mangas.length === query.limit ? query.page + 1 : null,
+        };
     }
 }

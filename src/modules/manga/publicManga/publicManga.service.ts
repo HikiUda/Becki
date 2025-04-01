@@ -4,8 +4,12 @@ import { PublicMangaRepository } from './publicManga.repository';
 import { MangaDto } from './dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../common/types/mangaTypes';
-import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem.dto';
-import { MangaListItemStatisticDto } from './dto/mangaListItemStatistic.dto';
+import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem/mangaListItem.dto';
+import { MangaListItemStatisticDto } from './dto/mangaListItem/mangaListItemStatistic.dto';
+import {
+    MangaListItemLastUpdatedPagination,
+    MangaListItemLastUpdatedQuery,
+} from './dto/mangaListItem/mangaListItemLastUpdated.dto';
 
 @Injectable()
 export class PublicMangaService implements PublicMangaServiceInterface {
@@ -35,5 +39,11 @@ export class PublicMangaService implements PublicMangaServiceInterface {
     }
     async deleteUserLastSearchQuery(search: string, userId: number): Promise<void> {
         await this.publicMangaRepository.deleteUserLastSearchQuery(search, userId);
+    }
+    async getLastUpdatedMangas(
+        query: MangaListItemLastUpdatedQuery,
+        userId?: number,
+    ): Promise<MangaListItemLastUpdatedPagination> {
+        return await this.publicMangaRepository.getLastUpdatedMangas(query, userId);
     }
 }

@@ -1,5 +1,5 @@
 import { LangType } from 'src/common/types/lang';
-import { MangaListItemDto } from '../../dto/mangaListItem.dto';
+import { MangaListItemDto } from '../../dto/mangaListItem/mangaListItem.dto';
 import type { getMangaListReturnType } from './getMangaList';
 
 export function toMangaListItemDto(

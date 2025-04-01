@@ -1,5 +1,5 @@
 import { NotAcceptableException } from '@nestjs/common';
-import { MangaListGetQuery, MangaListQuery } from '../../dto/mangaListItem.dto';
+import { MangaListGetQuery, MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 import { fromNotGreetThenTo, validInteger } from './validationFunction';
 
 export function validateRate(valideQuery: MangaListQuery, query: MangaListGetQuery) {
