@@ -1,17 +1,18 @@
 model Chapters {
-    id        Int               @id @default(autoincrement())
-    title     String?
-    tome      Int               @default(1)
-    chapter   Float
-    pages     Json
-    private   Boolean           @default(true)
-    manga     Manga             @relation(fields: [mangaId], references: [id])
-    mangaId   Int
-    comments  ChapterComments[]
-    usersLike UserLikeChapter[]
-    usersView UserViewChapter[]
-    createdAt DateTime          @default(now())
-    updatedAt DateTime          @default(now()) @updatedAt
+    id                Int                 @id @default(autoincrement())
+    title             String?
+    tome              Int                 @default(1)
+    chapter           Float
+    pages             Json
+    private           Boolean             @default(true)
+    manga             Manga               @relation(fields: [mangaId], references: [id])
+    mangaId           Int
+    comments          ChapterComments[]
+    usersLike         UserLikeChapter[]
+    usersView         UserViewChapter[]
+    progressReadManga ProgressReadManga[]
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @default(now()) @updatedAt
 }
 
 model UserLikeChapter {

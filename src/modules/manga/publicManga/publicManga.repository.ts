@@ -1,9 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PublicMangaRepositoryInterface } from './interfaces/publicMangaRepository';
-import { MangaDto } from './dto/manga.dto';
-import * as prismaGetManga from './prisma/getManga';
 import { LangType } from 'src/common/types/lang';
-import { MangaIdsType } from '../common/types/mangaTypes';
 import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem/mangaListItem.dto';
 import { getMangaList } from './prisma/getMangaList';
 import { toMangaListItemDto } from './prisma/getMangaList/toMangaListItemDto';
@@ -23,6 +20,12 @@ import {
     getLastUpdatedMangas,
     toMangaListItemLastUpdatedDto,
 } from './prisma/getLastUpdatedMangas/getLastUpdatedManga';
+import { MangaListItemContinueReadDto } from './dto/mangaListItem/mangaListItemContinueRead.dto';
+import {
+    getContinueReadManga,
+    toMangaListItemContinueReadDto,
+} from './prisma/сontinueReadManga/getContinueReadManga';
+import { dontShowContinueReadManga } from './prisma/сontinueReadManga/dontShowContinueReadManga';
 
 @Injectable()
 export class PublicMangaRepository implements PublicMangaRepositoryInterface {
@@ -33,12 +36,7 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
         const mangaList = await getMangaList(query, lang);
         return toMangaListItemDto(mangaList, lang);
     }
-    async getManga(mangaId: MangaIdsType, lang: LangType): Promise<MangaDto> {
-        const manga = await prismaGetManga.getManga(mangaId, lang);
-        const dto = await prismaGetManga.toMangaDto(manga, lang);
-        if (!dto) throw new NotFoundException('Тайтл не найден.');
-        return dto;
-    }
+
     async getMangaQuickSearch(
         search: string,
         lang: LangType,
@@ -67,5 +65,15 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
             prevPage: query.page - 1 > 0 ? query.page - 1 : null,
             nextPage: mangas.length === query.limit ? query.page + 1 : null,
         };
+    }
+    async getContinueReadManga(
+        userId: number,
+        lang: LangType,
+    ): Promise<MangaListItemContinueReadDto[]> {
+        const data = await getContinueReadManga(userId, lang);
+        return await toMangaListItemContinueReadDto(data, lang);
+    }
+    async dontShowContinueReadManga(userId: number, mangaId: number): Promise<void> {
+        await dontShowContinueReadManga(userId, mangaId);
     }
 }

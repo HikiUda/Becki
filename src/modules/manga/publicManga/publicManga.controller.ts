@@ -6,8 +6,9 @@ import {
     DefaultValuePipe,
     Delete,
     Get,
-    HttpStatus,
     Param,
+    ParseIntPipe,
+    Patch,
     Query,
     Req,
     UnauthorizedException,
@@ -15,10 +16,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 
-import { MangaDto } from './dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
-import { MangaIdsType } from '../common/types/mangaTypes';
-import { ValidateMangaIdPipe } from '../common/pipes/ValidateMangaIdPipe';
 import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem/mangaListItem.dto';
 import { ValidateMangaListQueryPipe } from './pipes/ValidateMangaListQueryPipe/ValidateMangaListQueryPipe';
 import { MangaListItemStatisticDto } from './dto/mangaListItem/mangaListItemStatistic.dto';
@@ -30,6 +28,7 @@ import {
     MangaListItemLastUpdatedQuery,
 } from './dto/mangaListItem/mangaListItemLastUpdated.dto';
 import { ValidateMangaListItemLastUpdatedQueryPipe } from './pipes/ValidateMangaListItemLastUpdatedQueryPipie';
+import { MangaListItemContinueReadDto } from './dto/mangaListItem/mangaListItemContinueRead.dto';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {
@@ -41,14 +40,6 @@ export class PublicMangaController implements PublicMangaControllerInterface {
         @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
     ): Promise<MangaListItemDto[]> {
         return await this.publicMangaService.getMangaList(query, lang);
-    }
-
-    @Get('byId/:id')
-    async getManga(
-        @Param('id', new ValidateMangaIdPipe()) id: MangaIdsType,
-        @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
-    ): Promise<MangaDto> {
-        return await this.publicMangaService.getManga(id, lang);
     }
 
     @Get('quicksearch')
@@ -88,5 +79,22 @@ export class PublicMangaController implements PublicMangaControllerInterface {
         const userId = req.user ? req.user.id : undefined;
         if (query.scope === 'my' && !userId) throw new UnauthorizedException();
         return await this.publicMangaService.getLastUpdatedMangas(query, userId);
+    }
+
+    @Get('continue-read')
+    @UseGuards(JwtAuthGuard)
+    async getContinueReadManga(
+        @Req() req: AuthUserRequest,
+        @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
+    ): Promise<MangaListItemContinueReadDto[]> {
+        return await this.publicMangaService.getContinueReadManga(req.user.id, lang);
+    }
+    @Patch('continue-read/:id')
+    @UseGuards(JwtAuthGuard)
+    async dontShowContinueReadManga(
+        @Req() req: AuthUserRequest,
+        @Param('id', ParseIntPipe) mangaId: number,
+    ): Promise<void> {
+        await this.publicMangaService.dontShowContinueReadManga(req.user.id, mangaId);
     }
 }

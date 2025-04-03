@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PublicMangaServiceInterface } from './interfaces/publicMangaService';
 import { PublicMangaRepository } from './publicManga.repository';
-import { MangaDto } from './dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
-import { MangaIdsType } from '../common/types/mangaTypes';
 import { MangaListItemDto, MangaListQuery } from './dto/mangaListItem/mangaListItem.dto';
 import { MangaListItemStatisticDto } from './dto/mangaListItem/mangaListItemStatistic.dto';
 import {
     MangaListItemLastUpdatedPagination,
     MangaListItemLastUpdatedQuery,
 } from './dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemContinueReadDto } from './dto/mangaListItem/mangaListItemContinueRead.dto';
 
 @Injectable()
 export class PublicMangaService implements PublicMangaServiceInterface {
@@ -18,12 +17,7 @@ export class PublicMangaService implements PublicMangaServiceInterface {
     async getMangaList(query: MangaListQuery, lang: LangType): Promise<MangaListItemDto[]> {
         return await this.publicMangaRepository.getMangaList(query, lang);
     }
-    async getManga(id: MangaIdsType, lang: LangType): Promise<MangaDto> {
-        //TODO add bookmark
 
-        const manga = await this.publicMangaRepository.getManga(id, lang);
-        return manga;
-    }
     async getMangaQuickSearch(
         search: string,
         lang: LangType,
@@ -45,5 +39,14 @@ export class PublicMangaService implements PublicMangaServiceInterface {
         userId?: number,
     ): Promise<MangaListItemLastUpdatedPagination> {
         return await this.publicMangaRepository.getLastUpdatedMangas(query, userId);
+    }
+    async getContinueReadManga(
+        userId: number,
+        lang: LangType,
+    ): Promise<MangaListItemContinueReadDto[]> {
+        return await this.publicMangaRepository.getContinueReadManga(userId, lang);
+    }
+    async dontShowContinueReadManga(userId: number, mangaId: number): Promise<void> {
+        await this.publicMangaRepository.dontShowContinueReadManga(userId, mangaId);
     }
 }

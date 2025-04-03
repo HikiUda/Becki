@@ -16,4 +16,6 @@ export interface MangaListItemBaseDto {
     tome: number;
     chapter: number;
     chapterCreatedAt: Date;
+    chapterCount: number;
+    readedChapters: number;
 }

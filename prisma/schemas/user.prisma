@@ -15,6 +15,7 @@ model User {
   likeChapters        UserLikeChapter[]
   viewChapters        UserViewChapter[]
   bookmarks           UserMangaBookmarks[]
+  progressReadManga   ProgressReadManga[]
   createdAt           DateTime                 @default(now())
   updatedAt           DateTime                 @default(now()) @updatedAt
   userAuthToken       UserAuthToken[]

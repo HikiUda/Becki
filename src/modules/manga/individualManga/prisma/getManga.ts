@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
-import { MangaDto } from '../dto/manga.dto';
 import { LangType } from 'src/common/types/lang';
 import { MangaIdsType } from '../../common/types/mangaTypes';
 import { getJanresById } from '../../mangaJanres/prisma';
 import { getTagsById } from '../../mangaTags/prisma';
+import { MangaDto } from '../dto/manga.dto';
 
 export const MangaSelect = (lang: LangType): Prisma.MangaSelect => {
     return {
@@ -54,7 +54,6 @@ export async function toMangaDto(
         releaseDate: data.releaseDate,
         status: data.status,
         type: data.type,
-        //TODO now
         janres: [],
         tags: [],
         cover: null,
