@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EditMangaRepositoryInterface } from './interfaces/editMangaRepository';
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { EditedMangaCovers, EditedMangaDto } from './dto/editedmanga.dto';
 import { getEditedManga, toEditedMangaDto } from './prisma/getEditedManga';
 import { MutateMangaDto } from './dto/mutateManga.dto';

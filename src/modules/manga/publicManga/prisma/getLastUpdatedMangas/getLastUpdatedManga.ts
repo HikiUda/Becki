@@ -1,7 +1,7 @@
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import {
     MangaListItemLastUpdatedDto,
-    MangaListItemLastUpdatedQuery,
+    MangaListItemLastUpdatedQueryDto,
     MangaListItemLastUpdatedScope,
 } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
 import { Prisma } from '@prisma/client';
@@ -24,7 +24,7 @@ const getLastUpdatedMangasSelectManga = (lang: LangType): Prisma.MangaSelect => 
     };
 };
 
-const getLastUpdatedMangasWhereInput = (
+export const getLastUpdatedMangasWhereInput = (
     scope: MangaListItemLastUpdatedScope,
     userId?: number,
 ): Prisma.ChaptersWhereInput => {
@@ -41,7 +41,7 @@ const getLastUpdatedMangasWhereInput = (
 };
 
 export const getLastUpdatedMangas = async (
-    query: MangaListItemLastUpdatedQuery,
+    query: MangaListItemLastUpdatedQueryDto,
     userId?: number,
 ) => {
     const { scope, lang, limit, page } = query;

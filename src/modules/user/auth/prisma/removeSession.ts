@@ -6,4 +6,4 @@ export const removeSession = async (sessionId: number) => {
         where: { id: sessionId },
     });
 };
-export type removeSessionReturnType = Prisma.PromiseReturnType<typeof removeSession>;
+export type RemoveSessionReturnType = Prisma.PromiseReturnType<typeof removeSession>;

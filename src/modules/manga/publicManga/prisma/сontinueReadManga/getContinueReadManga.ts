@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
 import { MangaListItemContinueReadDto } from '../../dto/mangaListItem/mangaListItemContinueRead.dto';

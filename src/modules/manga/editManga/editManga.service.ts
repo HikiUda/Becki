@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EditMangaServiceInterface } from './interfaces/editMangaService';
 import { EditMangaRepository } from './editManga.repository';
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { EditedMangaCovers, EditedMangaDto } from './dto/editedmanga.dto';
 import { MutateMangaDto } from './dto/mutateManga.dto';
 import { MangaFilesUploadType } from './types/fileUpload';

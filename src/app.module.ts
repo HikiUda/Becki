@@ -4,9 +4,16 @@ import { MangaModule } from './modules/manga/manga.module';
 import { ConfigModule } from '@nestjs/config';
 import { FileModule } from './modules/file/file.module';
 import { UserModule } from './modules/user/user.module';
+import { validateEnv } from './common/helpers/envConfigValidator/env.validation';
 
 @Module({
-    imports: [MangaModule, ConfigModule.forRoot({ isGlobal: true }), FileModule, UserModule],
+    imports: [
+        MangaModule,
+        ConfigModule.forRoot({ isGlobal: true, validate: validateEnv }),
+
+        FileModule,
+        UserModule,
+    ],
     controllers: [],
     providers: [],
 })

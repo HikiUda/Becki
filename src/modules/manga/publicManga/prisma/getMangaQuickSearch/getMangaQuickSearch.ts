@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
 import { getSearchOtherTitleInput } from '../common/getSearchOtherTitleInput';
 import { getSearchTitleInput } from '../common/getSearchTitleInput';
@@ -21,7 +21,6 @@ export const MangaSelect = (): Prisma.MangaSelect => {
 };
 
 export const getMangaQuickSearch = async (search: string) => {
-    //TODO other query when search is empty
     return await prisma.manga.findMany({
         take: 6,
         where: {
@@ -30,6 +29,7 @@ export const getMangaQuickSearch = async (search: string) => {
                 { title: getSearchTitleInput(search) },
             ],
         },
+        orderBy: { rate: 'desc' },
         select: { ...MangaSelect(), chapters: { select: ChaptersSelect } },
     });
 };

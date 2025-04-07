@@ -1,7 +1,7 @@
 import { prisma } from 'src/common/helpers/prisma';
 import { MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 import { Prisma } from '@prisma/client';
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { getOrderInput } from './getOrderInput';
 import { getMangaListWhereInput } from './getMangaListWhereInput';
 

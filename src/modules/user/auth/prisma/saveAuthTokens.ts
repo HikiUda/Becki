@@ -8,4 +8,4 @@ export const saveAuthTokens = async (refresh: string, sessionId: number) => {
         select: { refresh: true },
     });
 };
-export type saveAuthTokensReturnType = Prisma.PromiseReturnType<typeof saveAuthTokens>;
+export type SaveAuthTokensReturnType = Prisma.PromiseReturnType<typeof saveAuthTokens>;

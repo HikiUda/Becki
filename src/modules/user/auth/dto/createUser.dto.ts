@@ -1,9 +1,9 @@
-import { Length } from 'class-validator';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { z } from 'zod';
 
-export class CreateUserDto {
-    @Length(1, 64)
-    login: string;
-    //TODO strong password
-    @Length(10, 24)
-    password: string;
-}
+const CreateUserSceme = z.object({
+    login: z.string().nonempty().max(64),
+    password: z.string().min(10).max(64),
+});
+
+export class CreateUserDto extends createZodDto(CreateUserSceme) {}

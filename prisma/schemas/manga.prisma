@@ -121,7 +121,7 @@ model UserLikeMangaComment {
 }
 
 model UserMangaBookmarks {
-    id        Int       @id @default(autoincrement())
+    id        String    @id
     manga     Manga     @relation(fields: [mangaId], references: [id])
     user      User      @relation(fields: [userId], references: [id])
     bookmark  Bookmarks @default(Reading)

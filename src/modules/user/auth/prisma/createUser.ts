@@ -8,4 +8,4 @@ export const createUser = async (dto: CreateUserDto) => {
         select: { id: true, name: true, login: true, password: true },
     });
 };
-export type createUserReturnType = Prisma.PromiseReturnType<typeof createUser>;
+export type CreateUserReturnType = Prisma.PromiseReturnType<typeof createUser>;

@@ -12,4 +12,4 @@ export const createSession = async (userId: number) => {
         select: { id: true },
     });
 };
-export type createSessionReturnType = Prisma.PromiseReturnType<typeof createSession>;
+export type CreateSessionReturnType = Prisma.PromiseReturnType<typeof createSession>;

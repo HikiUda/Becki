@@ -1,29 +1,25 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Request } from 'express';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { toAuthUserDto } from './dto/toAuthUser.dto';
+import { toAuthUserDto } from './helpers/toAuthUserDto';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
-    constructor(
-        private jwtService: JwtService,
-        private configService: ConfigService,
-    ) {}
+    constructor(private tokenService: TokenService) {}
     async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
-        try {
-            if (token) {
-                const secret = this.configService.get('ACCESS_TOKEN') || 'SECRET';
-                const valideToken = await this.jwtService.verifyAsync(token, { secret });
+
+        if (token) {
+            const valideToken = await this.tokenService.validateAccessToken(token);
+            if (valideToken) {
                 const user = toAuthUserDto(valideToken, valideToken.sub);
                 request['user'] = user;
+                return next.handle().pipe();
             }
-        } catch {
-            request['user'] = null;
         }
+        request['user'] = null;
         return next.handle().pipe();
     }
     private extractTokenFromHeader(request: Request): string | undefined {

@@ -4,6 +4,8 @@ import { ProfileService } from './profile.service';
 import { AuthUserRequest } from '../auth/types/user';
 import { UserDataDto } from './dto/userData.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { mockUserData } from './mockUserData/mockUserData';
 
 @Controller('user')
 export class ProfileController implements ProfileControllerInterface {
@@ -11,6 +13,12 @@ export class ProfileController implements ProfileControllerInterface {
 
     @Get()
     @UseGuards(JwtAuthGuard)
+    @ApiResponse({
+        example: mockUserData,
+        status: 200,
+        description: 'User id get from token',
+    })
+    @ApiBearerAuth()
     async getUserData(@Req() req: AuthUserRequest): Promise<UserDataDto> {
         return await this.profileService.getUserData(req.user.id);
     }

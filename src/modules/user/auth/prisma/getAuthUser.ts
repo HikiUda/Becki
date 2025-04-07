@@ -7,4 +7,4 @@ export const getAuthUser = async (login: string) => {
         select: { id: true, name: true, login: true, password: true },
     });
 };
-export type getMangaReturnType = Prisma.PromiseReturnType<typeof getAuthUser>;
+export type GetMangaReturnType = Prisma.PromiseReturnType<typeof getAuthUser>;

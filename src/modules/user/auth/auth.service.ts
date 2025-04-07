@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthUserDto, ReturnAuthUser } from './types/user';
 import { TokenService } from './token.service';
 import { LoginUserDto } from './dto/loginUser.dto';
-import { toAuthUserDto } from './dto/toAuthUser.dto';
+import { toAuthUserDto } from './helpers/toAuthUserDto';
 
 @Injectable()
 export class AuthService implements AuthServiceInterface {

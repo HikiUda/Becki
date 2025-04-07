@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { MangaIdsType } from '../../common/types/mangaTypes';
 import { getJanresById } from '../../mangaJanres/prisma';
 import { getTagsById } from '../../mangaTags/prisma';
@@ -35,10 +35,10 @@ export const getManga = async (id: MangaIdsType, lang: LangType) =>
         select: MangaSelect(lang),
     });
 
-export type getMangaReturnType = Prisma.PromiseReturnType<typeof getManga>;
+export type GetMangaReturnType = Prisma.PromiseReturnType<typeof getManga>;
 
 export async function toMangaDto(
-    data: getMangaReturnType,
+    data: GetMangaReturnType,
     lang: LangType,
 ): Promise<MangaDto | null> {
     if (!data) return null;

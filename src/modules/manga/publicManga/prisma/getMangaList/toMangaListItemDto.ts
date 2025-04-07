@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/types/lang';
+import { LangType } from 'src/common/dto/langQuery.dto';
 import { MangaListItemDto } from '../../dto/mangaListItem/mangaListItem.dto';
 import type { getMangaListReturnType } from './getMangaList';
 

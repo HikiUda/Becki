@@ -1,8 +1,9 @@
-import { IsNotEmpty } from 'class-validator';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { z } from 'zod';
 
-export class LoginUserDto {
-    @IsNotEmpty()
-    login: string;
-    @IsNotEmpty()
-    password: string;
-}
+const LoginUserScheme = z.object({
+    login: z.string().nonempty(),
+    password: z.string().nonempty(),
+});
+
+export class LoginUserDto extends createZodDto(LoginUserScheme) {}

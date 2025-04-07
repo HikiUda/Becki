@@ -7,4 +7,4 @@ export const getSession = async (sessionId: number) => {
         select: { refresh: true },
     });
 };
-export type getSessionReturnType = Prisma.PromiseReturnType<typeof getSession>;
+export type GetSessionReturnType = Prisma.PromiseReturnType<typeof getSession>;

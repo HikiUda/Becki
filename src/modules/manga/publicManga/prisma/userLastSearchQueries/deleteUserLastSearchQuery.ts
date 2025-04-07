@@ -9,7 +9,6 @@ export const deleteUserLastSearchQuery = async (search: string, userId: number) 
     });
     if (user) {
         const lastSearchQueries = user.lastSearchQueries.filter((query) => query !== search);
-
         await prisma.user.update({
             where: { id: userId },
             data: { lastSearchQueries: { set: lastSearchQueries } },
