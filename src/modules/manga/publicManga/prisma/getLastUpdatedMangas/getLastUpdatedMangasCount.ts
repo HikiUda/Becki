@@ -1,8 +1,8 @@
 import { prisma } from 'src/common/helpers/prisma';
-import { MangaListItemLastUpdatedQueryDto } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
 import { getLastUpdatedMangasWhereInput } from './getLastUpdatedManga';
 
-export const getLastUpdatedMangasPagination = async (
+export const getLastUpdatedMangasCount = async (
     query: MangaListItemLastUpdatedQueryDto,
     userId?: number,
 ) => {

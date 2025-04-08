@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { EditMangaControllerInterface } from './interfaces/editMangaController';
 import { EditMangaService } from './editManga.service';
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { EditedMangaCovers, EditedMangaDto } from './dto/editedmanga.dto';
 import { MutateMangaDto } from './dto/mutateManga.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';

@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
 import { ResponseArrayData } from 'src/common/types/pagination';

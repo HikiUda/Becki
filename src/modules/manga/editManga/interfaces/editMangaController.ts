@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { EditedMangaCovers, EditedMangaDto } from '../dto/editedmanga.dto';
 import { MangaFilesUploadType } from '../types/fileUpload';
 import { MangaIdsType } from '../../common/types/mangaTypes';

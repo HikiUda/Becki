@@ -1,11 +1,11 @@
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { MangaIdsType } from '../../common/types/mangaTypes';
 import { MangaDto } from '../dto/manga.dto';
 import { UserMangaBookmarkDto } from '../dto/userMangaBookmark.dto';
 import { Bookmarks } from '@prisma/client';
 
 export interface IndividualMangaRepositoryInterface {
-    getManga: (id: MangaIdsType, lang: LangType) => Promise<MangaDto>;
+    getManga: (id: MangaIdsType, lang: LangType, userId?: number) => Promise<MangaDto>;
     getUserMangaBookmark: (mangaId: number, userId: number) => Promise<UserMangaBookmarkDto>;
     setUserMangaBookmark: (
         mangaId: number,

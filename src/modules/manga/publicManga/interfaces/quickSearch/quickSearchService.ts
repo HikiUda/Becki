@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
 
 export interface QuickSearchServiceInterface {

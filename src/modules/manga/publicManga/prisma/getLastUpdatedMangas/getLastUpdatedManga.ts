@@ -1,9 +1,9 @@
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { MangaListItemLastUpdatedDto } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
 import {
-    MangaListItemLastUpdatedDto,
     MangaListItemLastUpdatedQueryDto,
     MangaListItemLastUpdatedScope,
-} from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+} from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
 

@@ -1,6 +1,5 @@
 import {
     Controller,
-    DefaultValuePipe,
     Get,
     Param,
     ParseIntPipe,
@@ -13,38 +12,44 @@ import {
 } from '@nestjs/common';
 import { PublicMangaService } from './publicManga.service';
 
-import { LangQueryDto, LangType } from 'src/common/dto/langQuery.dto';
-import { MangaListItemDto, MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
+import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { MangaListItemPagination } from '../../dto/mangaListItem/mangaListItem.dto';
 import { PublicMangaControllerInterface } from '../../interfaces/publicManga/publicMangaController';
-import { ValidateMangaListQueryPipe } from '../../pipes/ValidateMangaListQueryPipe/ValidateMangaListQueryPipe';
 import {
     AuthInterceptor,
     AuthUserRequest,
     JwtAuthGuard,
     OptionalAuthUserRequest,
 } from 'src/modules/user/auth';
-import {
-    MangaListItemLastUpdatedPagination,
-    MangaListItemLastUpdatedQueryDto,
-} from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
 import { MangaListItemContinueReadResponseArrayData } from '../../dto/mangaListItem/mangaListItemContinueRead.dto';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { mockMangaListItemContinueReadArray } from '../../mock/mangaList/mockMangaListItemContinueRead';
 import { mockMangaListItemLastUpdatedArray } from '../../mock/mangaList/mockMangaListItemLastUpdated';
+import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery';
+import { mockMangaListItemArray } from '../../mock/mangaList/mockMangaListItem';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {
     constructor(private publicMangaService: PublicMangaService) {}
 
     @Get()
+    @UseInterceptors(AuthInterceptor)
+    @ApiResponse({ example: mockMangaListItemArray })
+    @ApiQuery({
+        name: 'janres-tags-notJanres-notTags',
+        required: false,
+        description: 'Comma-separated list of  IDs, e.g. janres=1,3,4',
+    })
     async getMangaList(
-        @Query(new ValidateMangaListQueryPipe()) query: MangaListQuery,
-        @Query('lang', new DefaultValuePipe('ru')) lang: LangType,
-    ): Promise<MangaListItemDto[]> {
-        return await this.publicMangaService.getMangaList(query, lang);
+        @Req() req: OptionalAuthUserRequest,
+        @Query() query: MangaListQueryDto,
+    ): Promise<MangaListItemPagination> {
+        return await this.publicMangaService.getMangaList(query, req.user?.id);
     }
 
-    @Get('last-updated-mangas')
+    @Get('last-updated-manga')
     @UseInterceptors(AuthInterceptor)
     @ApiResponse({
         example: mockMangaListItemLastUpdatedArray,

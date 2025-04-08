@@ -1,23 +1,24 @@
 import { prisma } from 'src/common/helpers/prisma';
-import { MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
+import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery/getMangaListQuery.dto';
 import { Prisma } from '@prisma/client';
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { getOrderInput } from './getOrderInput';
 import { getMangaListWhereInput } from './getMangaListWhereInput';
 
-export const MangaListSelect = (lang: LangType): Prisma.MangaSelect => {
+export const MangaListSelect = (lang: LangType, userId?: number): Prisma.MangaSelect => {
     return {
         id: true,
         urlId: true,
         type: true,
         rate: true,
         title: { select: { ru: true, en: lang === 'en' } },
-        _count: { select: { chapters: true } },
+        mangaStatistic: { select: { chapterCount: true } },
+        bookmarks: { where: { userId }, select: { bookmark: true } },
         mangaCovers: { where: { main: true }, select: { cover: true } },
     };
 };
 
-export const getMangaList = async (query: MangaListQuery, lang: LangType) => {
+export const getMangaList = async (query: MangaListQueryDto, userId?: number) => {
     const { limit, page } = query;
     const skip = limit * (page - 1);
 
@@ -26,7 +27,7 @@ export const getMangaList = async (query: MangaListQuery, lang: LangType) => {
         skip,
         orderBy: getOrderInput(query),
         where: getMangaListWhereInput(query),
-        select: MangaListSelect(lang),
+        select: MangaListSelect(query.lang, userId),
     });
 };
 

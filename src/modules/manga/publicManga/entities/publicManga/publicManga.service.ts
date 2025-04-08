@@ -1,20 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PublicMangaRepository } from './publicManga.repository';
 import { PublicMangaServiceInterface } from '../../interfaces/publicManga/publicMangaService';
-import { MangaListItemDto, MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
-import { LangType } from 'src/common/dto/langQuery.dto';
-import {
-    MangaListItemLastUpdatedPagination,
-    MangaListItemLastUpdatedQueryDto,
-} from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemPagination } from '../../dto/mangaListItem/mangaListItem.dto';
+import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery/getMangaListQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
 import { MangaListItemContinueReadDto } from '../../dto/mangaListItem/mangaListItemContinueRead.dto';
 
 @Injectable()
 export class PublicMangaService implements PublicMangaServiceInterface {
     constructor(private publicMangaRepository: PublicMangaRepository) {}
 
-    async getMangaList(query: MangaListQuery, lang: LangType): Promise<MangaListItemDto[]> {
-        return await this.publicMangaRepository.getMangaList(query, lang);
+    async getMangaList(
+        query: MangaListQueryDto,
+        userId?: number,
+    ): Promise<MangaListItemPagination> {
+        return await this.publicMangaRepository.getMangaList(query, userId);
     }
 
     async getLastUpdatedMangas(

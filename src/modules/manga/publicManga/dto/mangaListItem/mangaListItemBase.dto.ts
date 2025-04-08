@@ -4,7 +4,6 @@ export interface MangaListItemBaseDto {
     id: number;
     urlId: string;
     title: string;
-    chaptersCount: number;
     rate: number;
     type: MangaType;
     cover: string;

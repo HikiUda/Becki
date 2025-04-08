@@ -4,7 +4,7 @@ import {
     getMangaQuickSearch,
     toMangaItemListStatisticDto,
 } from '../../prisma/getMangaQuickSearch/getMangaQuickSearch';
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
 import { saveUserLastSearchQueries } from '../../prisma/userLastSearchQueries/saveUserLastSearchQueries';
 import { getUserLastSearchQueries } from '../../prisma/userLastSearchQueries/getUserLastSearchQueries';

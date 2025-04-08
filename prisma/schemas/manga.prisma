@@ -23,6 +23,7 @@ model Manga {
     publishers        Publishers[]
     chapters          Chapters[]
     progressReadManga ProgressReadManga[]
+    mangaStatistic    MangaStatistic?
     moderated         Boolean              @default(false)
     createdAt         DateTime             @default(now())
     updatedAt         DateTime             @default(now()) @updatedAt
@@ -142,6 +143,16 @@ model ProgressReadManga {
     show          Boolean  @default(true)
     createdAt     DateTime @default(now())
     updatedAt     DateTime @default(now()) @updatedAt
+}
+
+model MangaStatistic {
+    id           Int   @id @default(autoincrement())
+    views        Int   @default(0)
+    likes        Int   @default(0)
+    rateCount    Int   @default(0)
+    chapterCount Int   @default(0)
+    manga        Manga @relation(fields: [mangaId], references: [id])
+    mangaId      Int   @unique
 }
 
 enum MangaType {

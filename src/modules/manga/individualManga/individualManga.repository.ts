@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IndividualMangaRepositoryInterface } from './interfaces/individualMangaRepository';
 import { MangaDto } from './dto/manga.dto';
 import { MangaIdsType } from '../common/types/mangaTypes';
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { getManga, toMangaDto } from './prisma/getManga';
 import { Bookmarks } from '@prisma/client';
 import { UserMangaBookmarkDto } from './dto/userMangaBookmark.dto';
@@ -17,8 +17,8 @@ import { deleteUserMangaBookmark } from './prisma/userMangaBookmark/deleteUserMa
 export class IndividualMangaRepository implements IndividualMangaRepositoryInterface {
     constructor() {}
 
-    async getManga(mangaId: MangaIdsType, lang: LangType): Promise<MangaDto> {
-        const manga = await getManga(mangaId, lang);
+    async getManga(mangaId: MangaIdsType, lang: LangType, userId?: number): Promise<MangaDto> {
+        const manga = await getManga(mangaId, lang, userId);
         const dto = await toMangaDto(manga, lang);
         if (!dto) throw new NotFoundException('Тайтл не найден.');
         return dto;

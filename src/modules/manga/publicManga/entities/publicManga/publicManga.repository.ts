@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PublicMangaRepositoryInterface } from '../../interfaces/publicManga/publicMangaRepository';
-import { MangaListItemDto, MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
-import { LangType } from 'src/common/dto/langQuery.dto';
-import { getMangaList } from '../../prisma/getMangaList';
+import { MangaListItemPagination } from '../../dto/mangaListItem/mangaListItem.dto';
+import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery/getMangaListQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { getMangaList, getMangaListCount } from '../../prisma/getMangaList';
 import { toMangaListItemDto } from '../../prisma/getMangaList/toMangaListItemDto';
-import {
-    MangaListItemLastUpdatedPagination,
-    MangaListItemLastUpdatedQueryDto,
-} from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
 import {
     getLastUpdatedMangas,
     toMangaListItemLastUpdatedDto,
@@ -18,30 +15,38 @@ import {
     toMangaListItemContinueReadDto,
 } from '../../prisma/сontinueReadManga/getContinueReadManga';
 import { dontShowContinueReadManga } from '../../prisma/сontinueReadManga/dontShowContinueReadManga';
-import { getLastUpdatedMangasPagination } from '../../prisma/getLastUpdatedMangas/getLastUpdatedMangasPagination';
+import { getLastUpdatedMangasCount } from '../../prisma/getLastUpdatedMangas/getLastUpdatedMangasCount';
+import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
+import { getPagination } from 'src/common/helpers/pagination/getPagination';
 
 @Injectable()
 export class PublicMangaRepository implements PublicMangaRepositoryInterface {
     constructor() {}
 
-    async getMangaList(query: MangaListQuery, lang: LangType): Promise<MangaListItemDto[]> {
-        //TODO
-        const mangaList = await getMangaList(query, lang);
-        return toMangaListItemDto(mangaList, lang);
+    async getMangaList(
+        query: MangaListQueryDto,
+        userId?: number,
+    ): Promise<MangaListItemPagination> {
+        const mangaList = await getMangaList(query, userId);
+        const data = toMangaListItemDto(mangaList, query.lang);
+        const mangaCount = await getMangaListCount(query);
+        return {
+            data,
+            ...getPagination(mangaCount, query.page, query.limit),
+        };
     }
 
     async getLastUpdatedMangas(
         query: MangaListItemLastUpdatedQueryDto,
         userId?: number,
     ): Promise<MangaListItemLastUpdatedPagination> {
-        const { limit, page } = query;
         const data = await getLastUpdatedMangas(query, userId);
-        const mangas = toMangaListItemLastUpdatedDto(data, query.lang);
-        const pagination = await getLastUpdatedMangasPagination(query, userId);
+        const manga = toMangaListItemLastUpdatedDto(data, query.lang);
+        const mangaCount = await getLastUpdatedMangasCount(query, userId);
         return {
-            data: mangas,
-            prevPage: page - 1 > 0 ? page - 1 : null,
-            nextPage: pagination - limit * page > 0 ? page + 1 : null,
+            data: manga,
+            ...getPagination(mangaCount, query.page, query.limit),
         };
     }
     async getContinueReadManga(

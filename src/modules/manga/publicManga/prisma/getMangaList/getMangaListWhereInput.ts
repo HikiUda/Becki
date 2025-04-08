@@ -1,10 +1,9 @@
 import { Prisma } from '@prisma/client';
-import { MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
 import { getSearchOtherTitleInput } from '../common/getSearchOtherTitleInput';
 import { getSearchTitleInput } from '../common/getSearchTitleInput';
+import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery';
 
-export const getMangaListWhereInput = (query: MangaListQuery): Prisma.MangaWhereInput => {
-    //TODO search by chapterCount and RateCount
+export const getMangaListWhereInput = (query: MangaListQueryDto): Prisma.MangaWhereInput => {
     const where: Prisma.MangaWhereInput = {};
     const AND: Prisma.MangaWhereInput[] = [];
     if (query.search) {
@@ -101,6 +100,36 @@ export const getMangaListWhereInput = (query: MangaListQuery): Prisma.MangaWhere
         AND.push({
             ageRate: {
                 lte: query.ageRateTo,
+            },
+        });
+    }
+    // By rateCount
+    if (query.rateCountFrom) {
+        AND.push({
+            mangaStatistic: {
+                rateCount: { gte: query.rateCountFrom },
+            },
+        });
+    }
+    if (query.rateCountTo) {
+        AND.push({
+            mangaStatistic: {
+                rateCount: { lte: query.rateCountTo },
+            },
+        });
+    }
+    // By chapterCount
+    if (query.chapterCountFrom) {
+        AND.push({
+            mangaStatistic: {
+                chapterCount: { gte: query.chapterCountFrom },
+            },
+        });
+    }
+    if (query.chapterCountTo) {
+        AND.push({
+            mangaStatistic: {
+                chapterCount: { lte: query.chapterCountTo },
             },
         });
     }

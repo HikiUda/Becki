@@ -19,6 +19,9 @@ function createMangaInput(dto: MutateMangaDto): Prisma.MangaCreateInput {
                 en: dto.description?.en || null,
             },
         },
+        mangaStatistic: {
+            create: {},
+        },
         releaseDate: dto.releaseDate || null,
         status: dto.status || MangaStatus.Ongoing,
         type: dto.type || MangaType.Manga,

@@ -1,13 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from 'src/common/helpers/prisma';
-import { LangType } from 'src/common/dto/langQuery.dto';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
 import { getSearchOtherTitleInput } from '../common/getSearchOtherTitleInput';
 import { getSearchTitleInput } from '../common/getSearchTitleInput';
-
-const ChaptersSelect: Prisma.ChaptersSelect = {
-    _count: { select: { usersView: true, usersLike: true } },
-};
 
 export const MangaSelect = (): Prisma.MangaSelect => {
     return {
@@ -16,6 +12,7 @@ export const MangaSelect = (): Prisma.MangaSelect => {
         type: true,
         title: { select: { ru: true, en: true, origin: true } },
         mangaCovers: { where: { main: true }, select: { cover: true } },
+        mangaStatistic: { select: { views: true, likes: true } },
         _count: { select: { bookmarks: true } },
     };
 };
@@ -30,7 +27,7 @@ export const getMangaQuickSearch = async (search: string) => {
             ],
         },
         orderBy: { rate: 'desc' },
-        select: { ...MangaSelect(), chapters: { select: ChaptersSelect } },
+        select: MangaSelect(),
     });
 };
 
@@ -47,8 +44,8 @@ export function toMangaItemListStatisticDto(
             title: '',
             type: mangaData.type,
             cover: '',
-            views: mangaData.chapters.reduce((acc, chapter) => acc + chapter._count.usersView, 0),
-            likes: mangaData.chapters.reduce((acc, chapter) => acc + chapter._count.usersLike, 0),
+            views: mangaData.mangaStatistic?.views || 0,
+            likes: mangaData.mangaStatistic?.likes || 0,
             bookmarks: mangaData._count.bookmarks,
         };
         if (mangaData?.title)

@@ -1,16 +1,18 @@
-import { LangQueryDto, LangType } from 'src/common/dto/langQuery.dto';
-import { MangaListItemDto, MangaListQuery } from '../../dto/mangaListItem/mangaListItem.dto';
+import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { MangaListItemPagination } from '../../dto/mangaListItem/mangaListItem.dto';
 import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
-import {
-    MangaListItemLastUpdatedPagination,
-    MangaListItemLastUpdatedQueryDto,
-} from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
 import { MangaListItemContinueReadResponseArrayData } from '../../dto/mangaListItem/mangaListItemContinueRead.dto';
+import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery';
 
 export interface PublicMangaControllerInterface {
-    getMangaList: (query: MangaListQuery, lang: LangType) => Promise<MangaListItemDto[]>;
+    getMangaList: (
+        req: OptionalAuthUserRequest,
+        query: MangaListQueryDto,
+    ) => Promise<MangaListItemPagination>;
     getLastUpdatedMangas: (
-        res: OptionalAuthUserRequest,
+        req: OptionalAuthUserRequest,
         query: MangaListItemLastUpdatedQueryDto,
     ) => Promise<MangaListItemLastUpdatedPagination>;
     getContinueReadManga: (
