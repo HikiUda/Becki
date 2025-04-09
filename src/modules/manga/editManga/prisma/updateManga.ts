@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { MutateMangaDto } from '../dto/mutateManga.dto';
 import { TransactionContextType } from 'src/common/types/prisma';
 import { prisma } from 'src/common/helpers/prisma';
-import { mutateMangaJanresAndTags } from './mutateJanresAndTags/mutateMangaJanresAndTags';
+import { mutateMangaGenresAndTags } from './mutateGenresAndTags/mutateMangGenresAndTags';
 
 function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
     const data: Prisma.MangaUpdateInput = {};
@@ -41,9 +41,9 @@ function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
             },
         };
     }
-    if (dto.janres?.set) {
-        data.janres = {};
-        data.janres.set = dto.janres.set;
+    if (dto.genres?.set) {
+        data.genres = {};
+        data.genres.set = dto.genres.set;
     }
     if (dto.tags?.set) {
         data.tags = {};
@@ -59,8 +59,8 @@ export const updateManga = async (
     tx?: TransactionContextType,
 ) => {
     let newDto = null;
-    if (dto.janres || dto.tags) {
-        newDto = await mutateMangaJanresAndTags(dto, mangaId, tx);
+    if (dto.genres || dto.tags) {
+        newDto = await mutateMangaGenresAndTags(dto, mangaId, tx);
     }
     if (tx) {
         return await tx.manga.update({

@@ -24,7 +24,7 @@ export const connectManyToManyManga = (
 };
 export const connectOrCreateManyToManyMangaAuthors = (
     names: string[],
-    entity: Exclude<ManyToManyMangaEntityType, 'janres' | 'tags'>,
+    entity: Exclude<ManyToManyMangaEntityType, 'genres' | 'tags'>,
 ): Prisma.MangaUpdateInput => {
     const data: Prisma.MangaUpdateInput = {};
     data[entity] = {};

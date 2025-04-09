@@ -5,7 +5,7 @@ import { z } from 'zod';
 export const BookmarksEnum = z.nativeEnum(Bookmarks);
 
 export const BookmarkScheme = z.object({
-    bookmark: BookmarksEnum.optional(),
+    bookmark: BookmarksEnum,
 });
 export const BookmarksScheme = z.object({
     bookmarks: z.array(BookmarksEnum).default([]),

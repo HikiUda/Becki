@@ -1,1 +1,0 @@
-export { getTagsById } from './getTagsById';

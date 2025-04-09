@@ -1,24 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { PublicMangaRepositoryInterface } from '../../interfaces/publicManga/publicMangaRepository';
-import { MangaListItemPagination } from '../../dto/mangaListItem/mangaListItem.dto';
-import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery/getMangaListQuery.dto';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
-import { getMangaList, getMangaListCount } from '../../prisma/getMangaList';
-import { toMangaListItemDto } from '../../prisma/getMangaList/toMangaListItemDto';
+import { PublicMangaRepositoryInterface } from './interfaces/publicMangaRepository';
+import { MangaListItemPagination } from '../../dto/mangaListItem.dto';
+import { MangaListQueryDto } from './dto/getMangaListQuery/getMangaListQuery.dto';
+import { getMangaList, getMangaListCount } from './prisma/getMangaList';
+import { toMangaListItemDto } from './prisma/getMangaList/toMangaListItemDto';
 import {
     getLastUpdatedMangas,
     toMangaListItemLastUpdatedDto,
-} from '../../prisma/getLastUpdatedMangas/getLastUpdatedManga';
-import { MangaListItemContinueReadDto } from '../../dto/mangaListItem/mangaListItemContinueRead.dto';
-import {
-    getContinueReadManga,
-    toMangaListItemContinueReadDto,
-} from '../../prisma/сontinueReadManga/getContinueReadManga';
-import { dontShowContinueReadManga } from '../../prisma/сontinueReadManga/dontShowContinueReadManga';
-import { getLastUpdatedMangasCount } from '../../prisma/getLastUpdatedMangas/getLastUpdatedMangasCount';
-import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
-import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
+} from './prisma/getLastUpdatedMangas/getLastUpdatedManga';
+import { getLastUpdatedMangasCount } from './prisma/getLastUpdatedMangas/getLastUpdatedMangasCount';
+import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from './dto/lastUpdatedMangaQuery.dto';
 import { getPagination } from 'src/common/helpers/pagination/getPagination';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
+import { getRelatedManga } from './prisma/getRelatedManga/getRelatedManga';
+import { toMangaItemListStatisticDto } from '../../prisma/getMangaListStatistic';
 
 @Injectable()
 export class PublicMangaRepository implements PublicMangaRepositoryInterface {
@@ -49,14 +46,12 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
             ...getPagination(mangaCount, query.page, query.limit),
         };
     }
-    async getContinueReadManga(
-        userId: number,
+    async getRelatedManga(
+        mangaId: number,
         lang: LangType,
-    ): Promise<MangaListItemContinueReadDto[]> {
-        const data = await getContinueReadManga(userId, lang);
-        return await toMangaListItemContinueReadDto(data, lang);
-    }
-    async dontShowContinueReadManga(userId: number, mangaId: number): Promise<void> {
-        await dontShowContinueReadManga(userId, mangaId);
+    ): Promise<MangaListItemStatisticResponseArrayData> {
+        const data = await getRelatedManga(mangaId);
+        const manga = toMangaItemListStatisticDto(data, lang);
+        return { data: manga };
     }
 }

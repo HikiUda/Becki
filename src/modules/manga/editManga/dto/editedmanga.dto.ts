@@ -15,7 +15,7 @@ export interface EditedMangaDescription {
     en: string | null;
 }
 
-export interface EditedMangaJanresAndTags {
+export interface EditedMangaGenresAndTags {
     id: number;
     title: string;
 }
@@ -38,8 +38,8 @@ export interface EditedMangaDto {
     releaseDate: Date | null;
     status: MangaStatus;
     type: MangaType;
-    janres: EditedMangaJanresAndTags[];
-    tags: EditedMangaJanresAndTags[];
+    genres: EditedMangaGenresAndTags[];
+    tags: EditedMangaGenresAndTags[];
     covers: EditedMangaCovers[];
     banner: string | null;
     authors: EditedMangaAuthors[];

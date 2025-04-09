@@ -9,19 +9,19 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { QuickSearchService } from './quickSearch.service';
-import { QuickSearchControllerInterface } from '../../interfaces/quickSearch/quickSearchController';
+import { QuickSearchControllerInterface } from './interfaces/quickSearchController';
 import {
     AuthInterceptor,
     AuthUserRequest,
     JwtAuthGuard,
     OptionalAuthUserRequest,
 } from 'src/modules/user/auth';
-import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
+import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
-import { mockMangaListItemStatisticArray } from '../../mock/mangaList/mockMangaListItemStatistic.dto';
+import { mockMangaListItemStatisticArray } from '../../mock/mockMangaListItemStatistic.dto';
 import { ResponseArrayData } from 'src/common/types/pagination';
-import { DeleteSearchDto } from '../../dto/quickSearch/deleteSearchDto';
-import { QuickSearchQueryDto } from '../../dto/quickSearch/QuickSearchQueryDto';
+import { DeleteSearchDto } from './dto/deleteSearchDto';
+import { QuickSearchQueryDto } from './dto/QuickSearchQueryDto';
 
 @Controller('manga/quick-search')
 export class QuickSearchController implements QuickSearchControllerInterface {

@@ -8,11 +8,10 @@ import { validateEnv } from './common/helpers/envConfigValidator/env.validation'
 
 @Module({
     imports: [
+        UserModule,
         MangaModule,
         ConfigModule.forRoot({ isGlobal: true, validate: validateEnv }),
-
         FileModule,
-        UserModule,
     ],
     controllers: [],
     providers: [],

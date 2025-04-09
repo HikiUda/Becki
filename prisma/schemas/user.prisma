@@ -4,7 +4,7 @@ model User {
   name                String                   @db.VarChar(64)
   password            String
   avatar              String?
-  jsonSettings        Json
+  jsonSettings        Json                     @default("{}")
   lastSearchQueries   String[]
   mangas              Manga[]
   mangaRating         MangaRating[]

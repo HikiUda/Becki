@@ -41,7 +41,7 @@ export interface MutateMangaDto {
     status?: MangaStatus;
     type?: MangaType;
     releaseDate?: Date;
-    janres?: MutateManyToManyInMangaType;
+    genres?: MutateManyToManyInMangaType;
     tags?: MutateManyToManyInMangaType;
     coversId?: number;
     banner?: string;

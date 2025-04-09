@@ -4,7 +4,6 @@ model Manga {
     title             MangaTitle?
     otherTitles       MangaOtherTitles[]
     description       MangaDescription?
-    rate              Float                @default(0)
     releaseDate       DateTime?
     type              MangaType            @default(Manga)
     status            MangaStatus          @default(Ongoing)
@@ -13,8 +12,9 @@ model Manga {
     owner             User                 @relation(fields: [ownerId], references: [id])
     ownerId           Int
     banner            String?
-    janres            Int[]
+    genres            Int[]
     tags              Int[]
+    relatedManga      Int[]
     rating            MangaRating[]
     comments          MangaComments[]
     bookmarks         UserMangaBookmarks[]
@@ -69,7 +69,7 @@ model MangaCovers {
     updatedAt DateTime @default(now()) @updatedAt
 }
 
-model MangaJanres {
+model MangaGenres {
     id        Int      @id @default(autoincrement())
     ru        String   @unique
     en        String?  @unique
@@ -86,7 +86,7 @@ model MangaTags {
 }
 
 model MangaRating {
-    id        Int      @id @default(autoincrement())
+    id        String   @id
     rate      Int
     manga     Manga    @relation(fields: [mangaId], references: [id])
     user      User     @relation(fields: [userId], references: [id])
@@ -146,13 +146,18 @@ model ProgressReadManga {
 }
 
 model MangaStatistic {
-    id           Int   @id @default(autoincrement())
-    views        Int   @default(0)
-    likes        Int   @default(0)
-    rateCount    Int   @default(0)
-    chapterCount Int   @default(0)
-    manga        Manga @relation(fields: [mangaId], references: [id])
-    mangaId      Int   @unique
+    id                Int      @id @default(autoincrement())
+    rate              Float    @default(0)
+    views             Int      @default(0)
+    likes             Int      @default(0)
+    rateCount         Int      @default(0)
+    chapterCount      Int      @default(0)
+    rateStatistic     Json     @default("{}")
+    bookmarkStatistic Json     @default("{}")
+    manga             Manga    @relation(fields: [mangaId], references: [id])
+    mangaId           Int      @unique
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @default(now()) @updatedAt
 }
 
 enum MangaType {

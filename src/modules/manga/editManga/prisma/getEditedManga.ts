@@ -3,8 +3,8 @@ import { prisma } from 'src/common/helpers/prisma';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { EditedMangaDto } from '../dto/editedmanga.dto';
 import { MangaIdsType } from '../../common/types/mangaTypes';
-import { getJanresById } from '../../mangaJanres/prisma';
-import { getTagsById } from '../../mangaTags/prisma';
+import { getGenresById } from 'src/modules/manga/mangaCategories';
+import { getTagsById } from 'src/modules/manga/mangaCategories';
 
 const EditedMangaInclude = (): Prisma.MangaInclude => {
     return {
@@ -43,7 +43,7 @@ export async function toEditedMangaDto(
         releaseDate: data.releaseDate,
         status: data.status,
         type: data.type,
-        janres: [],
+        genres: [],
         tags: [],
         covers: data.mangaCovers.map((mangaCover) => ({
             id: mangaCover.id,
@@ -60,10 +60,10 @@ export async function toEditedMangaDto(
     if (data.description) manga.description = { ru: data.description.ru, en: data.description.en };
     if (data.title)
         manga.title = { ru: data.title.ru, en: data.title.en, origin: data.title.origin };
-    if (data.janres.length) {
-        manga.janres = (await getJanresById(data.janres)).map((janre) => ({
-            id: janre.id,
-            title: janre[lang] ? janre[lang] : janre.ru,
+    if (data.genres.length) {
+        manga.genres = (await getGenresById(data.genres)).map((genre) => ({
+            id: genre.id,
+            title: genre[lang] ? genre[lang] : genre.ru,
         }));
     }
     if (data.tags.length) {

@@ -1,1 +1,0 @@
-export { getJanresById } from './getJanresById';

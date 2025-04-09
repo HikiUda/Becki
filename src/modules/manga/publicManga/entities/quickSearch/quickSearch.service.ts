@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { QuickSearchRepository } from './quickSearch.repository';
-import { QuickSearchServiceInterface } from '../../interfaces/quickSearch/quickSearchService';
+import { QuickSearchServiceInterface } from './interfaces/quickSearchService';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
-import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
+import { MangaListItemStatisticDto } from '../../dto/mangaListItemStatistic.dto';
 
 @Injectable()
 export class QuickSearchService implements QuickSearchServiceInterface {

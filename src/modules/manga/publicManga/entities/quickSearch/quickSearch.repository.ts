@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { QuickSearchRepositoryInterface } from '../../interfaces/quickSearch/quickSearchRepository';
-import {
-    getMangaQuickSearch,
-    toMangaItemListStatisticDto,
-} from '../../prisma/getMangaQuickSearch/getMangaQuickSearch';
+import { QuickSearchRepositoryInterface } from './interfaces/quickSearchRepository';
+import { getMangaQuickSearch } from './prisma/getMangaQuickSearch';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
-import { MangaListItemStatisticDto } from '../../dto/mangaListItem/mangaListItemStatistic.dto';
-import { saveUserLastSearchQueries } from '../../prisma/userLastSearchQueries/saveUserLastSearchQueries';
-import { getUserLastSearchQueries } from '../../prisma/userLastSearchQueries/getUserLastSearchQueries';
-import { deleteUserLastSearchQuery } from '../../prisma/userLastSearchQueries/deleteUserLastSearchQuery';
+import { MangaListItemStatisticDto } from '../../dto/mangaListItemStatistic.dto';
+import { saveUserLastSearchQueries } from './prisma/userLastSearchQueries/saveUserLastSearchQueries';
+import { getUserLastSearchQueries } from './prisma/userLastSearchQueries/getUserLastSearchQueries';
+import { deleteUserLastSearchQuery } from './prisma/userLastSearchQueries/deleteUserLastSearchQuery';
+import { toMangaItemListStatisticDto } from '../../prisma/getMangaListStatistic';
 
 @Injectable()
 export class QuickSearchRepository implements QuickSearchRepositoryInterface {

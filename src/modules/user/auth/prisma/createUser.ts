@@ -4,7 +4,7 @@ import { CreateUserDto } from '../dto/createUser.dto';
 
 export const createUser = async (dto: CreateUserDto) => {
     return await prisma.user.create({
-        data: { ...dto, name: dto.login, jsonSettings: {} },
+        data: { ...dto, name: dto.login },
         select: { id: true, name: true, login: true, password: true },
     });
 };

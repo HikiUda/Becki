@@ -2,33 +2,27 @@ import {
     Controller,
     Get,
     Param,
-    ParseIntPipe,
-    Patch,
     Query,
     Req,
     UnauthorizedException,
-    UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
 import { PublicMangaService } from './publicManga.service';
 
+import { MangaListItemPagination } from '../../dto/mangaListItem.dto';
+import { PublicMangaControllerInterface } from './interfaces/publicMangaController';
+import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItemLastUpdated.dto';
+import { MangaListItemLastUpdatedQueryDto } from './dto/lastUpdatedMangaQuery.dto';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { mockMangaListItemLastUpdatedArray } from '../../mock/mockMangaListItemLastUpdated';
+import { MangaListQueryDto } from './dto/getMangaListQuery';
+import { mockMangaListItemArray } from '../../mock/mockMangaListItem';
 import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
-import { MangaListItemPagination } from '../../dto/mangaListItem/mangaListItem.dto';
-import { PublicMangaControllerInterface } from '../../interfaces/publicManga/publicMangaController';
-import {
-    AuthInterceptor,
-    AuthUserRequest,
-    JwtAuthGuard,
-    OptionalAuthUserRequest,
-} from 'src/modules/user/auth';
-import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItem/mangaListItemLastUpdated.dto';
-import { MangaListItemLastUpdatedQueryDto } from '../../dto/publicManga/lastUpdatedMangaQuery.dto';
-import { MangaListItemContinueReadResponseArrayData } from '../../dto/mangaListItem/mangaListItemContinueRead.dto';
-import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { mockMangaListItemContinueReadArray } from '../../mock/mangaList/mockMangaListItemContinueRead';
-import { mockMangaListItemLastUpdatedArray } from '../../mock/mangaList/mockMangaListItemLastUpdated';
-import { MangaListQueryDto } from '../../dto/publicManga/getMangaListQuery';
-import { mockMangaListItemArray } from '../../mock/mangaList/mockMangaListItem';
+import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
+import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
+import { mockMangaListItemStatisticArray } from '../../mock/mockMangaListItemStatistic.dto';
+import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {
@@ -38,9 +32,9 @@ export class PublicMangaController implements PublicMangaControllerInterface {
     @UseInterceptors(AuthInterceptor)
     @ApiResponse({ example: mockMangaListItemArray })
     @ApiQuery({
-        name: 'janres-tags-notJanres-notTags',
+        name: 'genres-tags-notGenres-notTags',
         required: false,
-        description: 'Comma-separated list of  IDs, e.g. janres=1,3,4',
+        description: 'Comma-separated list of  IDs, e.g. genres=1,3,4',
     })
     async getMangaList(
         @Req() req: OptionalAuthUserRequest,
@@ -62,26 +56,15 @@ export class PublicMangaController implements PublicMangaControllerInterface {
         if (query.scope === 'my' && !req.user) throw new UnauthorizedException();
         return await this.publicMangaService.getLastUpdatedMangas(query, req.user?.id);
     }
-
-    @Get('continue-read')
-    @UseGuards(JwtAuthGuard)
-    @ApiResponse({ example: mockMangaListItemContinueReadArray })
-    @ApiBearerAuth()
-    async getContinueReadManga(
-        @Req() req: AuthUserRequest,
+    @Get('related/:id')
+    @ApiResponse({
+        example: mockMangaListItemStatisticArray,
+    })
+    @ApiMangaIdParam()
+    async getRelatedManga(
+        @Param('id', new ValidateMangaIdPipe()) id: number,
         @Query() query: LangQueryDto,
-    ): Promise<MangaListItemContinueReadResponseArrayData> {
-        const data = await this.publicMangaService.getContinueReadManga(req.user.id, query.lang);
-        return { data };
-    }
-    @Patch('continue-read/:id')
-    @UseGuards(JwtAuthGuard)
-    @ApiResponse({ description: 'set id to 0 to delete all manga' })
-    @ApiBearerAuth()
-    async dontShowContinueReadManga(
-        @Req() req: AuthUserRequest,
-        @Param('id', ParseIntPipe) mangaId: number,
-    ): Promise<void> {
-        await this.publicMangaService.dontShowContinueReadManga(req.user.id, mangaId);
+    ): Promise<MangaListItemStatisticResponseArrayData> {
+        return await this.publicMangaService.getRelatedManga(id, query.lang);
     }
 }
