@@ -3,7 +3,10 @@ import { getSearchOtherTitleInput } from '../../../../prisma/getSearchOtherTitle
 import { getSearchTitleInput } from '../../../../prisma/getSearchTitleInput';
 import { MangaListQueryDto } from '../../dto/getMangaListQuery';
 
-export const getMangaListWhereInput = (query: MangaListQueryDto): Prisma.MangaWhereInput => {
+export const getMangaListWhereInput = (
+    query: MangaListQueryDto,
+    userId?: number,
+): Prisma.MangaWhereInput => {
     const where: Prisma.MangaWhereInput = {};
     const AND: Prisma.MangaWhereInput[] = [];
     if (query.search) {
@@ -14,16 +17,22 @@ export const getMangaListWhereInput = (query: MangaListQueryDto): Prisma.MangaWh
             ],
         });
     }
-    if (query.status) {
+    if (query.status.length) {
         AND.push({
-            status: query.status,
+            status: { in: query.status },
         });
     }
-    if (query.type) {
+    if (query.type.length) {
         AND.push({
-            type: query.type,
+            type: { in: query.type },
         });
     }
+    if (query.bookmarks.length && userId) {
+        AND.push({
+            bookmarks: { some: { userId: userId, bookmark: { in: query.bookmarks } } },
+        });
+    }
+
     // By Genres
     if (query.genres.length) {
         AND.push({

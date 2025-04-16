@@ -8,7 +8,9 @@ import { setUserMangaRate } from './prisma/setUserMangaRate';
 export class RateRepository implements RateRepositoryInterface {
     constructor() {}
     async getUserMangaRate(mangaId: number, userId: number): Promise<UserMangaRateDto> {
-        return (await getUserMangaRate(mangaId, userId)) || { mangaId, userId, rate: null };
+        const data = await getUserMangaRate(mangaId, userId);
+        if (!data || !data.rate) return { mangaId, userId, rate: null };
+        return data;
     }
     async setUserMangaRate(
         mangaId: number,

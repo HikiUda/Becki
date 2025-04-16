@@ -7,8 +7,6 @@ export const BookmarksEnum = z.nativeEnum(Bookmarks);
 export const BookmarkScheme = z.object({
     bookmark: BookmarksEnum,
 });
-export const BookmarksScheme = z.object({
-    bookmarks: z.array(BookmarksEnum).default([]),
-});
+export const BookmarksScheme = z.array(BookmarksEnum);
 export class BookmarksDto extends createZodDto(BookmarksScheme) {}
 export class BookmarkDto extends createZodDto(BookmarkScheme) {}

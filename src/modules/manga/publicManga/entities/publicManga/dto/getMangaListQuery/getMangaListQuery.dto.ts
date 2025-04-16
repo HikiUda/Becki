@@ -1,6 +1,6 @@
 import { BookmarksScheme } from 'src/common/dto/manga/bookmarks.dto';
-import { MangaStatusScheme } from 'src/common/dto/manga/mangaStatus.dto';
-import { MangaTypeScheme } from 'src/common/dto/manga/mangaType.dto';
+import { MangaStatusArrayScheme, MangaStatusScheme } from 'src/common/dto/manga/mangaStatus.dto';
+import { MangaTypeArrayScheme, MangaTypeScheme } from 'src/common/dto/manga/mangaType.dto';
 import { LangQueryScheme } from 'src/common/dto/query/langQuery.dto';
 import { OrderQueryScheme } from 'src/common/dto/query/orderQuery';
 import { PaginationQueryScheme } from 'src/common/dto/query/pagination.dto';
@@ -27,6 +27,11 @@ const tagsGenresScheme = z
     .transform((val) => (val ? val.split(',').map((v) => parseInt(v)) : []))
     .pipe(z.number().int().array());
 
+const StringToStringArray = z
+    .string()
+    .default('')
+    .transform((val) => (val ? val.split(',') : []));
+
 const MangaListQueryScheme = z
     .object({
         sortBy: SortByEnum.default('rating'),
@@ -35,13 +40,13 @@ const MangaListQueryScheme = z
         tags: tagsGenresScheme,
         notGenres: tagsGenresScheme,
         notTags: tagsGenresScheme,
+        status: StringToStringArray.pipe(MangaStatusArrayScheme),
+        type: StringToStringArray.pipe(MangaTypeArrayScheme),
+        bookmarks: StringToStringArray.pipe(BookmarksScheme),
     })
     .merge(LangQueryScheme)
     .merge(OrderQueryScheme)
     .merge(PaginationQueryScheme)
-    .merge(MangaStatusScheme)
-    .merge(MangaTypeScheme)
-    .merge(BookmarksScheme)
     .merge(RangeScheme)
     .superRefine(refineRanges);
 

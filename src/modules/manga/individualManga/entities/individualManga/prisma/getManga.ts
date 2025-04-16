@@ -33,7 +33,6 @@ export const getManga = async (id: number, lang: LangType, userId?: number) => {
         where: { id },
         select: MangaSelect(lang, userId),
     });
-    console.log(data);
     return data;
 };
 

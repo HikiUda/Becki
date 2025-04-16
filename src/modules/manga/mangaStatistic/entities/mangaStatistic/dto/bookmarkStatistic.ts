@@ -1,15 +1,16 @@
 import { z } from 'zod';
-import { PercentItemScheme } from './rateStatistic';
+import { Bookmarks } from '@prisma/client';
+import { createStatisticItem } from './statisticItem.Scheme';
 
 export const BookmarkStatisticScheme = z.object({
     all: z.number().int(),
-    Reading: z.object({ name: z.literal('Reading') }).merge(PercentItemScheme),
-    Planned: z.object({ name: z.literal('Planned') }).merge(PercentItemScheme),
-    Readed: z.object({ name: z.literal('Readed') }).merge(PercentItemScheme),
-    Abandoned: z.object({ name: z.literal('Abandoned') }).merge(PercentItemScheme),
-    Postponed: z.object({ name: z.literal('Postponed') }).merge(PercentItemScheme),
+    bookmarks: z.tuple([
+        createStatisticItem(Bookmarks.Reading),
+        createStatisticItem(Bookmarks.Planned),
+        createStatisticItem(Bookmarks.Readed),
+        createStatisticItem(Bookmarks.Abandoned),
+        createStatisticItem(Bookmarks.Postponed),
+    ]),
 });
 
-export type BookmarkStatisticType =
-    | z.infer<typeof BookmarkStatisticScheme>
-    | Record<PropertyKey, never>;
+export type BookmarkStatisticType = z.infer<typeof BookmarkStatisticScheme>;

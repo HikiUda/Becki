@@ -28,6 +28,7 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
         const mangaList = await getMangaList(query, userId);
         const data = toMangaListItemDto(mangaList, query.lang);
         const mangaCount = await getMangaListCount(query);
+
         return {
             data,
             ...getPagination(mangaCount, query.page, query.limit),

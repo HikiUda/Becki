@@ -15,7 +15,9 @@ export const getRateStatistic = async (mangaId: number): Promise<RateFullStatist
 
     return {
         rate: data.mangaStatistic.rate,
-        rateCount: data.mangaStatistic.rate,
-        rateStatistic: rateStatistic.success ? rateStatistic.data : emptyRateStatistic,
+        rateCount: data.mangaStatistic.rateCount,
+        rateStatistic: rateStatistic.success
+            ? rateStatistic.data.rateStatistic
+            : emptyRateStatistic.rateStatistic,
     };
 };

@@ -43,7 +43,7 @@ export class PublicMangaController implements PublicMangaControllerInterface {
         return await this.publicMangaService.getMangaList(query, req.user?.id);
     }
 
-    @Get('last-updated-manga')
+    @Get('last-updated')
     @UseInterceptors(AuthInterceptor)
     @ApiResponse({
         example: mockMangaListItemLastUpdatedArray,

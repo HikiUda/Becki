@@ -25,7 +25,7 @@ export const getMangaList = async (query: MangaListQueryDto, userId?: number) =>
         take: limit,
         skip,
         orderBy: getOrderInput(query),
-        where: getMangaListWhereInput(query),
+        where: getMangaListWhereInput(query, userId),
         select: MangaListSelect(query.lang, userId),
     });
 };
