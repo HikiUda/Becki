@@ -1,6 +1,6 @@
 import { BookmarksScheme } from 'src/common/dto/manga/bookmarks.dto';
-import { MangaStatusArrayScheme, MangaStatusScheme } from 'src/common/dto/manga/mangaStatus.dto';
-import { MangaTypeArrayScheme, MangaTypeScheme } from 'src/common/dto/manga/mangaType.dto';
+import { MangaStatusArrayScheme } from 'src/common/dto/manga/mangaStatus.dto';
+import { MangaTypeArrayScheme } from 'src/common/dto/manga/mangaType.dto';
 import { LangQueryScheme } from 'src/common/dto/query/langQuery.dto';
 import { OrderQueryScheme } from 'src/common/dto/query/orderQuery';
 import { PaginationQueryScheme } from 'src/common/dto/query/pagination.dto';
@@ -13,6 +13,7 @@ import { RangeScheme, refineRanges } from './rangeScheme';
 const SortByEnum = z.enum([
     'rating',
     'updateDate',
+    'createDate',
     'ruAlphabetically',
     'enAlphabetically',
     'views',

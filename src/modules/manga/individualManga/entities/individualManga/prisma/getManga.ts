@@ -75,13 +75,13 @@ export async function toMangaDto(
     if (data.genres.length) {
         manga.genres = (await getGenresById(data.genres)).map((genre) => ({
             id: genre.id,
-            title: genre[lang] ? genre[lang] : genre.ru,
+            title: genre[lang] || genre.ru,
         }));
     }
     if (data.tags.length) {
         manga.tags = (await getTagsById(data.tags)).map((tag) => ({
             id: tag.id,
-            title: tag[lang] ? tag[lang] : tag.ru,
+            title: tag[lang] || tag.ru,
         }));
     }
     return manga;

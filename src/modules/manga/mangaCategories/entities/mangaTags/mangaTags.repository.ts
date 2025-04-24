@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { MangaTagsRepositoryInterface } from './interfaces/mangaTagsRepository';
-import { PrismaService } from 'src/common/services/prisma.service';
-import { Prisma } from '@prisma/client';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { CategoryDto, toCategoriesDto } from '../../dto/category.dto';
+import { getTags } from './prisma/getTags';
 
 @Injectable()
 export class MangaTagsRepository implements MangaTagsRepositoryInterface {
-  constructor(private prisma: PrismaService) {}
+    constructor() {}
+    async getTags(search: string, lang: LangType): Promise<CategoryDto[]> {
+        const tags = await getTags(search);
+        return toCategoriesDto(tags, lang);
+    }
 }

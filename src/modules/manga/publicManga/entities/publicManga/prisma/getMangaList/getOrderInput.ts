@@ -13,8 +13,12 @@ export const getOrderInput = (query: MangaListQueryDto): Prisma.MangaOrderByWith
         orderBy.mangaStatistic = {};
         orderBy.mangaStatistic.rate = order;
     }
+    // ? do other props
     if (sortBy === 'updateDate') {
         orderBy.updatedAt = order;
+    }
+    if (sortBy === 'createDate') {
+        orderBy.createdAt = order;
     }
     if (sortBy === 'views') {
         orderBy.mangaStatistic = {};
