@@ -1,9 +1,9 @@
 model Chapters {
     id                Int                 @id @default(autoincrement())
-    title             String?
+    title             ChapterTitle?
     tome              Int                 @default(1)
     chapter           Float
-    pages             Json
+    pages             ChapterPages?
     private           Boolean             @default(true)
     manga             Manga               @relation(fields: [mangaId], references: [id])
     mangaId           Int
@@ -15,22 +15,44 @@ model Chapters {
     updatedAt         DateTime            @default(now()) @updatedAt
 }
 
-model UserLikeChapter {
+model ChapterTitle {
     id        Int      @id @default(autoincrement())
+    ru        String?
+    en        String?
+    chapter   Chapters @relation(fields: [chapterId], references: [id])
+    chapterId Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ChapterPages {
+    id        Int      @id @default(autoincrement())
+    ru        Json     @default("{}")
+    en        Json     @default("{}")
+    chapter   Chapters @relation(fields: [chapterId], references: [id])
+    chapterId Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model UserLikeChapter {
+    id        String   @id
     chapter   Chapters @relation(fields: [chapterId], references: [id])
     user      User     @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
+    isLiked   Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 }
 
 model UserViewChapter {
-    id        Int      @id @default(autoincrement())
+    id        String   @id
     chapter   Chapters @relation(fields: [chapterId], references: [id])
     user      User     @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
+    isViewed  Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 }

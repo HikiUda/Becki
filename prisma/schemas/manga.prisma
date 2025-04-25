@@ -1,32 +1,33 @@
 model Manga {
-    id                Int                  @id @default(autoincrement())
-    urlId             String               @unique @default(uuid()) @db.VarChar(255)
-    title             MangaTitle?
-    otherTitles       MangaOtherTitles[]
-    description       MangaDescription?
-    releaseDate       DateTime?
-    type              MangaType            @default(Manga)
-    status            MangaStatus          @default(Ongoing)
-    ageRate           Int                  @default(0)
-    mangaCovers       MangaCovers[]
-    owner             User                 @relation(fields: [ownerId], references: [id])
-    ownerId           Int
-    banner            String?
-    genres            Int[]
-    tags              Int[]
-    relatedManga      Int[]
-    rating            MangaRating[]
-    comments          MangaComments[]
-    bookmarks         UserMangaBookmarks[]
-    authors           Authors[]
-    artists           Artists[]
-    publishers        Publishers[]
-    chapters          Chapters[]
-    progressReadManga ProgressReadManga[]
-    mangaStatistic    MangaStatistic?
-    moderated         Boolean              @default(false)
-    createdAt         DateTime             @default(now())
-    updatedAt         DateTime             @default(now()) @updatedAt
+    id                 Int                  @id @default(autoincrement())
+    urlId              String               @unique @default(uuid()) @db.VarChar(255)
+    title              MangaTitle?
+    otherTitles        MangaOtherTitles[]
+    description        MangaDescription?
+    releaseDate        DateTime?
+    type               MangaType            @default(Manga)
+    status             MangaStatus          @default(Ongoing)
+    ageRate            Int                  @default(0)
+    mangaCovers        MangaCovers[]
+    owner              User                 @relation(fields: [ownerId], references: [id])
+    ownerId            Int
+    banner             String?
+    genres             Int[]
+    tags               Int[]
+    relatedManga       Int[]
+    rating             MangaRating[]
+    comments           MangaComments[]
+    bookmarks          UserMangaBookmarks[]
+    authors            Authors[]
+    artists            Artists[]
+    publishers         Publishers[]
+    chapters           Chapters[]
+    progressReadManga  ProgressReadManga[]
+    mangaStatistic     MangaStatistic?
+    moderated          Boolean              @default(false)
+    lastChapterAddedAt DateTime             @default(now())
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @default(now()) @updatedAt
 }
 
 model MangaTitle {
