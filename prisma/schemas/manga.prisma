@@ -134,7 +134,7 @@ model UserMangaBookmarks {
 }
 
 model ProgressReadManga {
-    id            Int      @id @default(autoincrement())
+    id            String   @id
     manga         Manga    @relation(fields: [mangaId], references: [id])
     user          User     @relation(fields: [userId], references: [id])
     lastChapter   Chapters @relation(fields: [lastChapterId], references: [id])

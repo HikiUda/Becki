@@ -1,4 +1,4 @@
-import { ChapterPagesType } from './chapterPages.scheme';
+import { ChapterPagesDto } from 'src/modules/manga/editChapter';
 
 export interface ChapterDto {
     id: number;
@@ -10,5 +10,6 @@ export interface ChapterDto {
     prevChapterId: number | null;
     nextChapterId: number | null;
     isUserLiked: boolean;
-    pages: ChapterPagesType;
+    isUserViewed: boolean;
+    pages: ChapterPagesDto;
 }

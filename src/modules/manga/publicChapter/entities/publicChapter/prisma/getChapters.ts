@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client';
 import { ChapterListItemDto } from '../dto/chapterList/chapterListItem.dto';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
 
+//TODO not get chapter with private=true
 const getChapterListORInput = (search: string): Prisma.ChaptersWhereInput[] => {
     const searchNumber = isNaN(Number(search)) ? undefined : Number(search);
     const OR: Prisma.ChaptersWhereInput[] = [];

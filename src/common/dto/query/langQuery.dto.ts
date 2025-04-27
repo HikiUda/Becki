@@ -1,7 +1,12 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { z } from 'zod';
 
-export const LangTypeEnum = z.enum(['ru', 'en']);
+export const Lang = {
+    ru: 'ru',
+    en: 'en',
+} as const;
+
+export const LangTypeEnum = z.nativeEnum(Lang);
 export type LangType = z.infer<typeof LangTypeEnum>;
 
 export const LangQueryScheme = z.object({

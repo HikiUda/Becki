@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client';
-import { title } from 'process';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { prisma } from 'src/common/helpers/prisma';
 import { ChapterDto } from '../../dto/chapter.dto';
-import { ChapterPagesScheme } from '../../dto/chapterPages.scheme';
+import { ChapterPagesScheme } from 'src/modules/manga/editChapter';
 
+//TODO not get chapter with private=true
 export const getChapter = async (chapterId: number, userId?: number) => {
     return await prisma.chapters.findUnique({
         where: { id: chapterId },
@@ -16,6 +16,7 @@ export const getChapter = async (chapterId: number, userId?: number) => {
             manga: { select: { title: true } },
             _count: { select: { usersLike: true } },
             usersLike: { where: { userId } },
+            usersView: { where: { userId } },
             pages: true,
             mangaId: true,
         },
@@ -40,5 +41,6 @@ export function toChapterDto(
         prevChapterId: prevChapter,
         nextChapterId: nextChapter,
         isUserLiked: !!chapter?.usersLike?.[0]?.isLiked,
+        isUserViewed: !!chapter?.usersView?.[0]?.isViewed,
     };
 }

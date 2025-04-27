@@ -1,8 +1,9 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
+import { z } from 'zod';
 
-@Injectable()
-export class ValidateMangaIdPipe implements PipeTransform {
-    transform(value: string, metadata: ArgumentMetadata) {
+export const transformId = z
+    .string()
+    .transform((value) => {
         if (!Number.isNaN(Number(value))) {
             return Number(value);
         }
@@ -12,5 +13,12 @@ export class ValidateMangaIdPipe implements PipeTransform {
             return Number(extractId);
         }
         throw new BadRequestException('Incorect manga id');
+    })
+    .pipe(z.number().int());
+
+@Injectable()
+export class ValidateMangaIdPipe implements PipeTransform {
+    transform(value: string, metadata: ArgumentMetadata) {
+        return transformId.parse(value);
     }
 }

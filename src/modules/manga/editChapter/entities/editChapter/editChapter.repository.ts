@@ -1,0 +1,31 @@
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { EditChapterRepositoryInterface } from './interfaces/editChapterRepository';
+import { EditedChpaterDto } from './dto/editedChapter.dto';
+import { getEditedChapter, toEditedChapterDto } from './prisma/getEditedChapter';
+import { MutateChapterDto } from './dto/mutateChapter.dto';
+import { createChapter } from './prisma/mutateChapter/createChapter';
+import { updateChapter } from './prisma/mutateChapter/updateChapter';
+import { deleteChapter } from './prisma/mutateChapter/deleteChapter';
+
+@Injectable()
+export class EditChapterRepository implements EditChapterRepositoryInterface {
+    constructor() {}
+    async getEditedChapter(chapterId: number): Promise<EditedChpaterDto> {
+        const data = await getEditedChapter(chapterId);
+        if (!data) throw new BadRequestException('Такой главы не существует');
+        return toEditedChapterDto(data);
+    }
+
+    async createChapter(mangaId: number, data: MutateChapterDto): Promise<EditedChpaterDto> {
+        const chapter = await createChapter(mangaId, data);
+        return await this.getEditedChapter(chapter.id);
+    }
+    async updateChapter(chapterId: number, data: MutateChapterDto): Promise<EditedChpaterDto> {
+        await updateChapter(chapterId, data);
+        return await this.getEditedChapter(chapterId);
+    }
+
+    async deleteChapter(chapterId: number): Promise<void> {
+        await deleteChapter(chapterId);
+    }
+}

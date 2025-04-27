@@ -28,7 +28,7 @@ model ChapterTitle {
 model ChapterPages {
     id        Int      @id @default(autoincrement())
     ru        Json     @default("{}")
-    en        Json     @default("{}")
+    en        Json?
     chapter   Chapters @relation(fields: [chapterId], references: [id])
     chapterId Int      @unique
     createdAt DateTime @default(now())

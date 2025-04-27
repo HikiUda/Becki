@@ -14,6 +14,6 @@ export async function saveFile(
     await writeFile(join(uploadFolder, newFilename), file.buffer);
     return {
         name: newFilename,
-        url: `${UrlLocalFileStorage}${key.replaceAll('\\', '/')}/${newFilename}`,
+        url: `${key.replaceAll('\\', '/')}/${newFilename}`,
     };
 }

@@ -3,6 +3,7 @@ import { FileLocalRepository } from './fileLocal.repository';
 import { FileServiceInterface } from './interfaces/fileService';
 import { join } from 'path';
 import { FileSaveReturnType } from './types/file';
+import { LangType } from 'src/common/dto/query/langQuery.dto';
 
 @Injectable()
 export class FileService implements FileServiceInterface {
@@ -23,6 +24,16 @@ export class FileService implements FileServiceInterface {
         const key = join('mangas', `${mangaId}`, 'covers');
         const savedCovers = await this.fileRepository.saveFiles(covers, key);
         return savedCovers;
+    }
+    async saveChapterPage(
+        page: Express.Multer.File,
+        mangaId: number,
+        chapterId: number,
+        lang: LangType,
+    ): Promise<FileSaveReturnType> {
+        const key = join('mangas', `${mangaId}`, 'chapters', `${chapterId}`, lang);
+        const savedPage = await this.fileRepository.saveFiles([page], key);
+        return savedPage[0];
     }
 
     async deleteFiles(filesUrl: string[]): Promise<void> {

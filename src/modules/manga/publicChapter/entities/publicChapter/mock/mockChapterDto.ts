@@ -11,7 +11,8 @@ export const mockChapterDto: ChapterDto = {
     nextChapterId: 3,
     pages: {
         pageCount: 1,
-        pages: [{ page: 1, src: 'http://wrong-way.com' }],
+        pages: [{ page: 1, src: 'pass/pass/pass', type: 'image' }],
     },
     isUserLiked: false,
+    isUserViewed: false,
 };

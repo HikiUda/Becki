@@ -3,7 +3,7 @@ import { FileRepositoryInterface } from './interfaces/fileRepository';
 import { join } from 'path';
 import { access, mkdir, rm } from 'fs/promises';
 import { FileSaveReturnType } from './types/file';
-import { saveFile, UrlLocalFileStorage } from './helpers/saveFile';
+import { saveFile } from './helpers/saveFile';
 import { clearEmptyDir } from './helpers/clearEmptyDir';
 
 @Injectable()
@@ -13,14 +13,7 @@ export class FileLocalRepository implements FileRepositoryInterface {
     async deleteFiles(filesUrl: string[]): Promise<void> {
         for (let i = 0; i < filesUrl.length; i++) {
             const url = filesUrl[i];
-            const filePath = join(
-                __dirname,
-                '..',
-                '..',
-                '..',
-                'static',
-                url.replace(UrlLocalFileStorage, ''),
-            );
+            const filePath = join(__dirname, '..', '..', '..', 'static', url);
             try {
                 await access(filePath);
                 await rm(filePath);

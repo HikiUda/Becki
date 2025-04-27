@@ -5,6 +5,7 @@ import { IndividualMangaModule } from './individualManga/individualManga.module'
 import { MangaCategoriesModule } from './mangaCategories/mangaCategories.module';
 import { MangaStatisticModule } from './mangaStatistic/mangaStatistic.module';
 import { PublicChapterModule } from './publicChapter/publicChapter.module';
+import { EditChapterModule } from './editChapter/editChapter.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { PublicChapterModule } from './publicChapter/publicChapter.module';
         MangaCategoriesModule,
         MangaStatisticModule,
         PublicChapterModule,
+        EditChapterModule,
     ],
 })
 export class MangaModule {}
