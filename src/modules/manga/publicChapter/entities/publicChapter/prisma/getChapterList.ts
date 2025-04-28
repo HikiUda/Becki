@@ -4,7 +4,6 @@ import { Prisma } from '@prisma/client';
 import { ChapterListItemDto } from '../dto/chapterList/chapterListItem.dto';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
 
-//TODO not get chapter with private=true
 const getChapterListORInput = (search: string): Prisma.ChaptersWhereInput[] => {
     const searchNumber = isNaN(Number(search)) ? undefined : Number(search);
     const OR: Prisma.ChaptersWhereInput[] = [];
@@ -25,9 +24,9 @@ export const getChapterList = async (mangaId: number, query: ChapterListQuery, u
     const { search, limit, page, order } = query;
     const skip = limit * (page - 1);
 
-    return await prisma.chapters.findMany({
+    const data = await prisma.chapters.findMany({
         where: {
-            AND: [{ mangaId }, { OR: getChapterListORInput(search) }],
+            AND: [{ mangaId }, { OR: getChapterListORInput(search) }, { private: false }],
         },
         orderBy: [{ tome: order }, { chapter: order }],
         skip,
@@ -35,14 +34,18 @@ export const getChapterList = async (mangaId: number, query: ChapterListQuery, u
         include: {
             title: true,
             usersView: !!userId && { where: { userId } },
-            manga: { select: { mangaStatistic: { select: { chapterCount: true } } } },
         },
     });
+    const chapterCount = await prisma.mangaStatistic.findUnique({
+        where: { mangaId },
+        select: { chapterCount: true },
+    });
+    return { data, chapterCount: chapterCount?.chapterCount || 0 };
 };
 export type GetChapterListReturnType = Prisma.PromiseReturnType<typeof getChapterList>;
 
 export function toChapterListItemDto(
-    data: GetChapterListReturnType,
+    data: GetChapterListReturnType['data'],
     lang: LangType,
 ): ChapterListItemDto[] {
     return data.map((chapter) => ({

@@ -5,6 +5,7 @@ import { EditedChpaterDto } from './dto/editedChapter.dto';
 import { MutateChapterDto } from './dto/mutateChapter.dto';
 import { EditChapterPagesService } from '../editChapterPages/editChapterPages.service';
 import { FileService } from 'src/modules/file/file.service';
+import { EditedChapterListPagination, EditedChapterListQuery } from './dto/editedChapterList';
 
 @Injectable()
 export class EditChapterService implements EditChapterServiceInterface {
@@ -15,6 +16,12 @@ export class EditChapterService implements EditChapterServiceInterface {
     ) {}
     async getEditedChapter(chapterId: number): Promise<EditedChpaterDto> {
         return await this.editChapterRepository.getEditedChapter(chapterId);
+    }
+    async getEditedChapterList(
+        mangaId: number,
+        query: EditedChapterListQuery,
+    ): Promise<EditedChapterListPagination> {
+        return await this.editChapterRepository.getEditedChapterList(mangaId, query);
     }
     async createChapter(mangaId: number, data: MutateChapterDto): Promise<EditedChpaterDto> {
         return await this.editChapterRepository.createChapter(mangaId, data);

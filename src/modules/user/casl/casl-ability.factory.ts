@@ -1,5 +1,4 @@
 import {
-    Ability,
     AbilityBuilder,
     createMongoAbility,
     ExtractSubjectType,
