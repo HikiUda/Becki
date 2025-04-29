@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { MangaGenresControllerInterface } from './interfaces/mangaGenresController';
 import { MangaGenresService } from './mangaGenres.service';
-import { CategoryDto } from '../../dto/category.dto';
-import { mockCategories } from '../../mock/mockCategories';
+import { CategoriesResponseArrayData } from '../../dto/category.dto';
+import { mockCategoriesResponseArrayData } from '../../mock/mockCategories';
 import { ApiResponse } from '@nestjs/swagger';
 import { GetCategoryQuery } from '../../dto/getCategoryQuery';
 
@@ -11,8 +11,8 @@ export class MangaGenresController implements MangaGenresControllerInterface {
     constructor(private mangaGenresService: MangaGenresService) {}
 
     @Get()
-    @ApiResponse({ example: mockCategories })
-    async getGenres(@Query() query: GetCategoryQuery): Promise<CategoryDto[]> {
+    @ApiResponse({ example: mockCategoriesResponseArrayData })
+    async getGenres(@Query() query: GetCategoryQuery): Promise<CategoriesResponseArrayData> {
         return await this.mangaGenresService.getGenres(query.search, query.lang);
     }
 }

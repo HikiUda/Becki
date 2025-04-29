@@ -4,7 +4,6 @@ import { z } from 'zod';
 export const ChapterPageTypeEnum = z.enum(['image', 'rive']);
 
 export const ChapterPageScheme = z.object({
-    page: z.number().int(),
     src: z.string(),
     type: ChapterPageTypeEnum,
 });

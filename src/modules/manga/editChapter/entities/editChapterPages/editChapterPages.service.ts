@@ -44,7 +44,6 @@ export class EditChapterPagesService implements EditChapterPagesServiceInterface
         const { pages, pageCount } = data;
         const savedPage = await this.fileService.saveChapterPage(page, mangaId, chapterId, lang);
         const newPage: ChapterPageType = {
-            page: pages.length ? pages[pages.length - 1].page + 1 : 1,
             src: savedPage.url,
             type: 'image',
         };
@@ -63,9 +62,7 @@ export class EditChapterPagesService implements EditChapterPagesServiceInterface
 
         if (pages[pageIndex].type === 'image') await this.fileService.deleteFiles([pageSrc]);
 
-        const newPages = pages
-            .slice(0, pageIndex)
-            .concat(pages.slice(pageIndex + 1).map((page) => ({ ...page, page: page.page - 1 })));
+        const newPages = pages.slice(0, pageIndex).concat(pages.slice(pageIndex + 1));
 
         await this.editChapterPagesRepository.setChapterPages(
             chapterId,

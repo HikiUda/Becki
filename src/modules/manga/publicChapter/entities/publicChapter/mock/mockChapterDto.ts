@@ -7,12 +7,12 @@ export const mockChapterDto: ChapterDto = {
     title: 'chapter title',
     mangaTitle: 'Manga Title',
     likeCount: 100,
-    prevChapterId: 1,
-    nextChapterId: 3,
     pages: {
         pageCount: 1,
-        pages: [{ page: 1, src: 'pass/pass/pass', type: 'image' }],
+        pages: [{ src: 'pass/pass/pass.jpg', type: 'image' }],
     },
     isUserLiked: false,
     isUserViewed: false,
+    prevChapterId: 1,
+    nextChapterId: 3,
 };

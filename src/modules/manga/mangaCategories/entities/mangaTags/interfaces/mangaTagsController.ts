@@ -1,6 +1,6 @@
-import { CategoryDto } from '../../../dto/category.dto';
+import { CategoriesResponseArrayData } from '../../../dto/category.dto';
 import { GetCategoryQuery } from '../../../dto/getCategoryQuery';
 
 export interface MangaTagsControllerInterface {
-    getTags: (query: GetCategoryQuery) => Promise<CategoryDto[]>;
+    getTags: (query: GetCategoryQuery) => Promise<CategoriesResponseArrayData>;
 }

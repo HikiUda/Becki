@@ -1,6 +1,6 @@
-import { CategoryDto } from '../../../dto/category.dto';
+import { CategoriesResponseArrayData } from '../../../dto/category.dto';
 import { GetCategoryQuery } from '../../../dto/getCategoryQuery';
 
 export interface MangaGenresControllerInterface {
-    getGenres: (query: GetCategoryQuery) => Promise<CategoryDto[]>;
+    getGenres: (query: GetCategoryQuery) => Promise<CategoriesResponseArrayData>;
 }
