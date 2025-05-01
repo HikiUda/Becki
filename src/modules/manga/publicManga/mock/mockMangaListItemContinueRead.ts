@@ -12,6 +12,7 @@ export const mockMangaListItemContinueRead: MangaListItemContinueReadDto = {
     tome: 1,
     readedChapters: 5,
     cover: 'http://wrong-way.com',
+    chapterId: 0,
 };
 
 export const mockMangaListItemContinueReadArray: MangaListItemContinueReadResponseArrayData = {

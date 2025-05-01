@@ -12,6 +12,7 @@ const getLastUpdatedMangasSelect = (): Prisma.ChaptersSelect => {
         tome: true,
         chapter: true,
         createdAt: true,
+        id: true,
     };
 };
 const getLastUpdatedMangasSelectManga = (lang: LangType): Prisma.MangaSelect => {
@@ -75,6 +76,7 @@ export function toMangaListItemLastUpdatedDto(
             tome: mangaData.tome,
             chapter: mangaData.chapter,
             chapterCreatedAt: mangaData.createdAt,
+            chapterId: mangaData.id,
         };
         if (mangaData.manga.title) {
             manga.title = mangaData.manga.title[lang]

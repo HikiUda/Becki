@@ -12,6 +12,7 @@ export const mockMangaListItemLastUpdated: MangaListItemLastUpdatedDto = {
     tome: 1,
     chapter: 2,
     chapterCreatedAt: new Date(),
+    chapterId: 0,
 };
 
 export const mockMangaListItemLastUpdatedArray: MangaListItemLastUpdatedPagination = {

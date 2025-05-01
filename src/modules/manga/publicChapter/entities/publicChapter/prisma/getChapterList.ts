@@ -36,11 +36,12 @@ export const getChapterList = async (mangaId: number, query: ChapterListQuery, u
             usersView: !!userId && { where: { userId } },
         },
     });
-    const chapterCount = await prisma.mangaStatistic.findUnique({
-        where: { mangaId },
-        select: { chapterCount: true },
+    const chapterCount = await prisma.chapters.count({
+        where: {
+            AND: [{ mangaId }, { OR: getChapterListORInput(search) }, { private: false }],
+        },
     });
-    return { data, chapterCount: chapterCount?.chapterCount || 0 };
+    return { data, chapterCount };
 };
 export type GetChapterListReturnType = Prisma.PromiseReturnType<typeof getChapterList>;
 

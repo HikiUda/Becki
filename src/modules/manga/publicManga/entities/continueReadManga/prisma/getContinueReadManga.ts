@@ -18,7 +18,7 @@ export const getContinueReadManga = async (userId: number, lang: LangType) => {
                     mangaStatistic: { select: { chapterCount: true } },
                 },
             },
-            lastChapter: { select: { chapter: true, tome: true } },
+            lastChapter: { select: { chapter: true, tome: true, id: true } },
         },
     });
     return data;
@@ -48,6 +48,7 @@ export async function toMangaListItemContinueReadDto(
                         ],
                     },
                 }),
+                chapterId: mangaData.lastChapter.id,
             };
             if (mangaData.manga.title) {
                 manga.title = mangaData.manga.title[lang]
