@@ -41,22 +41,23 @@ export class EditChapterPagesService implements EditChapterPagesServiceInterface
     ): Promise<ChapterPagesDto> {
         const data = await this.editChapterPagesRepository.getChapterPages(chapterId, lang);
         if (!data) throw new BadRequestException('Такой локализации главы не существует');
-        const { pages, pageCount } = data;
+        const { pages, pageCount, containerMaxWidth } = data;
         const savedPage = await this.fileService.saveChapterPage(page, mangaId, chapterId, lang);
         const newPage: ChapterPageType = {
             src: savedPage.url,
+
             type: 'image',
         };
         return await this.editChapterPagesRepository.setChapterPages(
             chapterId,
-            { pageCount: pageCount + 1, pages: pages.concat([newPage]) },
+            { pageCount: pageCount + 1, pages: pages.concat([newPage]), containerMaxWidth },
             lang,
         );
     }
     async deletePage(chapterId: number, pageSrc: string, lang: LangType): Promise<void> {
         const data = await this.editChapterPagesRepository.getChapterPages(chapterId, lang);
         if (!data) throw new BadRequestException('Такой локализации главы не существует');
-        const { pages, pageCount } = data;
+        const { pages, pageCount, containerMaxWidth } = data;
         const pageIndex = pages.findIndex((page) => page.src === pageSrc);
         if (pageIndex === -1) throw new BadRequestException('Такой страницы не существует');
 
@@ -66,7 +67,7 @@ export class EditChapterPagesService implements EditChapterPagesServiceInterface
 
         await this.editChapterPagesRepository.setChapterPages(
             chapterId,
-            { pageCount: pageCount - 1, pages: newPages },
+            { pageCount: pageCount - 1, pages: newPages, containerMaxWidth },
             lang,
         );
     }

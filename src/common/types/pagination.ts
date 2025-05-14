@@ -1,8 +1,12 @@
-export interface ResponseArrayData<T> {
-    data: T[];
+import { ApiProperty } from '@nestjs/swagger';
+
+export abstract class ResponseArrayData<T> {
+    abstract data: T[];
 }
 
-export interface Pagination<T> extends ResponseArrayData<T> {
+export abstract class Pagination<T> extends ResponseArrayData<T> {
+    @ApiProperty({ type: 'number', nullable: true })
     prevPage: number | null;
+    @ApiProperty({ type: 'number', nullable: true })
     nextPage: number | null;
 }

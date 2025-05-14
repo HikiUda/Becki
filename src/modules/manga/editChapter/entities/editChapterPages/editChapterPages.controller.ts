@@ -27,9 +27,7 @@ export class EditChapterPagesController implements EditChapterPagesControllerInt
 
     @Get()
     @ApiResponse({
-        example: {
-            mockChapterPages,
-        },
+        example: mockChapterPages,
     })
     async getChapterPages(
         @Param() ids: GetMangaChapterIdDto,

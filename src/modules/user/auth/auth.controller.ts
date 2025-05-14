@@ -19,13 +19,12 @@ import { Cookies } from 'src/common/decorators/cookie';
 //TODO inside module
 import { addRefreshCookie } from './helpers/addRefreshCookie';
 import { ApiResponse } from '@nestjs/swagger';
-import { mockAuthUser } from './mock/mockAuthUser';
 
 @Controller('auth')
 export class AuthController implements AuthControllerInterface {
     constructor(private authService: AuthService) {}
 
-    @ApiResponse({ example: mockAuthUser, status: 200 })
+    @ApiResponse({ type: ReturnAuthUser, status: 200 })
     @Post('registration')
     async registration(@Body() dto: CreateUserDto, @Res() res: Response): Promise<ReturnAuthUser> {
         const user = await this.authService.registration(dto);
@@ -33,7 +32,7 @@ export class AuthController implements AuthControllerInterface {
         res.status(HttpStatus.OK).json(user);
         return user;
     }
-    @ApiResponse({ example: mockAuthUser, status: 200 })
+    @ApiResponse({ type: ReturnAuthUser, status: 200 })
     @Post('login')
     async login(@Body() dto: LoginUserDto, @Res() res: Response): Promise<ReturnAuthUser> {
         const user = await this.authService.login(dto);
@@ -50,7 +49,7 @@ export class AuthController implements AuthControllerInterface {
         res.status(HttpStatus.OK).send();
         return;
     }
-    @ApiResponse({ example: mockAuthUser, status: 200 })
+    @ApiResponse({ type: ReturnAuthUser, status: 200 })
     @Get('refresh')
     async refresh(
         @Cookies('refresh') refresh: string,

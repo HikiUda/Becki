@@ -15,7 +15,9 @@ export interface EditedChapterListItemDto {
     private: boolean;
 }
 
-export type EditedChapterListPagination = Pagination<EditedChapterListItemDto>;
+export class EditedChapterListPagination extends Pagination<EditedChapterListItemDto> {
+    data: any;
+}
 
 export const EditedChapterListQueryScheme = z
     .object({

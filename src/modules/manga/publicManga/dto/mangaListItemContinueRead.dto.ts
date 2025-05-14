@@ -1,18 +1,20 @@
 import { ResponseArrayData } from 'src/common/types/pagination';
 import { MangaListItemBaseDto } from './mangaListItemBase.dto';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 
-export type MangaListItemContinueReadDto = Pick<
-    MangaListItemBaseDto,
-    | 'id'
-    | 'urlId'
-    | 'title'
-    | 'chapter'
-    | 'chapterCount'
-    | 'tome'
-    | 'readedChapters'
-    | 'cover'
-    | 'chapterId'
->;
+export class MangaListItemContinueReadDto extends PickType(MangaListItemBaseDto, [
+    'id',
+    'urlId',
+    'title',
+    'chapter',
+    'chapterCount',
+    'tome',
+    'readedChapters',
+    'cover',
+    'chapterId',
+] as const) {}
 
-export type MangaListItemContinueReadResponseArrayData =
-    ResponseArrayData<MangaListItemContinueReadDto>;
+export class MangaListItemContinueReadResponseArrayData extends ResponseArrayData<MangaListItemContinueReadDto> {
+    @ApiProperty({ type: [MangaListItemContinueReadDto] })
+    data: MangaListItemContinueReadDto[];
+}

@@ -4,7 +4,7 @@ import { prisma } from 'src/common/helpers/prisma';
 import { Prisma } from '@prisma/client';
 
 export const addLangChapterPages = async (chapterId: number, lang: LangType) => {
-    const pages: ChapterPagesDto = { pageCount: 0, pages: [] };
+    const pages: ChapterPagesDto = { pageCount: 0, pages: [], containerMaxWidth: 700 };
     const data: Prisma.ChapterPagesUpdateInput = {};
     data[lang] = { ...pages };
     const addedPages = await prisma.chapterPages.update({

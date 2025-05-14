@@ -1,9 +1,19 @@
 import { ResponseArrayData } from 'src/common/types/pagination';
 import { MangaListItemBaseDto } from './mangaListItemBase.dto';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 
-export type MangaListItemStatisticDto = Pick<
-    MangaListItemBaseDto,
-    'id' | 'urlId' | 'title' | 'type' | 'cover' | 'views' | 'likes' | 'bookmarks'
->;
+export class MangaListItemStatisticDto extends PickType(MangaListItemBaseDto, [
+    'id',
+    'urlId',
+    'title',
+    'type',
+    'cover',
+    'views',
+    'likes',
+    'bookmarks',
+] as const) {}
 
-export type MangaListItemStatisticResponseArrayData = ResponseArrayData<MangaListItemStatisticDto>;
+export class MangaListItemStatisticResponseArrayData extends ResponseArrayData<MangaListItemStatisticDto> {
+    @ApiProperty({ type: [MangaListItemStatisticDto] })
+    data: MangaListItemStatisticDto[];
+}

@@ -14,14 +14,11 @@ import { PublicMangaControllerInterface } from './interfaces/publicMangaControll
 import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItemLastUpdated.dto';
 import { MangaListItemLastUpdatedQueryDto } from './dto/lastUpdatedMangaQuery.dto';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { mockMangaListItemLastUpdatedArray } from '../../mock/mockMangaListItemLastUpdated';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { MangaListQueryDto } from './dto/getMangaListQuery';
-import { mockMangaListItemArray } from '../../mock/mockMangaListItem';
 import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
-import { mockMangaListItemStatisticArray } from '../../mock/mockMangaListItemStatistic.dto';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
 
 @Controller('manga')
@@ -30,7 +27,7 @@ export class PublicMangaController implements PublicMangaControllerInterface {
 
     @Get()
     @UseInterceptors(AuthInterceptor)
-    @ApiResponse({ example: mockMangaListItemArray })
+    @ApiOkResponse({ type: MangaListItemPagination })
     @ApiQuery({
         name: 'genres-tags-notGenres-notTags',
         required: false,
@@ -45,8 +42,10 @@ export class PublicMangaController implements PublicMangaControllerInterface {
 
     @Get('last-updated')
     @UseInterceptors(AuthInterceptor)
-    @ApiResponse({
-        example: mockMangaListItemLastUpdatedArray,
+    @ApiOperation({ summary: 'Optional auth endpoint' })
+    @ApiBearerAuth()
+    @ApiOkResponse({
+        type: MangaListItemLastUpdatedPagination,
         description: "scope 'my' for authorized users only",
     })
     async getLastUpdatedMangas(
@@ -57,8 +56,8 @@ export class PublicMangaController implements PublicMangaControllerInterface {
         return await this.publicMangaService.getLastUpdatedMangas(query, req.user?.id);
     }
     @Get('related/:id')
-    @ApiResponse({
-        example: mockMangaListItemStatisticArray,
+    @ApiOkResponse({
+        type: MangaListItemStatisticResponseArrayData,
     })
     @ApiMangaIdParam()
     async getRelatedManga(

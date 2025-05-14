@@ -3,12 +3,14 @@ import { ChapterActionControllerInterface } from './interfaces/chapterActionCont
 import { ChapterActionService } from './chapterAction.service';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('manga/chapter/:id')
 @UseGuards(JwtAuthGuard)
 export class ChapterActionController implements ChapterActionControllerInterface {
     constructor(private chapterActionService: ChapterActionService) {}
     @Patch('like')
+    @ApiResponse({ status: 204 })
     async setUserLikeChapter(
         @Param('id', new ValidateMangaIdPipe()) chapterId: number,
         @Req() req: AuthUserRequest,
@@ -16,6 +18,7 @@ export class ChapterActionController implements ChapterActionControllerInterface
         await this.chapterActionService.setUserLikeChapter(chapterId, req.user.id);
     }
     @Patch('view')
+    @ApiResponse({ status: 204 })
     async setUserViewChapter(
         @Param('id', new ValidateMangaIdPipe()) chapterId: number,
         @Req() req: AuthUserRequest,

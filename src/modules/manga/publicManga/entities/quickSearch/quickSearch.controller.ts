@@ -17,21 +17,22 @@ import {
     OptionalAuthUserRequest,
 } from 'src/modules/user/auth';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
-import { mockMangaListItemStatisticArray } from '../../mock/mockMangaListItemStatistic.dto';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ResponseArrayData } from 'src/common/types/pagination';
 import { DeleteSearchDto } from './dto/deleteSearchDto';
 import { QuickSearchQueryDto } from './dto/QuickSearchQueryDto';
+import { QuickSearchLastDto } from './dto/quickSearchLast.dto';
 
 @Controller('manga/quick-search')
 export class QuickSearchController implements QuickSearchControllerInterface {
     constructor(private quickSearchService: QuickSearchService) {}
 
     @Get()
-    @ApiResponse({
-        example: mockMangaListItemStatisticArray,
-        description: 'Automaticly save user search',
+    @ApiOkResponse({
+        type: MangaListItemStatisticResponseArrayData,
     })
+    @ApiOperation({ summary: 'Optional auth endpoint' })
+    @ApiBearerAuth()
     @UseInterceptors(AuthInterceptor)
     async getMangaQuickSearch(
         @Query() query: QuickSearchQueryDto,
@@ -49,8 +50,8 @@ export class QuickSearchController implements QuickSearchControllerInterface {
     @Get('last')
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @ApiResponse({
-        example: { data: ['search', 'search2'] },
+    @ApiOkResponse({
+        type: QuickSearchLastDto,
     })
     async getUserLastSearchQueries(
         @Req() req: AuthUserRequest,
@@ -62,6 +63,7 @@ export class QuickSearchController implements QuickSearchControllerInterface {
     @Delete('last')
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
+    @ApiResponse({ status: 204 })
     async deleteUserLastSearchQuery(
         @Req() req: AuthUserRequest,
         @Body() body: DeleteSearchDto,

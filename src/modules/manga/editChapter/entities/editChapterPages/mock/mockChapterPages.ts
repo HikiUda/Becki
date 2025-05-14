@@ -8,4 +8,5 @@ export const mockChapterPage: ChapterPageType = {
 export const mockChapterPages: ChapterPagesDto = {
     pageCount: 3,
     pages: [mockChapterPage, mockChapterPage, { ...mockChapterPage, type: 'rive' }],
+    containerMaxWidth: 700,
 };

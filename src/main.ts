@@ -9,7 +9,7 @@ async function bootstrap() {
     //TODO cors
     app.enableCors({
         credentials: true,
-        origin: 'http://localhost:3001',
+        origin: 'http://localhost:3000',
     });
     app.use(cookieParser());
     app.useGlobalPipes(new ZodValidationPipe());
@@ -17,6 +17,7 @@ async function bootstrap() {
         .setTitle('Becki here!')
         .setDescription('All my api for you!')
         .setVersion('1.0')
+        .addBearerAuth()
         .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, documentFactory);
