@@ -3,9 +3,12 @@ import { ChapterActionControllerInterface } from './interfaces/chapterActionCont
 import { ChapterActionService } from './chapterAction.service';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
 
 @Controller('manga/chapter/:id')
+@ApiBearerAuth()
+@ApiCustomUnauthorizedResponse()
 @UseGuards(JwtAuthGuard)
 export class ChapterActionController implements ChapterActionControllerInterface {
     constructor(private chapterActionService: ChapterActionService) {}

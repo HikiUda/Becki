@@ -1,13 +1,19 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import {
+    ApiBody,
+    ApiConsumes,
+    ApiExtraModels,
+    ApiOkResponse,
+    getSchemaPath,
+} from '@nestjs/swagger';
 import { MutateMangaDto } from '../dto/mutateManga/mutateManga.dto';
-import { mockEditedManga } from '../mock/mockEditedManga';
+import { EditedMangaDto } from '../dto/editedmanga.dto';
 
 export function ApiMutateMangaDto(withCover: boolean = true) {
     return applyDecorators(
         ApiExtraModels(MutateMangaDto),
         ApiConsumes('multipart/form-data'),
-        ApiResponse({ example: mockEditedManga }),
+        ApiOkResponse({ type: EditedMangaDto }),
         ApiBody({
             schema: {
                 type: 'object',

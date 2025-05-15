@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { createStatisticItem } from './statisticItem.Scheme';
+import { createStatisticItem, PercentItemScheme, StatisticItemDto } from './statisticItem.Scheme';
+import { title } from 'process';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { ApiProperty } from '@nestjs/swagger';
 
 export const RateStatisticScheme = z.object({
     rateStatistic: z.tuple([
@@ -20,4 +23,29 @@ export type RateStatisticType = z.infer<typeof RateStatisticScheme>;
 export interface RateFullStatisticType extends RateStatisticType {
     rate: number;
     rateCount: number;
+}
+
+export class ApiRateFullStatisticDto implements RateFullStatisticType {
+    @ApiProperty()
+    rate: number;
+    @ApiProperty()
+    rateCount: number;
+    @ApiProperty({
+        type: [StatisticItemDto],
+        minItems: 10,
+        maxItems: 10,
+        description: 'Массив из 10 элементов рейтинга от 1 до 10',
+    })
+    rateStatistic: [
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+    ];
 }

@@ -6,7 +6,7 @@ import { MangaListItemStatisticDto } from '../../dto/mangaListItemStatistic.dto'
 import { saveUserLastSearchQueries } from './prisma/userLastSearchQueries/saveUserLastSearchQueries';
 import { getUserLastSearchQueries } from './prisma/userLastSearchQueries/getUserLastSearchQueries';
 import { deleteUserLastSearchQuery } from './prisma/userLastSearchQueries/deleteUserLastSearchQuery';
-import { toMangaItemListStatisticDto } from '../../prisma/getMangaListStatistic';
+import { toMangaListStatisticDto } from '../../prisma/getMangaListStatistic';
 
 @Injectable()
 export class QuickSearchRepository implements QuickSearchRepositoryInterface {
@@ -15,7 +15,7 @@ export class QuickSearchRepository implements QuickSearchRepositoryInterface {
         lang: LangType,
     ): Promise<MangaListItemStatisticDto[]> {
         const mangas = await getMangaQuickSearch(search);
-        return toMangaItemListStatisticDto(mangas, lang);
+        return toMangaListStatisticDto(mangas, lang);
     }
     async saveUserLastSearchQueries(search: string, userId: number): Promise<void> {
         await saveUserLastSearchQueries(search, userId);

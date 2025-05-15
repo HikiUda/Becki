@@ -1,8 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { ResponseArrayData } from 'src/common/types/pagination';
 
-export interface MangaCoverDto {
+export class MangaCoverDto {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     cover: string;
 }
 
-export type MangaCoverArrayData = ResponseArrayData<MangaCoverDto>;
+export class MangaCoverArrayData extends ResponseArrayData<MangaCoverDto> {
+    @ApiProperty({ type: [MangaCoverDto] })
+    data: MangaCoverDto[];
+}

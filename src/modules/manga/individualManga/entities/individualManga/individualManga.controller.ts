@@ -7,11 +7,10 @@ import { MangaDto } from './dto/manga.dto';
 import { OptionalAuthUserRequest } from 'src/modules/user/auth/types/user';
 
 import { AuthInterceptor } from 'src/modules/user/auth';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { MangaCoverArrayData } from './dto/mangaCovers.dto';
-import { mockManga } from './mock/mockManga';
-import { mockMangaCoverArrayData } from './mock/mockMangaCovers';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
+import { ApiCustomNotFoundResponse } from 'src/common/decorators/api40xResponses';
 
 @ApiMangaIdParam()
 @Controller('manga/byId/:id')
@@ -19,8 +18,11 @@ export class IndividualMangaController implements IndividualMangaControllerInter
     constructor(private individualMangaService: IndividualMangaService) {}
 
     @Get()
+    @ApiOperation({ summary: 'Optional auth endpoint' })
+    @ApiBearerAuth()
+    @ApiOkResponse({ type: MangaDto })
+    @ApiCustomNotFoundResponse()
     @UseInterceptors(AuthInterceptor)
-    @ApiResponse({ example: mockManga })
     async getManga(
         @Req() req: OptionalAuthUserRequest,
         @Param('id', new ValidateMangaIdPipe()) id: number,
@@ -30,7 +32,7 @@ export class IndividualMangaController implements IndividualMangaControllerInter
     }
 
     @Get('covers')
-    @ApiResponse({ example: mockMangaCoverArrayData })
+    @ApiOkResponse({ type: MangaCoverArrayData })
     async getMangaCovers(
         @Param('id', new ValidateMangaIdPipe()) id: number,
     ): Promise<MangaCoverArrayData> {

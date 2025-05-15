@@ -21,17 +21,21 @@ import { MangaFilesUploadType } from '../../types/fileUpload';
 import { ValidateMangaIdPipe } from '../../../common/pipes/ValidateMangaIdPipe';
 import { EditMangaService } from './editManga.service';
 import { ParseJsonPipe } from 'src/modules/manga/common/pipes/ParseJsonPipe';
-import { ApiResponse } from '@nestjs/swagger';
-import { mockEditedManga } from './mock/mockEditedManga';
+import { ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiMutateMangaDto } from './decorators/ApiMutateMangaDto';
 import { ParseMutateMangaDtoPipe } from '../../pipe/ParseMutateMangaDtoPipe';
+import {
+    ApiCustomBadRequestResponse,
+    ApiCustomNotFoundResponse,
+} from 'src/common/decorators/api40xResponses';
 
 @Controller('manga/edit')
 export class EditMangaController implements EditMangaControllerInterface {
     constructor(private editMangaService: EditMangaService) {}
 
     @Get(':id')
-    @ApiResponse({ example: mockEditedManga })
+    @ApiOkResponse({ type: EditedMangaDto })
+    @ApiCustomNotFoundResponse()
     async getEditedManga(
         @Param('id', new ValidateMangaIdPipe()) id: number,
         @Query() query: LangQueryDto,
@@ -41,6 +45,7 @@ export class EditMangaController implements EditMangaControllerInterface {
 
     @Post()
     @ApiMutateMangaDto()
+    @ApiCustomBadRequestResponse()
     @UseInterceptors(
         FileFieldsInterceptor([
             { name: 'banner', maxCount: 1 },
@@ -57,6 +62,7 @@ export class EditMangaController implements EditMangaControllerInterface {
 
     @Put(':id')
     @ApiMutateMangaDto(false)
+    @ApiCustomBadRequestResponse()
     @UseInterceptors(FileInterceptor('banner'))
     async updateManga(
         @Param('id', new ValidateMangaIdPipe()) id: number,
@@ -68,6 +74,7 @@ export class EditMangaController implements EditMangaControllerInterface {
         return await this.editMangaService.updateManga(body, id, query.lang, banner);
     }
     @Delete(':id')
+    @ApiResponse({ status: 204 })
     async deleteManga(
         @Param('id', new ValidateMangaIdPipe()) id: number,
         @Query() query: LangQueryDto,

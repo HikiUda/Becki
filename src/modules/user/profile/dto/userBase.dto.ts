@@ -5,6 +5,6 @@ export class UserBaseDto {
     id: number;
     @ApiProperty()
     name: string;
-    @ApiProperty()
+    @ApiProperty({ type: 'string', nullable: true })
     avatar: string | null;
 }

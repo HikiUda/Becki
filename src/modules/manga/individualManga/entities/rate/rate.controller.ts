@@ -4,18 +4,19 @@ import { RateService } from './rate.service';
 import { SetUserMangaRateDto, UserMangaRateDto } from './dto/userMangaRate.dto';
 import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
-import { mockUserMangaRate } from './mock/mockUserMangaRate';
+import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
 
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @ApiMangaIdParam()
-@ApiResponse({ example: mockUserMangaRate })
+@ApiCustomUnauthorizedResponse()
+@UseGuards(JwtAuthGuard)
 @Controller('manga/byId/:id/rate')
 export class RateController implements RateControllerInterface {
     constructor(private rateService: RateService) {}
     @Get()
+    @ApiOkResponse({ type: UserMangaRateDto })
     async getUserMangaRate(
         @Req() req: AuthUserRequest,
         @Param('id', new ValidateMangaIdPipe()) id: number,
@@ -23,6 +24,7 @@ export class RateController implements RateControllerInterface {
         return await this.rateService.getUserMangaRate(id, req.user.id);
     }
     @Patch()
+    @ApiOkResponse({ type: UserMangaRateDto })
     async setUserMangaRate(
         @Req() req: AuthUserRequest,
         @Param('id', new ValidateMangaIdPipe()) id: number,

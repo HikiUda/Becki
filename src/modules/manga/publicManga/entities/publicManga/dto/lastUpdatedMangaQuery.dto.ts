@@ -3,7 +3,9 @@ import { LangQueryScheme } from 'src/common/dto/query/langQuery.dto';
 import { PaginationQueryScheme } from 'src/common/dto/query/pagination.dto';
 import { z } from 'zod';
 
-const MangaListItemLastUpdatedScopeEnum = z.enum(['all', 'popular', 'my']);
+const MangaListItemLastUpdatedScopeEnum = z
+    .enum(['all', 'popular', 'my'])
+    .describe('"my" for authorized users');
 export type MangaListItemLastUpdatedScope = z.infer<typeof MangaListItemLastUpdatedScopeEnum>;
 const MangaListItemLastUpdatedQueryScheme = z
     .object({

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { EditChapterRepositoryInterface } from './interfaces/editChapterRepository';
 import { EditedChpaterDto } from './dto/editedChapter.dto';
 import { getEditedChapter, toEditedChapterDto } from './prisma/getEditedChapter';
@@ -15,7 +15,7 @@ export class EditChapterRepository implements EditChapterRepositoryInterface {
     constructor() {}
     async getEditedChapter(chapterId: number): Promise<EditedChpaterDto> {
         const data = await getEditedChapter(chapterId);
-        if (!data) throw new BadRequestException('Такой главы не существует');
+        if (!data) throw new NotAcceptableException('Такой главы не существует');
         return toEditedChapterDto(data);
     }
     async getEditedChapterList(

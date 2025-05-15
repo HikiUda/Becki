@@ -5,18 +5,26 @@ import { PaginationQueryScheme } from 'src/common/dto/query/pagination.dto';
 import { z } from 'zod';
 
 import { Pagination } from 'src/common/types/pagination';
+import { ApiProperty } from '@nestjs/swagger';
 
-export interface EditedChapterListItemDto {
+export class EditedChapterListItemDto {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     tome: number;
+    @ApiProperty()
     chapter: number;
+    @ApiProperty({ type: 'string', nullable: true })
     title: string | null;
+    @ApiProperty()
     createdAt: Date;
+    @ApiProperty()
     private: boolean;
 }
 
 export class EditedChapterListPagination extends Pagination<EditedChapterListItemDto> {
-    data: any;
+    @ApiProperty({ type: [EditedChapterListItemDto] })
+    data: EditedChapterListItemDto[];
 }
 
 export const EditedChapterListQueryScheme = z

@@ -14,25 +14,21 @@ import { PublicMangaControllerInterface } from './interfaces/publicMangaControll
 import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItemLastUpdated.dto';
 import { MangaListItemLastUpdatedQueryDto } from './dto/lastUpdatedMangaQuery.dto';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { MangaListQueryDto } from './dto/getMangaListQuery';
 import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
+import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {
     constructor(private publicMangaService: PublicMangaService) {}
 
     @Get()
-    @UseInterceptors(AuthInterceptor)
     @ApiOkResponse({ type: MangaListItemPagination })
-    @ApiQuery({
-        name: 'genres-tags-notGenres-notTags',
-        required: false,
-        description: 'Comma-separated list of  IDs, e.g. genres=1,3,4',
-    })
+    @UseInterceptors(AuthInterceptor)
     async getMangaList(
         @Req() req: OptionalAuthUserRequest,
         @Query() query: MangaListQueryDto,
@@ -41,13 +37,14 @@ export class PublicMangaController implements PublicMangaControllerInterface {
     }
 
     @Get('last-updated')
-    @UseInterceptors(AuthInterceptor)
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
     @ApiOkResponse({
         type: MangaListItemLastUpdatedPagination,
         description: "scope 'my' for authorized users only",
     })
+    @ApiCustomUnauthorizedResponse()
+    @UseInterceptors(AuthInterceptor)
     async getLastUpdatedMangas(
         @Req() req: OptionalAuthUserRequest,
         @Query() query: MangaListItemLastUpdatedQueryDto,

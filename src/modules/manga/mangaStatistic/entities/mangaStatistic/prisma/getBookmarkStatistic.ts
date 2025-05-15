@@ -1,6 +1,6 @@
 import { prisma } from 'src/common/helpers/prisma';
 import { BookmarkStatisticScheme, BookmarkStatisticType } from '../dto/bookmarkStatistic';
-import { emptyBookmarkStatistic } from '../../../mock/mockBookmarkStatistic';
+import { mockBookmarkStatistic } from '../../../mock/mockBookmarkStatistic';
 
 export const getBookmarkStatistic = async (
     mangaId: number,
@@ -17,5 +17,5 @@ export const getBookmarkStatistic = async (
         data.mangaStatistic.bookmarkStatistic,
     );
 
-    return bookmarkStatistic.success ? bookmarkStatistic.data : emptyBookmarkStatistic;
+    return bookmarkStatistic.success ? bookmarkStatistic.data : mockBookmarkStatistic;
 };

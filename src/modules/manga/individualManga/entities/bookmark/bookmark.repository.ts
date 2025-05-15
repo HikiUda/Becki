@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { BookmarkRepositoryInterface } from './interfaces/bookmarkRepository';
-import { PrismaService } from 'src/common/services/prisma.service';
 import { UserMangaBookmarkDto } from './dto/userMangaBookmark.dto';
 import { Bookmarks } from '@prisma/client';
 import { deleteUserMangaBookmark } from './prisma/deleteUserMangaBookmark';
@@ -9,7 +8,7 @@ import { getUserMangaBookmark, toUserMangaBookmarkDto } from './prisma/getUserMa
 
 @Injectable()
 export class BookmarkRepository implements BookmarkRepositoryInterface {
-    constructor(private prisma: PrismaService) {}
+    constructor() {}
     async getUserMangaBookmark(mangaId: number, userId: number): Promise<UserMangaBookmarkDto> {
         const userBookmark = await getUserMangaBookmark(mangaId, userId);
         return toUserMangaBookmarkDto(userBookmark, mangaId, userId);

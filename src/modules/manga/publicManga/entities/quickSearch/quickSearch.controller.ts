@@ -22,6 +22,7 @@ import { ResponseArrayData } from 'src/common/types/pagination';
 import { DeleteSearchDto } from './dto/deleteSearchDto';
 import { QuickSearchQueryDto } from './dto/QuickSearchQueryDto';
 import { QuickSearchLastDto } from './dto/quickSearchLast.dto';
+import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
 
 @Controller('manga/quick-search')
 export class QuickSearchController implements QuickSearchControllerInterface {
@@ -48,11 +49,12 @@ export class QuickSearchController implements QuickSearchControllerInterface {
     }
 
     @Get('last')
-    @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOkResponse({
         type: QuickSearchLastDto,
     })
+    @ApiCustomUnauthorizedResponse()
+    @UseGuards(JwtAuthGuard)
     async getUserLastSearchQueries(
         @Req() req: AuthUserRequest,
     ): Promise<ResponseArrayData<string>> {
@@ -61,9 +63,10 @@ export class QuickSearchController implements QuickSearchControllerInterface {
     }
 
     @Delete('last')
-    @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiResponse({ status: 204 })
+    @ApiCustomUnauthorizedResponse()
+    @UseGuards(JwtAuthGuard)
     async deleteUserLastSearchQuery(
         @Req() req: AuthUserRequest,
         @Body() body: DeleteSearchDto,

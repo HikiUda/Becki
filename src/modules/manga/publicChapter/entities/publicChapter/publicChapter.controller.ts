@@ -14,10 +14,10 @@ export class PublicChapterController implements PublicChapterControllerInterface
     constructor(private publicChapterService: PublicChapterService) {}
 
     @Get('chapter/:id')
-    @UseInterceptors(AuthInterceptor)
     @ApiOkResponse({ type: ChapterDto })
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
+    @UseInterceptors(AuthInterceptor)
     async getChapter(
         @Param('id', new ValidateMangaIdPipe()) chapterId: number,
         @Query() query: LangQueryDto,
@@ -27,10 +27,10 @@ export class PublicChapterController implements PublicChapterControllerInterface
     }
 
     @Get(':mangaId/chapters')
-    @UseInterceptors(AuthInterceptor)
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
     @ApiOkResponse({ type: ChapterListPagination })
+    @UseInterceptors(AuthInterceptor)
     async getChapterList(
         @Param('mangaId', new ValidateMangaIdPipe()) mangaId: number,
         @Query() query: ChapterListQuery,

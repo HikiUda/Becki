@@ -1,9 +1,13 @@
 import { createZodDto } from '@anatine/zod-nestjs';
+import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export interface UserMangaRateDto {
+export class UserMangaRateDto {
+    @ApiProperty({ type: 'number', nullable: true })
     rate: number | null;
+    @ApiProperty()
     mangaId: number;
+    @ApiProperty()
     userId: number;
 }
 

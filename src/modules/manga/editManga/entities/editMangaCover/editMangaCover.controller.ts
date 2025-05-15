@@ -16,15 +16,15 @@ import { EditedMangaCoverResponseArrayData } from './dto/editedMangaCover.dto';
 import { MangaFilesUploadType } from '../../types/fileUpload';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { DeleleMangaCoversDto } from './dto/deleteMangaCoversDto';
-import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
-import { mockEditedMangaCoversResponseArrayData } from './mock/mockEditedMangaCovers';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
+import { ApiCustomBadRequestResponse } from 'src/common/decorators/api40xResponses';
 
 @Controller('manga/edit/:id/covers')
 export class EditMangaCoverController implements EditMangaCoverControllerInterface {
     constructor(private editMangaCoverService: EditMangaCoverService) {}
 
     @Get()
-    @ApiResponse({ example: mockEditedMangaCoversResponseArrayData })
+    @ApiOkResponse({ type: EditedMangaCoverResponseArrayData })
     async getMangaCovers(
         @Param('id', new ValidateMangaIdPipe()) id: number,
     ): Promise<EditedMangaCoverResponseArrayData> {
@@ -49,7 +49,8 @@ export class EditMangaCoverController implements EditMangaCoverControllerInterfa
             },
         },
     })
-    @ApiResponse({ example: mockEditedMangaCoversResponseArrayData })
+    @ApiOkResponse({ type: EditedMangaCoverResponseArrayData })
+    @ApiCustomBadRequestResponse()
     @UseInterceptors(FileFieldsInterceptor([{ name: 'covers', maxCount: 5 }]))
     async addMangaCovers(
         @Param('id', new ValidateMangaIdPipe()) id: number,
@@ -62,6 +63,7 @@ export class EditMangaCoverController implements EditMangaCoverControllerInterfa
     }
 
     @Delete()
+    @ApiResponse({ status: 204 })
     async deleteMangaCovers(@Body() body: DeleleMangaCoversDto): Promise<void> {
         await this.editMangaCoverService.deleteMangaCovers(body.coversId);
     }

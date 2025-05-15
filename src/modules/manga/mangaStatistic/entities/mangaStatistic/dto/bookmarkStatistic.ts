@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Bookmarks } from '@prisma/client';
-import { createStatisticItem } from './statisticItem.Scheme';
+import { createStatisticItem, StatisticItemDto } from './statisticItem.Scheme';
+import { ApiProperty } from '@nestjs/swagger';
 
 export const BookmarkStatisticScheme = z.object({
     all: z.number().int(),
@@ -14,3 +15,22 @@ export const BookmarkStatisticScheme = z.object({
 });
 
 export type BookmarkStatisticType = z.infer<typeof BookmarkStatisticScheme>;
+
+export class ApiBookmarkStatisticDto implements BookmarkStatisticType {
+    @ApiProperty()
+    all: number;
+    @ApiProperty({
+        type: [StatisticItemDto],
+        minItems: 5,
+        maxItems: 5,
+        description:
+            'Массив из 5 элементов вида закладок. Порядок Reading, Planned, Readed, Abandoned, Postponed',
+    })
+    bookmarks: [
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+        StatisticItemDto,
+    ];
+}

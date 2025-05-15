@@ -1,12 +1,18 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { ResponseArrayData } from 'src/common/types/pagination';
 
-export interface CategoryDto {
+export class CategoryDto {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     title: string;
 }
 
-export type CategoriesResponseArrayData = ResponseArrayData<CategoryDto>;
+export class CategoriesResponseArrayData extends ResponseArrayData<CategoryDto> {
+    @ApiProperty({ type: [CategoryDto] })
+    data: CategoryDto[];
+}
 
 export function toCategoriesDto(
     categories: { id: number; ru: string; en: string | null }[],

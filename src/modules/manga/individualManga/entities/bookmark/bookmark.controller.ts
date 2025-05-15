@@ -5,19 +5,20 @@ import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
 import { UserMangaBookmarkDto } from './dto/userMangaBookmark.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { BookmarkDto } from 'src/common/dto/manga/bookmarks.dto';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
-import { mockUserMangaBookmark } from './mock/bookmark';
+import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
+import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
 
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @ApiMangaIdParam()
+@ApiCustomUnauthorizedResponse()
+@UseGuards(JwtAuthGuard)
 @Controller('manga/byId/:id/bookmark')
 export class BookmarkController implements BookmarkControllerInterface {
     constructor(private bookmarkService: BookmarkService) {}
 
     @Get()
-    @ApiResponse({ example: mockUserMangaBookmark })
+    @ApiOkResponse({ type: UserMangaBookmarkDto })
     async getUserMangaBookmark(
         @Param('id', new ValidateMangaIdPipe()) mangaId: number,
         @Req() req: AuthUserRequest,
@@ -26,7 +27,7 @@ export class BookmarkController implements BookmarkControllerInterface {
     }
 
     @Patch()
-    @ApiResponse({ example: mockUserMangaBookmark })
+    @ApiOkResponse({ type: UserMangaBookmarkDto })
     async setUserMangaBookmark(
         @Param('id', new ValidateMangaIdPipe()) mangaId: number,
         @Req() req: AuthUserRequest,
@@ -35,6 +36,7 @@ export class BookmarkController implements BookmarkControllerInterface {
         return await this.bookmarkService.setUserMangaBookmark(mangaId, req.user.id, body.bookmark);
     }
     @Delete()
+    @ApiResponse({ status: 204 })
     async deleteUserMangaBookmark(
         @Param('id', new ValidateMangaIdPipe()) mangaId: number,
         @Req() req: AuthUserRequest,

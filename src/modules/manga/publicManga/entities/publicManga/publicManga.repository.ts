@@ -15,7 +15,7 @@ import { getPagination } from 'src/common/helpers/pagination/getPagination';
 import { LangType } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
 import { getRelatedManga } from './prisma/getRelatedManga/getRelatedManga';
-import { toMangaItemListStatisticDto } from '../../prisma/getMangaListStatistic';
+import { toMangaListStatisticDto } from '../../prisma/getMangaListStatistic';
 
 @Injectable()
 export class PublicMangaRepository implements PublicMangaRepositoryInterface {
@@ -52,7 +52,7 @@ export class PublicMangaRepository implements PublicMangaRepositoryInterface {
         lang: LangType,
     ): Promise<MangaListItemStatisticResponseArrayData> {
         const data = await getRelatedManga(mangaId);
-        const manga = toMangaItemListStatisticDto(data, lang);
+        const manga = toMangaListStatisticDto(data, lang);
         return { data: manga };
     }
 }

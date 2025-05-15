@@ -18,16 +18,15 @@ import { GetMangaChapterIdDto } from '../../dto/getMangaChapterId.dto';
 import { DeleteChapterPageDto } from './dto/deleteChapterPage.dto';
 import { AddPageQuery } from './dto/addPageQuery';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
-import { mockChapterPages } from './mock/mockChapterPages';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 
 @Controller('manga/edit/:mangaId/chapter/:chapterId/pages')
 export class EditChapterPagesController implements EditChapterPagesControllerInterface {
     constructor(private editChapterPagesService: EditChapterPagesService) {}
 
     @Get()
-    @ApiResponse({
-        example: mockChapterPages,
+    @ApiOkResponse({
+        type: ChapterPagesDto,
     })
     async getChapterPages(
         @Param() ids: GetMangaChapterIdDto,
@@ -37,10 +36,8 @@ export class EditChapterPagesController implements EditChapterPagesControllerInt
     }
 
     @Put()
-    @ApiResponse({
-        example: {
-            mockChapterPages,
-        },
+    @ApiOkResponse({
+        type: ChapterPagesDto,
     })
     async setChapterPages(
         @Param() ids: GetMangaChapterIdDto,
@@ -51,10 +48,8 @@ export class EditChapterPagesController implements EditChapterPagesControllerInt
     }
 
     @Post('lang')
-    @ApiResponse({
-        example: {
-            mockChapterPages,
-        },
+    @ApiOkResponse({
+        type: ChapterPagesDto,
     })
     async addLangChapterPages(
         @Param() ids: GetMangaChapterIdDto,
@@ -64,6 +59,7 @@ export class EditChapterPagesController implements EditChapterPagesControllerInt
     }
 
     @Delete('lang')
+    @ApiResponse({ status: 204 })
     async deleteLangChapterPages(
         @Param() ids: GetMangaChapterIdDto,
         @Body() body: LangQueryDto,
@@ -73,10 +69,8 @@ export class EditChapterPagesController implements EditChapterPagesControllerInt
 
     @Post()
     @ApiConsumes('multipart/form-data')
-    @ApiResponse({
-        example: {
-            mockChapterPages,
-        },
+    @ApiOkResponse({
+        type: ChapterPagesDto,
         description: 'Возвращает данные в ответе только если returnValue=true',
     })
     @ApiBody({
@@ -110,6 +104,7 @@ export class EditChapterPagesController implements EditChapterPagesControllerInt
     }
 
     @Delete()
+    @ApiResponse({ status: 204 })
     async deletePage(
         @Param() ids: GetMangaChapterIdDto,
         @Body() body: DeleteChapterPageDto,

@@ -26,7 +26,7 @@ export type GetMangaListStatisticReturnType = Prisma.PromiseReturnType<
     typeof getMangaListStatistic
 >;
 
-export function toMangaItemListStatisticDto(
+export function toMangaListStatisticDto(
     data: GetMangaListStatisticReturnType,
     lang: LangType,
 ): MangaListItemStatisticDto[] {

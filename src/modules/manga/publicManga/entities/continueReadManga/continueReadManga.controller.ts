@@ -6,9 +6,11 @@ import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
 import { MangaListItemContinueReadResponseArrayData } from '../../dto/mangaListItemContinueRead.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
+import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
 
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
+@ApiCustomUnauthorizedResponse()
+@UseGuards(JwtAuthGuard)
 @Controller('manga/continue-read')
 export class ContinueReadMangaController implements ContinueReadMangaControllerInterface {
     constructor(private continueReadMangaService: ContinueReadMangaService) {}
