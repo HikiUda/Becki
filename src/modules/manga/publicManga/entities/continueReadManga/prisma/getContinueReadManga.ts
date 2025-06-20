@@ -43,6 +43,7 @@ export async function toMangaListItemContinueReadDto(
                 readedChapters: await prisma.chapters.count({
                     where: {
                         AND: [
+                            { tome: { lte: mangaData.lastChapter.tome } },
                             { chapter: { lte: mangaData.lastChapter.chapter } },
                             { mangaId: mangaData.manga.id },
                         ],

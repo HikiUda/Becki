@@ -8,18 +8,21 @@ import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMang
 import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
 import { ChapterDto } from './dto/chapter.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { MangaIdsType } from 'src/modules/manga/common/types/mangaTypes';
+import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
 
 @Controller('manga')
 export class PublicChapterController implements PublicChapterControllerInterface {
     constructor(private publicChapterService: PublicChapterService) {}
 
-    @Get('chapter/:id')
+    @Get('chapter/:chapterId')
     @ApiOkResponse({ type: ChapterDto })
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
+    @ApiMangaIdParam('chapterId')
     @UseInterceptors(AuthInterceptor)
     async getChapter(
-        @Param('id', new ValidateMangaIdPipe()) chapterId: number,
+        @Param('chapterId', new ValidateMangaIdPipe()) chapterId: number,
         @Query() query: LangQueryDto,
         @Req() req: OptionalAuthUserRequest,
     ): Promise<ChapterDto> {
@@ -30,6 +33,7 @@ export class PublicChapterController implements PublicChapterControllerInterface
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
     @ApiOkResponse({ type: ChapterListPagination })
+    @ApiMangaIdParam('mangaId')
     @UseInterceptors(AuthInterceptor)
     async getChapterList(
         @Param('mangaId', new ValidateMangaIdPipe()) mangaId: number,
