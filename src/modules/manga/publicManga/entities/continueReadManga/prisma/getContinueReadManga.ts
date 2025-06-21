@@ -1,6 +1,6 @@
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { MangaListItemContinueReadDto } from '../../../dto/mangaListItemContinueRead.dto';
 
 export const getContinueReadManga = async (userId: number, lang: LangType) => {
@@ -14,8 +14,8 @@ export const getContinueReadManga = async (userId: number, lang: LangType) => {
                     id: true,
                     urlId: true,
                     title: { select: { ru: true, en: lang === 'en' } },
-                    mangaCovers: { where: { main: true }, select: { cover: true } },
-                    mangaStatistic: { select: { chapterCount: true } },
+                    covers: { where: { main: true }, select: { cover: true } },
+                    statistic: { select: { chapterCount: true } },
                 },
             },
             lastChapter: { select: { chapter: true, tome: true, id: true } },
@@ -36,10 +36,10 @@ export async function toMangaListItemContinueReadDto(
                 id: mangaData.manga.id,
                 urlId: mangaData.manga.urlId,
                 title: '',
-                cover: mangaData.manga.mangaCovers[0]?.cover || '',
+                cover: mangaData.manga.covers[0]?.cover || '',
                 tome: mangaData.lastChapter.tome,
                 chapter: mangaData.lastChapter.chapter,
-                chapterCount: mangaData.manga.mangaStatistic?.chapterCount || 0,
+                chapterCount: mangaData.manga.statistic?.chapterCount || 0,
                 readedChapters: await prisma.chapters.count({
                     where: {
                         AND: [

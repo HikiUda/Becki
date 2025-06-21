@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ContinueReadMangaRepositoryInterface } from './interfaces/continueReadMangaRepository';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { MangaListItemContinueReadDto } from '../../dto/mangaListItemContinueRead.dto';
 import {
     getContinueReadManga,

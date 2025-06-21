@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 
 export const getAuthUser = async (login: string) => {
     return await prisma.user.findUnique({

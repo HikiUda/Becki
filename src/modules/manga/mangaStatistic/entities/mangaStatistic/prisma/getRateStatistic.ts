@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { RateFullStatisticType, RateStatisticScheme } from '../dto/rateStatistic';
 import { emptyRateStatistic } from '../../../mock/mockRateStatistic';
 
@@ -6,16 +6,16 @@ export const getRateStatistic = async (mangaId: number): Promise<RateFullStatist
     const data = await prisma.manga.findUnique({
         where: { id: mangaId },
         select: {
-            mangaStatistic: { select: { rateStatistic: true, rate: true, rateCount: true } },
+            statistic: { select: { rateStatistic: true, rate: true, rateCount: true } },
         },
     });
-    if (!data?.mangaStatistic) return null;
+    if (!data?.statistic) return null;
 
-    const rateStatistic = RateStatisticScheme.safeParse(data.mangaStatistic.rateStatistic);
+    const rateStatistic = RateStatisticScheme.safeParse(data.statistic.rateStatistic);
 
     return {
-        rate: data.mangaStatistic.rate,
-        rateCount: data.mangaStatistic.rateCount,
+        rate: data.statistic.rate,
+        rateCount: data.statistic.rateCount,
         rateStatistic: rateStatistic.success
             ? rateStatistic.data.rateStatistic
             : emptyRateStatistic.rateStatistic,

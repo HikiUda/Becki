@@ -5,7 +5,7 @@ import { ChapterListPagination } from './dto/chapterList/chapterListItem.dto';
 import { ChapterListQuery } from './dto/chapterList/chapterListQuery';
 import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterDto } from './dto/chapter.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { MangaIdsType } from 'src/modules/manga/common/types/mangaTypes';

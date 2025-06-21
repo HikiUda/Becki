@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MangaGenresRepositoryInterface } from './interfaces/mangaGenresRepository';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { CategoriesResponseArrayData, toCategoriesDto } from '../../dto/category.dto';
 import { getGenres } from './prisma/getGenres';
 

@@ -85,14 +85,14 @@ export const getMangaListWhereInput = (
     // By Rate
     if (query.rateFrom) {
         AND.push({
-            mangaStatistic: {
+            statistic: {
                 rate: { gte: query.rateFrom },
             },
         });
     }
     if (query.rateTo) {
         AND.push({
-            mangaStatistic: {
+            statistic: {
                 rate: { lte: query.rateTo },
             },
         });
@@ -115,14 +115,14 @@ export const getMangaListWhereInput = (
     // By rateCount
     if (query.rateCountFrom) {
         AND.push({
-            mangaStatistic: {
+            statistic: {
                 rateCount: { gte: query.rateCountFrom },
             },
         });
     }
     if (query.rateCountTo) {
         AND.push({
-            mangaStatistic: {
+            statistic: {
                 rateCount: { lte: query.rateCountTo },
             },
         });
@@ -130,14 +130,14 @@ export const getMangaListWhereInput = (
     // By chapterCount
     if (query.chapterCountFrom) {
         AND.push({
-            mangaStatistic: {
+            statistic: {
                 chapterCount: { gte: query.chapterCountFrom },
             },
         });
     }
     if (query.chapterCountTo) {
         AND.push({
-            mangaStatistic: {
+            statistic: {
                 chapterCount: { lte: query.chapterCountTo },
             },
         });

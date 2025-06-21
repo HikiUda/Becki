@@ -1,6 +1,6 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { ChapterPagesScheme } from '../dto/chapterPages.scheme';
-import { Lang } from 'src/common/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/query/langQuery.dto';
 import { AllLangPagesType } from '../dto/allLangPages';
 
 export const getAllLangPages = async (chapterId: number) => {

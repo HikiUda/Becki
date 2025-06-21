@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { BookmarkStatisticScheme, BookmarkStatisticType } from '../dto/bookmarkStatistic';
 import { mockBookmarkStatistic } from '../../../mock/mockBookmarkStatistic';
 
@@ -8,14 +8,12 @@ export const getBookmarkStatistic = async (
     const data = await prisma.manga.findUnique({
         where: { id: mangaId },
         select: {
-            mangaStatistic: { select: { bookmarkStatistic: true } },
+            statistic: { select: { bookmarkStatistic: true } },
         },
     });
-    if (!data?.mangaStatistic) return null;
+    if (!data?.statistic) return null;
 
-    const bookmarkStatistic = BookmarkStatisticScheme.safeParse(
-        data.mangaStatistic.bookmarkStatistic,
-    );
+    const bookmarkStatistic = BookmarkStatisticScheme.safeParse(data.statistic.bookmarkStatistic);
 
     return bookmarkStatistic.success ? bookmarkStatistic.data : mockBookmarkStatistic;
 };

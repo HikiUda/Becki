@@ -5,7 +5,7 @@ import { AuthUserRequest } from '../auth/types/user';
 import { UserDataDto } from './dto/userData.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('user')
 export class ProfileController implements ProfileControllerInterface {

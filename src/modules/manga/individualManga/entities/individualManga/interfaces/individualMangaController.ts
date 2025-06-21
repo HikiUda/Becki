@@ -1,4 +1,4 @@
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { MangaDto } from '../dto/manga.dto';
 
 import { OptionalAuthUserRequest } from 'src/modules/user/auth/types/user';

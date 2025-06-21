@@ -6,7 +6,7 @@ import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @ApiBearerAuth()
 @ApiMangaIdParam()

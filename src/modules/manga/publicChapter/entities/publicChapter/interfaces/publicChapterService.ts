@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterDto } from '../dto/chapter.dto';
 import { ChapterListPagination } from '../dto/chapterList/chapterListItem.dto';
 import { ChapterListQuery } from '../dto/chapterList/chapterListQuery';

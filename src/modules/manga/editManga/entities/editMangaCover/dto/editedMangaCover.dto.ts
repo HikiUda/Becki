@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseArrayData } from 'src/common/types/pagination';
+import { ResponseArrayData } from 'src/shared/types/pagination';
 
 export class EditedMangaCover {
     @ApiProperty()

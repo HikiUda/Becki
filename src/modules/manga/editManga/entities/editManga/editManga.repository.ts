@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EditMangaRepositoryInterface } from './interfaces/editMangaRepository';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { EditedMangaDto } from './dto/editedmanga.dto';
 import { getEditedManga, toEditedMangaDto } from './prisma/getEditedManga';
 import { MutateMangaDto } from './dto/mutateManga/mutateManga.dto';
-import { PrismaService } from 'src/common/services/prisma.service';
+import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { createManga } from './prisma/createManga';
 import { deleteAuthors } from './prisma/mutateAuthorsEntities/mutateMangaAuthors';
 import { deleteArtists } from './prisma/mutateAuthorsEntities/mutateMangaArtists';

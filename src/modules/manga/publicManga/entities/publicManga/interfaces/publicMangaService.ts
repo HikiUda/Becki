@@ -2,7 +2,7 @@ import { MangaListItemPagination } from '../../../dto/mangaListItem.dto';
 import { MangaListItemLastUpdatedPagination } from '../../../dto/mangaListItemLastUpdated.dto';
 import { MangaListItemLastUpdatedQueryDto } from '../dto/lastUpdatedMangaQuery.dto';
 import { MangaListQueryDto } from '../dto/getMangaListQuery';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { MangaListItemStatisticResponseArrayData } from '../../../dto/mangaListItemStatistic.dto';
 
 export interface PublicMangaServiceInterface {

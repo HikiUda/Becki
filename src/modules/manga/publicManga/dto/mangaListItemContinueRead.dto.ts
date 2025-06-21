@@ -1,4 +1,4 @@
-import { ResponseArrayData } from 'src/common/types/pagination';
+import { ResponseArrayData } from 'src/shared/types/pagination';
 import { MangaListItemBaseDto } from './mangaListItemBase.dto';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 

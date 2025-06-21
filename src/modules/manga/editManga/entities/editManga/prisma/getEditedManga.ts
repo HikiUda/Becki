@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { prisma } from 'src/shared/prisma/prisma';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { EditedMangaDto } from '../dto/editedmanga.dto';
 import { getGenresById } from 'src/modules/manga/mangaCategories';
 import { getTagsById } from 'src/modules/manga/mangaCategories';
@@ -10,7 +10,7 @@ const EditedMangaInclude = (): Prisma.MangaInclude => {
         otherTitles: true,
         title: true,
         description: true,
-        mangaCovers: true,
+        covers: true,
         authors: true,
         artists: true,
         publishers: true,
@@ -44,7 +44,7 @@ export async function toEditedMangaDto(
         type: data.type,
         genres: [],
         tags: [],
-        covers: data.mangaCovers.map((mangaCover) => ({
+        covers: data.covers.map((mangaCover) => ({
             id: mangaCover.id,
             cover: mangaCover.cover,
             main: mangaCover.main,

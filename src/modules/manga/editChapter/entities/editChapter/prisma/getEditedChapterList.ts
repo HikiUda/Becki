@@ -1,6 +1,6 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { Prisma } from '@prisma/client';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { EditedChapterListItemDto, EditedChapterListQuery } from '../dto/editedChapterList';
 
 const getChapterListORInput = (search: string): Prisma.ChaptersWhereInput[] => {

@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { getActionUserChapterId } from '../helpers/getActionUserChapterId';
 
 export const setUserViewChapter = async (chapterId: number, userId: number) => {

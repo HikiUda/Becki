@@ -1,5 +1,5 @@
 import { Bookmarks, Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { getUserMangaBookmarkId } from '../helpers/getUserMangaBookmarkId';
 
 export const setUserMangaBookmark = async (

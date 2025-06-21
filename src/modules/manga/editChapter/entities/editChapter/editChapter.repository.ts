@@ -8,7 +8,7 @@ import { updateChapter } from './prisma/mutateChapter/updateChapter';
 import { deleteChapter } from './prisma/mutateChapter/deleteChapter';
 import { EditedChapterListPagination, EditedChapterListQuery } from './dto/editedChapterList';
 import { getEditedChapterList, toEditedChapterListItemDto } from './prisma/getEditedChapterList';
-import { getPagination } from 'src/common/helpers/pagination/getPagination';
+import { getPagination } from 'src/shared/helpers/pagination/getPagination';
 
 @Injectable()
 export class EditChapterRepository implements EditChapterRepositoryInterface {

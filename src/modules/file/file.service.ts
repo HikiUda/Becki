@@ -3,7 +3,7 @@ import { FileLocalRepository } from './fileLocal.repository';
 import { FileServiceInterface } from './interfaces/fileService';
 import { join } from 'path';
 import { FileSaveReturnType } from './types/file';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 
 @Injectable()
 export class FileService implements FileServiceInterface {

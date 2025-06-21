@@ -12,7 +12,7 @@ const args = (search: string): Prisma.MangaFindManyArgs => {
                 { title: getSearchTitleInput(search) },
             ],
         },
-        orderBy: { mangaStatistic: { rate: 'desc' } },
+        orderBy: { statistic: { rate: 'desc' } },
     };
 };
 

@@ -1,4 +1,4 @@
-import { TransactionContextType } from 'src/common/types/prisma';
+import { TransactionContextType } from 'src/shared/types/prisma';
 import { MutateMangaDto } from '../../dto/mutateManga/mutateManga.dto';
 import { addAuthors, clearUnbondedAuthors, deleteAuthors } from './mutateMangaAuthors';
 import { addArtists, deleteArtists } from './mutateMangaArtists';

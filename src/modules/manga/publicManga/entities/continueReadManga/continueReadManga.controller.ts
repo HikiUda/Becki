@@ -3,10 +3,10 @@ import { ContinueReadMangaControllerInterface } from './interfaces/continueReadM
 import { ContinueReadMangaService } from './continueReadManga.service';
 import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
 import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { MangaListItemContinueReadResponseArrayData } from '../../dto/mangaListItemContinueRead.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @ApiBearerAuth()
 @ApiCustomUnauthorizedResponse()

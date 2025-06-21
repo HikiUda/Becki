@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { MutateChapterDto } from '../../dto/mutateChapter.dto';
 import { ChapterPagesDto } from '../../../editChapterPages/dto/chapterPages.scheme';
 

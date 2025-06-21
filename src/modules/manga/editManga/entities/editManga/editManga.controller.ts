@@ -13,7 +13,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { EditMangaControllerInterface } from './interfaces/editMangaController';
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { EditedMangaDto } from './dto/editedmanga.dto';
 import { MutateMangaType } from './dto/mutateManga/mutateManga.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
@@ -27,7 +27,7 @@ import { ParseMutateMangaDtoPipe } from '../../pipe/ParseMutateMangaDtoPipe';
 import {
     ApiCustomBadRequestResponse,
     ApiCustomNotFoundResponse,
-} from 'src/common/decorators/api40xResponses';
+} from 'src/shared/decorators/api40xResponses';
 
 @Controller('manga/edit')
 export class EditMangaController implements EditMangaControllerInterface {

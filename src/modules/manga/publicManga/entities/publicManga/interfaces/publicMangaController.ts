@@ -4,7 +4,7 @@ import { MangaListItemLastUpdatedPagination } from '../../../dto/mangaListItemLa
 import { MangaListItemLastUpdatedQueryDto } from '../dto/lastUpdatedMangaQuery.dto';
 import { MangaListQueryDto } from '../dto/getMangaListQuery';
 import { MangaListItemStatisticResponseArrayData } from '../../../dto/mangaListItemStatistic.dto';
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 
 export interface PublicMangaControllerInterface {
     getMangaList: (

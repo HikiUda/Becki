@@ -1,7 +1,7 @@
 import { MutateMangaTitleScheme, MutateMangaOtherTitlesScheme } from './mutateTitles';
 import { z } from 'zod';
-import { MangaStatusEnum } from 'src/common/dto/manga/mangaStatus.dto';
-import { MangaTypeEnum } from 'src/common/dto/manga/mangaType.dto';
+import { MangaStatusEnum } from 'src/shared/dto/manga/mangaStatus.dto';
+import { MangaTypeEnum } from 'src/shared/dto/manga/mangaType.dto';
 import { createZodDto } from '@anatine/zod-nestjs';
 
 export const MutateMangaDescriptionScheme = z.object({

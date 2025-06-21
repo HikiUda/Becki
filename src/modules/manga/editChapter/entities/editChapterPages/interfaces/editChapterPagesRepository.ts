@@ -1,4 +1,4 @@
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterPagesDto } from '../dto/chapterPages.scheme';
 import { AllLangPagesType } from '../dto/allLangPages';
 

@@ -1,7 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQueryScheme } from 'src/common/dto/query/langQuery.dto';
-import { OrderQueryScheme } from 'src/common/dto/query/orderQuery';
-import { PaginationQueryScheme } from 'src/common/dto/query/pagination.dto';
+import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
+import { OrderQueryScheme } from 'src/shared/dto/query/orderQuery';
+import { PaginationQueryScheme } from 'src/shared/dto/query/pagination.dto';
 import { z } from 'zod';
 
 export const ChapterListQueryScheme = z

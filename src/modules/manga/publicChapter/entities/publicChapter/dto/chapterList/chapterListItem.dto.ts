@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Pagination } from 'src/common/types/pagination';
+import { Pagination } from 'src/shared/types/pagination';
 
 export class ChapterListItemDto {
     @ApiProperty()

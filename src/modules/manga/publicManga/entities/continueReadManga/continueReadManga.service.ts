@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ContinueReadMangaServiceInterface } from './interfaces/continueReadMangaService';
 import { ContinueReadMangaRepository } from './continueReadManga.repository';
 import { MangaListItemContinueReadDto } from '../../dto/mangaListItemContinueRead.dto';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 
 @Injectable()
 export class ContinueReadMangaService implements ContinueReadMangaServiceInterface {

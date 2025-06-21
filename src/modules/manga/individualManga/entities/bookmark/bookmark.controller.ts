@@ -4,10 +4,10 @@ import { BookmarkService } from './bookmark.service';
 import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
 import { UserMangaBookmarkDto } from './dto/userMangaBookmark.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
-import { BookmarkDto } from 'src/common/dto/manga/bookmarks.dto';
+import { BookmarkDto } from 'src/shared/dto/manga/bookmarks.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @ApiBearerAuth()
 @ApiMangaIdParam()

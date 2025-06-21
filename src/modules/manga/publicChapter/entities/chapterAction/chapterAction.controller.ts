@@ -4,7 +4,7 @@ import { ChapterActionService } from './chapterAction.service';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('manga/chapter/:id')
 @ApiBearerAuth()

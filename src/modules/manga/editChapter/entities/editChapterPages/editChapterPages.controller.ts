@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { EditChapterPagesControllerInterface } from './interfaces/editChapterPagesController';
 import { EditChapterPagesService } from './editChapterPages.service';
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterPagesDto } from './dto/chapterPages.scheme';
 import { GetMangaChapterIdDto } from '../../dto/getMangaChapterId.dto';
 import { DeleteChapterPageDto } from './dto/deleteChapterPage.dto';

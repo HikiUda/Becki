@@ -1,11 +1,11 @@
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { MangaListItemLastUpdatedDto } from '../../../../dto/mangaListItemLastUpdated.dto';
 import {
     MangaListItemLastUpdatedQueryDto,
     MangaListItemLastUpdatedScope,
 } from '../../dto/lastUpdatedMangaQuery.dto';
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 
 const getLastUpdatedMangasSelect = (): Prisma.ChaptersSelect => {
     return {
@@ -17,7 +17,7 @@ const getLastUpdatedMangasSelect = (): Prisma.ChaptersSelect => {
 };
 const getLastUpdatedMangasSelectManga = (lang: LangType): Prisma.MangaSelect => {
     return {
-        mangaCovers: { where: { main: true }, select: { cover: true } },
+        covers: { where: { main: true }, select: { cover: true } },
         title: { select: { ru: true, en: lang === 'en' } },
         id: true,
         urlId: true,
@@ -30,7 +30,7 @@ export const getLastUpdatedMangasWhereInput = (
     userId?: number,
 ): Prisma.ChaptersWhereInput => {
     if (scope === 'popular') {
-        return { manga: { mangaStatistic: { rate: { gte: 9 } } } };
+        return { manga: { statistic: { rate: { gte: 9 } } } };
     }
     if (scope === 'my' && userId) {
         return {
@@ -71,7 +71,7 @@ export function toMangaListItemLastUpdatedDto(
             id: mangaData.manga.id,
             urlId: mangaData.manga.urlId,
             title: '',
-            cover: mangaData.manga.mangaCovers[0]?.cover || '',
+            cover: mangaData.manga.covers[0]?.cover || '',
             type: mangaData.manga.type,
             tome: mangaData.tome,
             chapter: mangaData.chapter,

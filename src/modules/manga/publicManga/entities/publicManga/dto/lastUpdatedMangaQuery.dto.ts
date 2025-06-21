@@ -1,6 +1,6 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQueryScheme } from 'src/common/dto/query/langQuery.dto';
-import { PaginationQueryScheme } from 'src/common/dto/query/pagination.dto';
+import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
+import { PaginationQueryScheme } from 'src/shared/dto/query/pagination.dto';
 import { z } from 'zod';
 
 const MangaListItemLastUpdatedScopeEnum = z

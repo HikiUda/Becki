@@ -3,12 +3,12 @@ import { PublicChapterRepositoryInterface } from './interfaces/publicChapterRepo
 import { ChapterListPagination } from './dto/chapterList/chapterListItem.dto';
 import { ChapterListQuery } from './dto/chapterList/chapterListQuery';
 import { getChapterList, toChapterListItemDto } from './prisma/getChapterList';
-import { getPagination } from 'src/common/helpers/pagination/getPagination';
+import { getPagination } from 'src/shared/helpers/pagination/getPagination';
 import { ChapterDto } from './dto/chapter.dto';
 import { getChapter, toChapterDto } from './prisma/getChapter/getChapter';
 import { getNextChapter } from './prisma/getChapter/getNextChapter';
 import { getPrevChapter } from './prisma/getChapter/getPrevChapter';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 
 @Injectable()
 export class PublicChapterRepository implements PublicChapterRepositoryInterface {

@@ -1,7 +1,7 @@
 import { MangaStatus, MangaType, Prisma } from '@prisma/client';
 import { MutateMangaDto } from '../dto/mutateManga/mutateManga.dto';
-import { prisma } from 'src/common/helpers/prisma';
-import { TransactionContextType } from 'src/common/types/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
+import { TransactionContextType } from 'src/shared/types/prisma';
 
 function createMangaInput(dto: MutateMangaDto): Prisma.MangaCreateInput {
     const data: Prisma.MangaCreateInput = {
@@ -18,7 +18,7 @@ function createMangaInput(dto: MutateMangaDto): Prisma.MangaCreateInput {
                 en: dto.description?.en || null,
             },
         },
-        mangaStatistic: {
+        statistic: {
             create: {},
         },
         releaseDate: dto.releaseDate || null,

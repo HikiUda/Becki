@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { prisma } from 'src/shared/prisma/prisma';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { getGenresById } from 'src/modules/manga/mangaCategories';
 import { getTagsById } from 'src/modules/manga/mangaCategories';
 import { MangaDto } from '../dto/manga.dto';
@@ -17,8 +17,8 @@ export const MangaSelect = (lang: LangType, userId?: number): Prisma.MangaSelect
         description: { select: { ru: true, en: lang === 'en' } },
         title: { select: { ru: true, en: true, origin: true } },
         otherTitles: { select: { title: true } },
-        mangaStatistic: { select: { chapterCount: true, rateCount: true, rate: true } },
-        mangaCovers: { where: { main: true }, select: { cover: true } },
+        statistic: { select: { chapterCount: true, rateCount: true, rate: true } },
+        covers: { where: { main: true }, select: { cover: true } },
         banner: true,
         owner: { select: { id: true, name: true, avatar: true } },
         authors: { select: { name: true } },
@@ -49,9 +49,9 @@ export async function toMangaDto(
         title: { ru: '', en: null, origin: null },
         otherTitles: data.otherTitles.map((title) => title.title),
         description: '',
-        chaptersCount: data.mangaStatistic?.chapterCount || 0,
-        rate: data.mangaStatistic?.rate || 0,
-        countRate: data.mangaStatistic?.rateCount || 0,
+        chaptersCount: data.statistic?.chapterCount || 0,
+        rate: data.statistic?.rate || 0,
+        countRate: data.statistic?.rateCount || 0,
         releaseDate: data.releaseDate,
         status: data.status,
         type: data.type,
@@ -71,7 +71,7 @@ export async function toMangaDto(
     if (data.description)
         manga.description = data.description[lang] ? data.description[lang] : data.description.ru;
 
-    if (data.mangaCovers.length) manga.cover = data.mangaCovers[0].cover;
+    if (data.covers.length) manga.cover = data.covers[0].cover;
     if (data.genres.length) {
         manga.genres = (await getGenresById(data.genres)).map((genre) => ({
             id: genre.id,

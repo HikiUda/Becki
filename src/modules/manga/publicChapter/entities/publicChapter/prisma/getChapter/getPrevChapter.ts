@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 
 export const getPrevChapter = async (tome: number, chapter: number, mangaId: number) => {
     return await prisma.chapters.findFirst({

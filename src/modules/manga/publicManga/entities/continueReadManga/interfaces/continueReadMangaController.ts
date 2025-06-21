@@ -1,4 +1,4 @@
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { AuthUserRequest } from 'src/modules/user/auth';
 import { MangaListItemContinueReadResponseArrayData } from '../../../dto/mangaListItemContinueRead.dto';
 

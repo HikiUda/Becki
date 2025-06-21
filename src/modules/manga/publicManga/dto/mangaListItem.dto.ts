@@ -1,4 +1,4 @@
-import { Pagination } from 'src/common/types/pagination';
+import { Pagination } from 'src/shared/types/pagination';
 import { MangaListItemBaseDto } from './mangaListItemBase.dto';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 

@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { MangaListItemLastUpdatedQueryDto } from '../../dto/lastUpdatedMangaQuery.dto';
 import { getLastUpdatedMangasWhereInput } from './getLastUpdatedManga';
 
@@ -8,7 +8,7 @@ export const getLastUpdatedMangasCount = async (
 ) => {
     const { scope } = query;
     if (scope === 'popular') {
-        return await prisma.manga.count({ where: { mangaStatistic: { rate: { gte: 9 } } } });
+        return await prisma.manga.count({ where: { statistic: { rate: { gte: 9 } } } });
     }
 
     return await prisma.chapters.count({

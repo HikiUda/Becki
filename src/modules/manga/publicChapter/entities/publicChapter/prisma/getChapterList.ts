@@ -1,8 +1,8 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { ChapterListQuery } from '../dto/chapterList/chapterListQuery';
 import { Prisma } from '@prisma/client';
 import { ChapterListItemDto } from '../dto/chapterList/chapterListItem.dto';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 
 const getChapterListORInput = (search: string): Prisma.ChaptersWhereInput[] => {
     const searchNumber = isNaN(Number(search)) ? undefined : Number(search);

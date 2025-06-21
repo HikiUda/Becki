@@ -10,8 +10,8 @@ export const getOrderInput = (query: MangaListQueryDto): Prisma.MangaOrderByWith
         if (sortBy === 'enAlphabetically') orderBy.title.en = order;
     }
     if (sortBy === 'rating') {
-        orderBy.mangaStatistic = {};
-        orderBy.mangaStatistic.rate = order;
+        orderBy.statistic = {};
+        orderBy.statistic.rate = order;
     }
     // ? do other props
     if (sortBy === 'updateDate') {
@@ -21,16 +21,16 @@ export const getOrderInput = (query: MangaListQueryDto): Prisma.MangaOrderByWith
         orderBy.createdAt = order;
     }
     if (sortBy === 'views') {
-        orderBy.mangaStatistic = {};
-        orderBy.mangaStatistic.views = order;
+        orderBy.statistic = {};
+        orderBy.statistic.views = order;
     }
     if (sortBy === 'likes') {
-        orderBy.mangaStatistic = {};
-        orderBy.mangaStatistic.likes = order;
+        orderBy.statistic = {};
+        orderBy.statistic.likes = order;
     }
     if (sortBy === 'chapterCount') {
-        orderBy.mangaStatistic = {};
-        orderBy.mangaStatistic.chapterCount = order;
+        orderBy.statistic = {};
+        orderBy.statistic.chapterCount = order;
     }
     return orderBy;
 };

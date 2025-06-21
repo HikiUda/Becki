@@ -7,7 +7,7 @@ import { MutateChapterDto } from './dto/mutateChapter.dto';
 import { GetMangaChapterIdDto } from '../../dto/getMangaChapterId.dto';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { EditedChapterListPagination, EditedChapterListQuery } from './dto/editedChapterList';
-import { ApiCustomNotFoundResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('manga/edit/:mangaId/chapter')
 export class EditChapterController implements EditChapterControllerInterface {

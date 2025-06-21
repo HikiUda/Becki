@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EditChapterPagesRepositoryInterface } from './interfaces/editChapterPagesRepository';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterPagesDto } from './dto/chapterPages.scheme';
 import { getChapterPages } from './prisma/getChapterPages';
 import { setChapterPages } from './prisma/setChapterPages';

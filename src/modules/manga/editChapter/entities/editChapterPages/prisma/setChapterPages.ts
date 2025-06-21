@@ -1,6 +1,6 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { ChapterPagesScheme, ChapterPagesDto } from '../dto/chapterPages.scheme';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { Prisma } from '@prisma/client';
 
 export const setChapterPages = async (

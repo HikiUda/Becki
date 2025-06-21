@@ -3,7 +3,7 @@ import { PublicChapterServiceInterface } from './interfaces/publicChapterService
 import { PublicChapterRepository } from './publicChapter.repository';
 import { ChapterListPagination } from './dto/chapterList/chapterListItem.dto';
 import { ChapterListQuery } from './dto/chapterList/chapterListQuery';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterDto } from './dto/chapter.dto';
 
 @Injectable()

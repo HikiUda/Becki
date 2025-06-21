@@ -18,11 +18,11 @@ import {
 } from 'src/modules/user/auth';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ResponseArrayData } from 'src/common/types/pagination';
+import { ResponseArrayData } from 'src/shared/types/pagination';
 import { DeleteSearchDto } from './dto/deleteSearchDto';
 import { QuickSearchQueryDto } from './dto/QuickSearchQueryDto';
 import { QuickSearchLastDto } from './dto/quickSearchLast.dto';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('manga/quick-search')
 export class QuickSearchController implements QuickSearchControllerInterface {

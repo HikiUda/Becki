@@ -17,7 +17,7 @@ import { MangaFilesUploadType } from '../../types/fileUpload';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { DeleleMangaCoversDto } from './dto/deleteMangaCoversDto';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
-import { ApiCustomBadRequestResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomBadRequestResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('manga/edit/:id/covers')
 export class EditMangaCoverController implements EditMangaCoverControllerInterface {

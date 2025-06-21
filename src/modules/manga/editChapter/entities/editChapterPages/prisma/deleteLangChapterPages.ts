@@ -1,5 +1,5 @@
-import { LangType } from 'src/common/dto/query/langQuery.dto';
-import { prisma } from 'src/common/helpers/prisma';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { prisma } from 'src/shared/prisma/prisma';
 import { Prisma } from '@prisma/client';
 
 export const deleteLangChapterPages = async (chapterId: number, lang: LangType) => {

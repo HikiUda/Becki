@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
-import { TransactionContextType } from 'src/common/types/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
+import { TransactionContextType } from 'src/shared/types/prisma';
 
 export const deleteManga = async (id: number, tx?: TransactionContextType) => {
     const context = tx || prisma;

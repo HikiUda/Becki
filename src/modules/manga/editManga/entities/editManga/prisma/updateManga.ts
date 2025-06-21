@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { MutateMangaDto } from '../dto/mutateManga/mutateManga.dto';
-import { TransactionContextType } from 'src/common/types/prisma';
-import { prisma } from 'src/common/helpers/prisma';
+import { TransactionContextType } from 'src/shared/types/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 
 function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
     const data: Prisma.MangaUpdateInput = {};
@@ -30,7 +30,7 @@ function updateMangaInput(dto: MutateMangaDto): Prisma.MangaUpdateInput {
     if (dto.ageRate) data.ageRate = dto.ageRate;
     if (dto.banner) data.banner = dto.banner;
     if (dto.coverId) {
-        data.mangaCovers = {
+        data.covers = {
             updateMany: {
                 where: { main: true },
                 data: { main: false },

@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
-import { TransactionContextType } from 'src/common/types/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
+import { TransactionContextType } from 'src/shared/types/prisma';
 import { UpdateMangaOtherTitleType } from '../../dto/mutateManga/mutateTitles';
 
 export const updateMangaOtherTitles = async (

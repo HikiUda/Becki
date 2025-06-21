@@ -14,11 +14,11 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { ReturnAuthUser } from './types/user';
 import { Response } from 'express';
 import { LoginUserDto } from './dto/loginUser.dto';
-import { Cookies } from 'src/common/decorators/cookie';
+import { Cookies } from 'src/shared/decorators/cookie';
 //TODO inside module
 import { addRefreshCookie } from './helpers/addRefreshCookie';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('auth')
 export class AuthController implements AuthControllerInterface {

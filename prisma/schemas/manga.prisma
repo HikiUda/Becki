@@ -6,9 +6,9 @@ model Manga {
     description        MangaDescription?
     releaseDate        DateTime?
     type               MangaType            @default(Manga)
-    status             MangaStatus          @default(Ongoing)
+    status             BookStatus           @default(Ongoing)
     ageRate            Int                  @default(0)
-    mangaCovers        MangaCovers[]
+    covers             MangaCovers[]
     owner              User                 @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
@@ -23,7 +23,7 @@ model Manga {
     publishers         Publishers[]
     chapters           Chapters[]
     progressReadManga  ProgressReadManga[]
-    mangaStatistic     MangaStatistic?
+    statistic          MangaStatistic?
     moderated          Boolean              @default(false)
     lastChapterAddedAt DateTime             @default(now())
     createdAt          DateTime             @default(now())
@@ -170,18 +170,11 @@ enum MangaType {
     Comic
 }
 
+// ! deprecated
 enum MangaStatus {
     Ongoing
     Announced
     Completed
     Frozen
     Canceled
-}
-
-enum Bookmarks {
-    Reading
-    Planned
-    Readed
-    Abandoned
-    Postponed
 }

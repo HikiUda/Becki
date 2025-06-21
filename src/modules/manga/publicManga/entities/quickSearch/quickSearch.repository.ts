@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QuickSearchRepositoryInterface } from './interfaces/quickSearchRepository';
 import { getMangaQuickSearch } from './prisma/getMangaQuickSearch';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { MangaListItemStatisticDto } from '../../dto/mangaListItemStatistic.dto';
 import { saveUserLastSearchQueries } from './prisma/userLastSearchQueries/saveUserLastSearchQueries';
 import { getUserLastSearchQueries } from './prisma/userLastSearchQueries/getUserLastSearchQueries';

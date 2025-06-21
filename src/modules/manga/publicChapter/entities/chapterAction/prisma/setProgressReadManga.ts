@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { getActionUserChapterId } from '../helpers/getActionUserChapterId';
 
 export const setProgressReadManga = async (mangaId: number, chapterId: number, userId: number) => {

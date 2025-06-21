@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MangaTagsServiceInterface } from './interfaces/mangaTagsService';
 import { MangaTagsRepository } from './mangaTags.repository';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { CategoriesResponseArrayData } from '../../dto/category.dto';
 
 @Injectable()

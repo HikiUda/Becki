@@ -16,11 +16,11 @@ import { MangaListItemLastUpdatedPagination } from '../../dto/mangaListItemLastU
 import { MangaListItemLastUpdatedQueryDto } from './dto/lastUpdatedMangaQuery.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { MangaListQueryDto } from './dto/getMangaListQuery';
-import { LangQueryDto } from 'src/common/dto/query/langQuery.dto';
+import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { MangaListItemStatisticResponseArrayData } from '../../dto/mangaListItemStatistic.dto';
 import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
 import { ApiMangaIdParam } from 'src/modules/manga/common/decorators/ApiMangaIdParam/ApiMangaIdParam';
-import { ApiCustomUnauthorizedResponse } from 'src/common/decorators/api40xResponses';
+import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 
 @Controller('manga')
 export class PublicMangaController implements PublicMangaControllerInterface {

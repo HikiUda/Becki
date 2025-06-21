@@ -1,7 +1,7 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { MangaListQueryDto } from '../../dto/getMangaListQuery/getMangaListQuery.dto';
 import { Prisma } from '@prisma/client';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { getOrderInput } from './getOrderInput';
 import { getMangaListWhereInput } from './getMangaListWhereInput';
 
@@ -11,9 +11,9 @@ export const MangaListSelect = (lang: LangType, userId?: number): Prisma.MangaSe
         urlId: true,
         type: true,
         title: { select: { ru: true, en: lang === 'en' } },
-        mangaStatistic: { select: { chapterCount: true, rate: true } },
+        statistic: { select: { chapterCount: true, rate: true } },
         bookmarks: !!userId && { where: { userId }, select: { bookmark: true } },
-        mangaCovers: { where: { main: true }, select: { cover: true } },
+        covers: { where: { main: true }, select: { cover: true } },
     };
 };
 

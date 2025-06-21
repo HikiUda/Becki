@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { MangaListQueryDto } from '../../dto/getMangaListQuery';
 import { getMangaListWhereInput } from './getMangaListWhereInput';
 

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IndividualMangaRepositoryInterface } from './interfaces/individualMangaRepository';
 import { MangaDto } from './dto/manga.dto';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { getManga, toMangaDto } from './prisma/getManga';
 import { MangaCoverDto } from './dto/mangaCovers.dto';
 import { getMangaCovers } from './prisma/getMangaCovers';

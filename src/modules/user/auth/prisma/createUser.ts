@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { CreateUserDto } from '../dto/createUser.dto';
 
 export const createUser = async (dto: CreateUserDto) => {

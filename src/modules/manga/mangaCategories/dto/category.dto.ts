@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
-import { ResponseArrayData } from 'src/common/types/pagination';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { ResponseArrayData } from 'src/shared/types/pagination';
 
 export class CategoryDto {
     @ApiProperty()

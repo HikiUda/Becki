@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EditChapterPagesServiceInterface } from './interfaces/editChapterPagesService';
 import { EditChapterPagesRepository } from './editChapterPages.repository';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { ChapterPagesDto, ChapterPageType } from './dto/chapterPages.scheme';
 import { FileService } from 'src/modules/file/file.service';
 import { AllLangPagesType } from './dto/allLangPages';

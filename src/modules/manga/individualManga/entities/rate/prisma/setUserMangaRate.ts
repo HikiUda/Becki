@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { getUserMangaRateId } from '../helpers/getUserMangaRateId';
 
 export const setUserMangaRate = async (mangaId: number, userId: number, rate: number) => {

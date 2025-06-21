@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { LangType } from 'src/common/dto/query/langQuery.dto';
-import { prisma } from 'src/common/helpers/prisma';
+import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { prisma } from 'src/shared/prisma/prisma';
 import { ChapterDto } from '../../dto/chapter.dto';
 import { ChapterPagesScheme } from 'src/modules/manga/editChapter';
 

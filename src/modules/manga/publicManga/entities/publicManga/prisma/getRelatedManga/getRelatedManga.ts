@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 import { getMangaListStatistic } from 'src/modules/manga/publicManga/prisma/getMangaListStatistic';
 
 export const getRelatedManga = async (id: number) => {

@@ -1,11 +1,17 @@
 model User {
-  id                  Int                      @id @default(autoincrement())
-  login               String                   @unique() @db.VarChar(64)
-  name                String                   @db.VarChar(64)
-  password            String
-  avatar              String?
-  jsonSettings        Json                     @default("{}")
-  lastSearchQueries   String[]
+  id              Int                  @id @default(autoincrement())
+  login           String               @unique() @db.VarChar(64)
+  name            String               @db.VarChar(64)
+  password        String
+  avatar          String?
+  jsonSettings    Json                 @default("{}")
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now()) @updatedAt
+  userAuthToken   UserAuthToken[]
+  lastQuickSearch UserLastQuickSearch? // TODO init in auht module
+
+  // * Manga
+  lastSearchQueries   String[] // ! deprecated
   mangas              Manga[]
   mangaRating         MangaRating[]
   mangaComments       MangaComments[]
@@ -16,15 +22,22 @@ model User {
   viewChapters        UserViewChapter[]
   bookmarks           UserMangaBookmarks[]
   progressReadManga   ProgressReadManga[]
-  createdAt           DateTime                 @default(now())
-  updatedAt           DateTime                 @default(now()) @updatedAt
-  userAuthToken       UserAuthToken[]
 }
 
 model UserAuthToken {
   id        Int      @id @default(autoincrement())
   user      User[]
   refresh   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model UserLastQuickSearch {
+  id        Int      @id @default(autoincrement())
+  manga     String[]
+  ranobe    String[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

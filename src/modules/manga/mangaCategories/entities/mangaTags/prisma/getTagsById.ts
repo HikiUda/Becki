@@ -1,4 +1,4 @@
-import { prisma } from 'src/common/helpers/prisma';
+import { prisma } from 'src/shared/prisma/prisma';
 
 export const getTagsById = async (tagsId: number[]) => {
     return await prisma.mangaTags.findMany({

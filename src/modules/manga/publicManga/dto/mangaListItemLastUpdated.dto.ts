@@ -1,6 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { MangaListItemBaseDto } from './mangaListItemBase.dto';
-import { Pagination } from 'src/common/types/pagination';
+import { Pagination } from 'src/shared/types/pagination';
 
 export class MangaListItemLastUpdatedDto extends PickType(MangaListItemBaseDto, [
     'id',
