@@ -1,6 +1,6 @@
-import { BookmarksScheme } from 'src/shared/dto/manga/bookmarks.dto';
-import { MangaStatusArrayScheme } from 'src/shared/dto/manga/mangaStatus.dto';
-import { MangaTypeArrayScheme } from 'src/shared/dto/manga/mangaType.dto';
+import { BookmarksScheme } from 'src/shared/dto/book/bookmarks.dto';
+import { BookStatusArrayScheme } from 'src/shared/dto/book/bookStatus.dto';
+import { MangaTypeArrayScheme } from 'src/shared/dto/book/mangaType.dto';
 import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
 import { OrderQueryScheme } from 'src/shared/dto/query/orderQuery';
 import { PaginationQueryScheme } from 'src/shared/dto/query/pagination.dto';
@@ -43,7 +43,7 @@ const MangaListQueryScheme = z
         tags: tagsGenresScheme,
         notGenres: tagsGenresScheme,
         notTags: tagsGenresScheme,
-        status: StringToStringArray.pipe(MangaStatusArrayScheme),
+        status: StringToStringArray.pipe(BookStatusArrayScheme),
         type: StringToStringArray.pipe(MangaTypeArrayScheme),
         bookmarks: StringToStringArray.pipe(BookmarksScheme),
     })

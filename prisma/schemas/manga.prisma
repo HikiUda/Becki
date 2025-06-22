@@ -7,7 +7,8 @@ model Manga {
     releaseDate        DateTime?
     type               MangaType            @default(Manga)
     status             BookStatus           @default(Ongoing)
-    ageRate            Int                  @default(0)
+    ageRate            Int                  @default(0) // ! deprecated
+    ageRating          Int                  @default(0)
     covers             MangaCovers[]
     owner              User                 @relation(fields: [ownerId], references: [id])
     ownerId            Int

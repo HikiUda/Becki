@@ -38,8 +38,8 @@ export class QuickSearchMangaController
     @ApiBearerAuth()
     @UseInterceptors(AuthInterceptor)
     async getBooks(
-        @Query() query: QuickSearchQueryDto,
         @Req() req: OptionalAuthUserRequest,
+        @Query() query: QuickSearchQueryDto,
     ): Promise<QuickSearchMangaListDto> {
         const userId = req.user && req.user.id;
         const data = await this.service.getBooks(query, userId);
