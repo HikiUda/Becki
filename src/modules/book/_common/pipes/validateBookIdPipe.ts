@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
 import { z } from 'zod';
 
-export const transformId = z
+export const transformBookId = z
     .string()
     .transform((value) => {
         if (!Number.isNaN(Number(value))) {
@@ -17,8 +17,8 @@ export const transformId = z
     .pipe(z.number().int());
 
 @Injectable()
-export class ValidateMangaIdPipe implements PipeTransform {
+export class ValidateBookIdPipe implements PipeTransform {
     transform(value: string, metadata: ArgumentMetadata) {
-        return transformId.parse(value);
+        return transformBookId.parse(value);
     }
 }

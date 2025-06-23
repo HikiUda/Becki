@@ -15,7 +15,8 @@ model Manga {
     banner             String?
     genres             Int[]
     tags               Int[]
-    relatedManga       Int[]
+    relatedManga       Int[] // ! deprecated
+    related            MangaRelated?
     rating             MangaRating[]
     comments           MangaComments[]
     bookmarks          UserMangaBookmarks[]
@@ -160,6 +161,17 @@ model MangaStatistic {
     mangaId           Int      @unique
     createdAt         DateTime @default(now())
     updatedAt         DateTime @default(now()) @updatedAt
+}
+
+// * add in edit manga
+model MangaRelated {
+    id        Int      @id @default(autoincrement())
+    manga     Json     @default("{}")
+    ranobe    Json     @default("{}")
+    book      Manga    @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum MangaType {

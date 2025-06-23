@@ -32,6 +32,7 @@ model UserAuthToken {
   updatedAt DateTime @default(now()) @updatedAt
 }
 
+// * add in edit manga
 model UserLastQuickSearch {
   id        Int      @id @default(autoincrement())
   manga     String[]
