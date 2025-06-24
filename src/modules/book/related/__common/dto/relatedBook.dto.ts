@@ -19,11 +19,14 @@ export abstract class RelatedBookDto {
     @ApiProperty()
     cover: string;
 
-    @ApiProperty({ enum: [BookStatus] })
+    @ApiProperty({ enum: BookStatus })
     status: BookStatus;
 
-    @ApiProperty({ enum: [BookRelationship] })
+    @ApiProperty({ enum: BookRelationship })
     relationship: BookRelationship;
+
+    @ApiProperty()
+    relatedId: string;
 }
 
 export class RelatedBookListDto extends ResponseArrayData<RelatedBookDto> {

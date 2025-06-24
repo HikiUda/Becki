@@ -2,10 +2,12 @@ import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { GetRelatedBooksReturnType } from './getRelatedBooks';
 import { RelatedBookDto } from '../dto/relatedBook.dto';
 import { BookRelated } from '../bookRelated';
+import { ParsedRelatedId } from '../dto/mutateRelatedBook.dto';
 
 export function toRelatedBookDto(
-    data: GetRelatedBooksReturnType[0],
+    data: GetRelatedBooksReturnType['manga'],
     bookRelated: BookRelated,
+    bookType: ParsedRelatedId[0],
     lang: LangType,
 ): RelatedBookDto[] {
     return data.map((mangaData) => {
@@ -17,6 +19,7 @@ export function toRelatedBookDto(
             type: mangaData.type,
             status: mangaData.status,
             relationship: bookRelated.manga[mangaData.id] || 'Other',
+            relatedId: bookType + '---' + mangaData.id,
         };
 
         return manga;

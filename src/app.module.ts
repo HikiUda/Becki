@@ -15,7 +15,5 @@ import { BookModule } from './modules/book/book.module';
         FileModule,
         BookModule,
     ],
-    controllers: [],
-    providers: [],
 })
 export class AppModule {}

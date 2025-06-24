@@ -26,7 +26,7 @@ export const getRelatedBooks = async (
         select: getRelatedBooksSelect(lang),
     });
 
-    return [manga] as const;
+    return { manga } as const;
 };
 
 export type GetRelatedBooksReturnType = Prisma.PromiseReturnType<typeof getRelatedBooks>;

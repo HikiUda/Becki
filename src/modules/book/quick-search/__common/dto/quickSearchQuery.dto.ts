@@ -7,6 +7,6 @@ const QuickSearchQuerySchema = z
         search: z.string().default(''),
         limit: z.coerce.number().default(6),
     })
-    .and(LangQueryScheme);
+    .merge(LangQueryScheme);
 
 export class QuickSearchQueryDto extends createZodDto(QuickSearchQuerySchema) {}

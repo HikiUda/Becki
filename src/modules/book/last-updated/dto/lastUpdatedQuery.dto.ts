@@ -10,7 +10,7 @@ const LastUpdatedQueryScheme = z
     .object({
         scope: LastUpdatedScopeEnum.default('all'),
     })
-    .and(LangQueryScheme)
-    .and(PaginationQueryScheme);
+    .merge(LangQueryScheme)
+    .merge(PaginationQueryScheme);
 
 export class LastUpdatedQueryDto extends createZodDto(LastUpdatedQueryScheme) {}
