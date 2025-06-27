@@ -1,0 +1,84 @@
+model MangaChapters {
+    id           Int                     @id @default(autoincrement())
+    title        MangaChaptersTitle?
+    tome         Int                     @default(1)
+    chapter      Float
+    pages        MangaChaptersPages[]
+    private      Boolean                 @default(true)
+    book         Manga                   @relation(fields: [bookId], references: [id])
+    bookId       Int
+    comments     MangaChaptersComments[]
+    usersLike    UserLikeMangaChapters[]
+    usersView    UserViewMangaChapters[]
+    progressRead MangaProgressRead[]
+    createdAt    DateTime                @default(now())
+    updatedAt    DateTime                @default(now()) @updatedAt
+}
+
+model MangaChaptersTitle {
+    id        Int           @id @default(autoincrement())
+    ru        String?
+    en        String?
+    chapter   MangaChapters @relation(fields: [chapterId], references: [id])
+    chapterId Int           @unique
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now()) @updatedAt
+}
+
+model MangaChaptersPages {
+    id        Int           @id @default(autoincrement())
+    ru        Json          @default("{}")
+    en        Json?
+    chapter   MangaChapters @relation(fields: [chapterId], references: [id])
+    chapterId Int           @unique
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now()) @updatedAt
+}
+
+model UserLikeMangaChapters {
+    id        String        @id
+    chapter   MangaChapters @relation(fields: [chapterId], references: [id])
+    user      User          @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    isLiked   Boolean       @default(true)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now()) @updatedAt
+}
+
+model UserViewMangaChapters {
+    id        String        @id
+    chapter   MangaChapters @relation(fields: [chapterId], references: [id])
+    user      User          @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    isViewed  Boolean       @default(true)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now()) @updatedAt
+}
+
+model MangaChaptersComments {
+    id            Int                             @id @default(autoincrement())
+    content       String
+    page          Int
+    chapter       MangaChapters                   @relation(fields: [chapterId], references: [id])
+    user          User                            @relation(fields: [userId], references: [id])
+    chapterId     Int
+    userId        Int
+    usersLike     UserLikeMangaChaptersComments[]
+    predesessorId Int?
+    predecessor   MangaChaptersComments?          @relation("MangaChaptersCommentsFamily", fields: [predesessorId], references: [id])
+    successors    MangaChaptersComments[]         @relation("MangaChaptersCommentsFamily")
+    createdAt     DateTime                        @default(now())
+    updatedAt     DateTime                        @default(now()) @updatedAt
+}
+
+model UserLikeMangaChaptersComments {
+    id               Int                   @id @default(autoincrement())
+    chapterComment   MangaChaptersComments @relation(fields: [chapterCommentId], references: [id])
+    user             User                  @relation(fields: [userId], references: [id])
+    chapterCommentId Int
+    userId           Int
+    createdAt        DateTime              @default(now())
+    updatedAt        DateTime              @default(now()) @updatedAt
+}

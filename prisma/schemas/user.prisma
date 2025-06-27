@@ -10,18 +10,41 @@ model User {
   userAuthToken   UserAuthToken[]
   lastQuickSearch UserLastQuickSearch? // TODO init in auht module
 
+  // * Abstarct Book
+  book                        Book[]                         @ignore
+  bookRating                  BookRating[]                   @ignore
+  bookBookmarks               BookBookmarks[]                @ignore
+  bookComments                BookComments[]                 @ignore
+  userLikeBookComments        UserLikeBookComments[]         @ignore
+  bookChaptersComments        BookChaptersComments[]         @ignore
+  userLikeBookChaptersComment UserLikeBookChaptersComments[] @ignore
+  userLikeBookChapters        UserLikeBookChapters[]         @ignore
+  userViewBookChapters        UserViewBookChapters[]         @ignore
+  bookProgressRead            BookProgressRead[]             @ignore
+
   // * Manga
-  lastSearchQueries   String[] // ! deprecated
-  mangas              Manga[]
-  mangaRating         MangaRating[]
-  mangaComments       MangaComments[]
-  chapterComments     ChapterComments[]
-  likeMangaComments   UserLikeMangaComment[]
-  likeChapterComments UserLikeChapterComment[]
-  likeChapters        UserLikeChapter[]
-  viewChapters        UserViewChapter[]
-  bookmarks           UserMangaBookmarks[]
-  progressReadManga   ProgressReadManga[]
+  manga                        Manga[]
+  mangaRating                  MangaRating[]
+  mangaBookmarks               MangaBookmarks[]
+  mangaComments                MangaComments[]
+  userLikeMangaComments        UserLikeMangaComments[]
+  mangaChaptersComments        MangaChaptersComments[]
+  userLikeMangaChaptersComment UserLikeMangaChaptersComments[]
+  userLikeMangaChapters        UserLikeMangaChapters[]
+  userViewMangaChapters        UserViewMangaChapters[]
+  mangaProgressRead            MangaProgressRead[]
+
+  // * Ranobe
+  mranobe                       Ranobe[]
+  ranobeRating                  RanobeRating[]
+  ranobeBookmarks               RanobeBookmarks[]
+  ranobeComments                RanobeComments[]
+  userLikeRanobeComments        UserLikeRanobeComments[]
+  ranobeChaptersComments        RanobeChaptersComments[]
+  userLikeRanobeChaptersComment UserLikeRanobeChaptersComments[]
+  userLikeRanobeChapters        UserLikeRanobeChapters[]
+  userViewRanobeChapters        UserViewRanobeChapters[]
+  ranobeProgressRead            RanobeProgressRead[]
 }
 
 model UserAuthToken {

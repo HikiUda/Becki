@@ -1,0 +1,15 @@
+model BookGenres {
+    id        Int      @id @default(autoincrement())
+    ru        String   @unique
+    en        String?  @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model BookTags {
+    id        Int      @id @default(autoincrement())
+    ru        String   @unique
+    en        String?  @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}

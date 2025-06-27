@@ -1,0 +1,84 @@
+model RanobeChapters {
+    id           Int                      @id @default(autoincrement())
+    title        RanobeChaptersTitle?
+    tome         Int                      @default(1)
+    chapter      Float
+    pages        RanobeChaptersPages[]
+    private      Boolean                  @default(true)
+    book         Ranobe                   @relation(fields: [bookId], references: [id])
+    bookId       Int
+    comments     RanobeChaptersComments[]
+    usersLike    UserLikeRanobeChapters[]
+    usersView    UserViewRanobeChapters[]
+    progressRead RanobeProgressRead[]
+    createdAt    DateTime                 @default(now())
+    updatedAt    DateTime                 @default(now()) @updatedAt
+}
+
+model RanobeChaptersTitle {
+    id        Int            @id @default(autoincrement())
+    ru        String?
+    en        String?
+    chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
+    chapterId Int            @unique
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @default(now()) @updatedAt
+}
+
+model RanobeChaptersPages {
+    id        Int            @id @default(autoincrement())
+    ru        Json           @default("{}")
+    en        Json?
+    chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
+    chapterId Int            @unique
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @default(now()) @updatedAt
+}
+
+model UserLikeRanobeChapters {
+    id        String         @id
+    chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
+    user      User           @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    isLiked   Boolean        @default(true)
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @default(now()) @updatedAt
+}
+
+model UserViewRanobeChapters {
+    id        String         @id
+    chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
+    user      User           @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    isViewed  Boolean        @default(true)
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @default(now()) @updatedAt
+}
+
+model RanobeChaptersComments {
+    id            Int                              @id @default(autoincrement())
+    content       String
+    page          Int
+    chapter       RanobeChapters                   @relation(fields: [chapterId], references: [id])
+    user          User                             @relation(fields: [userId], references: [id])
+    chapterId     Int
+    userId        Int
+    usersLike     UserLikeRanobeChaptersComments[]
+    predesessorId Int?
+    predecessor   RanobeChaptersComments?          @relation("RanobeChaptersCommentsFamily", fields: [predesessorId], references: [id])
+    successors    RanobeChaptersComments[]         @relation("RanobeChaptersCommentsFamily")
+    createdAt     DateTime                         @default(now())
+    updatedAt     DateTime                         @default(now()) @updatedAt
+}
+
+model UserLikeRanobeChaptersComments {
+    id               Int                    @id @default(autoincrement())
+    chapterComment   RanobeChaptersComments @relation(fields: [chapterCommentId], references: [id])
+    user             User                   @relation(fields: [userId], references: [id])
+    chapterCommentId Int
+    userId           Int
+    createdAt        DateTime               @default(now())
+    updatedAt        DateTime               @default(now()) @updatedAt
+}

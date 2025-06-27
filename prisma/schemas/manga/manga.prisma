@@ -1,0 +1,164 @@
+model Manga {
+    id                 Int                 @id @default(autoincrement())
+    urlId              String              @unique @default(uuid()) @db.VarChar(255)
+    title              MangaTitle?
+    otherTitles        MangaOtherTitles[]
+    description        MangaDescription?
+    releaseDate        DateTime?
+    type               MangaType           @default(Manga)
+    status             BookStatus          @default(Ongoing)
+    ageRating          Int                 @default(0)
+    covers             MangaCovers[]
+    owner              User                @relation(fields: [ownerId], references: [id])
+    ownerId            Int
+    banner             String?
+    genres             Int[]
+    tags               Int[]
+    related            MangaRelated?
+    rating             MangaRating[]
+    comments           MangaComments[]
+    bookmarks          MangaBookmarks[]
+    chapters           MangaChapters[]
+    progressRead       MangaProgressRead[]
+    statistic          MangaStatistic?
+    moderated          Boolean             @default(false)
+    lastChapterAddedAt DateTime            @default(now())
+    createdAt          DateTime            @default(now())
+    updatedAt          DateTime            @default(now()) @updatedAt
+}
+
+model MangaTitle {
+    id          Int      @id @default(autoincrement())
+    ru          String
+    en          String?
+    origin      String?
+    otherTitles String   @default("")
+    book        Manga    @relation(fields: [bookId], references: [id])
+    bookId      Int      @unique
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model MangaOtherTitles {
+    id        Int      @id @default(autoincrement())
+    title     String
+    book      Manga    @relation(fields: [bookId], references: [id])
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaDescription {
+    id        Int      @id @default(autoincrement())
+    ru        String
+    en        String?
+    book      Manga    @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaCovers {
+    id        Int      @id @default(autoincrement())
+    cover     String
+    main      Boolean  @default(false)
+    book      Manga    @relation(fields: [bookId], references: [id])
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaRating {
+    id        String   @id
+    rate      Int
+    book      Manga    @relation(fields: [bookId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    bookId    Int
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MangaComments {
+    id            Int                     @id @default(autoincrement())
+    content       String
+    book          Manga                   @relation(fields: [bookId], references: [id])
+    user          User                    @relation(fields: [userId], references: [id])
+    bookId        Int
+    userId        Int
+    usersLike     UserLikeMangaComments[]
+    predesessorId Int?
+    predecessor   MangaComments?          @relation("MangaCommentsFamily", fields: [predesessorId], references: [id])
+    successors    MangaComments[]         @relation("MangaCommentsFamily")
+    createdAt     DateTime                @default(now())
+    updatedAt     DateTime                @default(now()) @updatedAt
+}
+
+model UserLikeMangaComments {
+    id            Int           @id @default(autoincrement())
+    bookComment   MangaComments @relation(fields: [bookCommentId], references: [id])
+    user          User          @relation(fields: [userId], references: [id])
+    bookCommentId Int
+    userId        Int
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @default(now()) @updatedAt
+}
+
+model MangaBookmarks {
+    id        String    @id
+    bookmark  Bookmarks @default(Reading)
+    book      Manga     @relation(fields: [bookId], references: [id])
+    user      User      @relation(fields: [userId], references: [id])
+    bookId    Int
+    userId    Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now()) @updatedAt
+}
+
+model MangaProgressRead {
+    id            String        @id
+    lastChapter   MangaChapters @relation(fields: [lastChapterId], references: [id])
+    book          Manga         @relation(fields: [bookId], references: [id])
+    user          User          @relation(fields: [userId], references: [id])
+    lastChapterId Int
+    bookId        Int
+    userId        Int
+    show          Boolean       @default(true)
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @default(now()) @updatedAt
+}
+
+model MangaStatistic {
+    id                Int      @id @default(autoincrement())
+    rate              Float    @default(0)
+    views             Int      @default(0)
+    likes             Int      @default(0)
+    rateCount         Int      @default(0)
+    chapterCount      Int      @default(0)
+    bookmarkCount     Int      @default(0)
+    rateStatistic     Json     @default("{}")
+    bookmarkStatistic Json     @default("{}")
+    book              Manga    @relation(fields: [bookId], references: [id])
+    bookId            Int      @unique
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @default(now()) @updatedAt
+}
+
+model MangaRelated {
+    id        Int      @id @default(autoincrement())
+    manga     Json     @default("{}")
+    ranobe    Json     @default("{}")
+    book      Manga    @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum MangaType {
+    Manga
+    Manhwa
+    Manhua
+    OEL
+    Rumanga
+    Comic
+}

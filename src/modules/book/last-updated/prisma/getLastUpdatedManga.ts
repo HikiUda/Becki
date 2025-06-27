@@ -18,7 +18,6 @@ export const getLastUpdatedManga = async (
         skip,
         take: limit,
     });
-
     const count =
         scope === 'popular'
             ? await prisma.manga.count({ where: getLastUpdatedWhereInput(scope, userId).manga })

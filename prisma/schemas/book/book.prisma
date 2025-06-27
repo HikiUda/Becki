@@ -1,0 +1,183 @@
+// * Abstract
+model Book {
+    id                 Int                @id @default(autoincrement())
+    urlId              String             @unique @default(uuid()) @db.VarChar(255)
+    title              BookTitle?
+    otherTitles        BookOtherTitles[]
+    description        BookDescription?
+    releaseDate        DateTime?
+    type               String             @default("")
+    status             BookStatus         @default(Ongoing)
+    ageRating          Int                @default(0)
+    covers             BookCovers[]
+    owner              User               @relation(fields: [ownerId], references: [id])
+    ownerId            Int
+    banner             String?
+    genres             Int[]
+    tags               Int[]
+    related            BookRelated?
+    rating             BookRating[]
+    comments           BookComments[]
+    bookmarks          BookBookmarks[]
+    chapters           BookChapters[]
+    progressRead       BookProgressRead[]
+    statistic          BookStatistic?
+    moderated          Boolean            @default(false)
+    lastChapterAddedAt DateTime           @default(now())
+    createdAt          DateTime           @default(now())
+    updatedAt          DateTime           @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookTitle {
+    id          Int      @id @default(autoincrement())
+    ru          String
+    en          String?
+    origin      String?
+    otherTitles String   @default("")
+    book        Book     @relation(fields: [bookId], references: [id])
+    bookId      Int      @unique
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookOtherTitles {
+    id        Int      @id @default(autoincrement())
+    title     String
+    book      Book     @relation(fields: [bookId], references: [id])
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookDescription {
+    id        Int      @id @default(autoincrement())
+    ru        String
+    en        String?
+    book      Book     @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookCovers {
+    id        Int      @id @default(autoincrement())
+    cover     String
+    main      Boolean  @default(false)
+    book      Book     @relation(fields: [bookId], references: [id])
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookRating {
+    id        String   @id
+    rate      Int
+    book      Book     @relation(fields: [bookId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    bookId    Int
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookComments {
+    id            Int                    @id @default(autoincrement())
+    content       String
+    book          Book                   @relation(fields: [bookId], references: [id])
+    user          User                   @relation(fields: [userId], references: [id])
+    bookId        Int
+    userId        Int
+    usersLike     UserLikeBookComments[]
+    predesessorId Int?
+    predecessor   BookComments?          @relation("BookCommentsFamily", fields: [predesessorId], references: [id])
+    successors    BookComments[]         @relation("BookCommentsFamily")
+    createdAt     DateTime               @default(now())
+    updatedAt     DateTime               @default(now()) @updatedAt
+}
+
+// * Abstract
+model UserLikeBookComments {
+    id            Int          @id @default(autoincrement())
+    bookComment   BookComments @relation(fields: [bookCommentId], references: [id])
+    user          User         @relation(fields: [userId], references: [id])
+    bookCommentId Int
+    userId        Int
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookBookmarks {
+    id        String    @id
+    bookmark  Bookmarks @default(Reading)
+    book      Book      @relation(fields: [bookId], references: [id])
+    user      User      @relation(fields: [userId], references: [id])
+    bookId    Int
+    userId    Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookProgressRead {
+    id            String       @id
+    lastChapter   BookChapters @relation(fields: [lastChapterId], references: [id])
+    book          Book         @relation(fields: [bookId], references: [id])
+    user          User         @relation(fields: [userId], references: [id])
+    lastChapterId Int
+    bookId        Int
+    userId        Int
+    show          Boolean      @default(true)
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookStatistic {
+    id                Int      @id @default(autoincrement())
+    rate              Float    @default(0)
+    views             Int      @default(0)
+    likes             Int      @default(0)
+    rateCount         Int      @default(0)
+    chapterCount      Int      @default(0)
+    bookmarkCount     Int      @default(0)
+    rateStatistic     Json     @default("{}")
+    bookmarkStatistic Json     @default("{}")
+    book              Book     @relation(fields: [bookId], references: [id])
+    bookId            Int      @unique
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookRelated {
+    id        Int      @id @default(autoincrement())
+    manga     Json     @default("{}")
+    ranobe    Json     @default("{}")
+    book      Book     @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum BookStatus {
+    Ongoing
+    Announced
+    Completed
+    Frozen
+    Canceled
+}
+
+enum Bookmarks {
+    Reading
+    Planned
+    Readed
+    Abandoned
+    Postponed
+}

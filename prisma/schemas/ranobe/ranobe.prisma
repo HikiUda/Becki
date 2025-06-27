@@ -1,0 +1,164 @@
+model Ranobe {
+    id                 Int                  @id @default(autoincrement())
+    urlId              String               @unique @default(uuid()) @db.VarChar(255)
+    title              RanobeTitle?
+    otherTitles        RanobeOtherTitles[]
+    description        RanobeDescription?
+    releaseDate        DateTime?
+    type               RanobeType           @default(Japan)
+    status             BookStatus           @default(Ongoing)
+    ageRating          Int                  @default(0)
+    covers             RanobeCovers[]
+    owner              User                 @relation(fields: [ownerId], references: [id])
+    ownerId            Int
+    banner             String?
+    genres             Int[]
+    tags               Int[]
+    related            RanobeRelated?
+    rating             RanobeRating[]
+    comments           RanobeComments[]
+    bookmarks          RanobeBookmarks[]
+    chapters           RanobeChapters[]
+    progressRead       RanobeProgressRead[]
+    statistic          RanobeStatistic?
+    moderated          Boolean              @default(false)
+    lastChapterAddedAt DateTime             @default(now())
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @default(now()) @updatedAt
+}
+
+model RanobeTitle {
+    id          Int      @id @default(autoincrement())
+    ru          String
+    en          String?
+    origin      String?
+    otherTitles String   @default("")
+    book        Ranobe   @relation(fields: [bookId], references: [id])
+    bookId      Int      @unique
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model RanobeOtherTitles {
+    id        Int      @id @default(autoincrement())
+    title     String
+    book      Ranobe   @relation(fields: [bookId], references: [id])
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model RanobeDescription {
+    id        Int      @id @default(autoincrement())
+    ru        String
+    en        String?
+    book      Ranobe   @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model RanobeCovers {
+    id        Int      @id @default(autoincrement())
+    cover     String
+    main      Boolean  @default(false)
+    book      Ranobe   @relation(fields: [bookId], references: [id])
+    bookId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model RanobeRating {
+    id        String   @id
+    rate      Int
+    book      Ranobe   @relation(fields: [bookId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    bookId    Int
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model RanobeComments {
+    id            Int                      @id @default(autoincrement())
+    content       String
+    book          Ranobe                   @relation(fields: [bookId], references: [id])
+    user          User                     @relation(fields: [userId], references: [id])
+    bookId        Int
+    userId        Int
+    usersLike     UserLikeRanobeComments[]
+    predesessorId Int?
+    predecessor   RanobeComments?          @relation("RanobeCommentsFamily", fields: [predesessorId], references: [id])
+    successors    RanobeComments[]         @relation("RanobeCommentsFamily")
+    createdAt     DateTime                 @default(now())
+    updatedAt     DateTime                 @default(now()) @updatedAt
+}
+
+model UserLikeRanobeComments {
+    id            Int            @id @default(autoincrement())
+    bookComment   RanobeComments @relation(fields: [bookCommentId], references: [id])
+    user          User           @relation(fields: [userId], references: [id])
+    bookCommentId Int
+    userId        Int
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @default(now()) @updatedAt
+}
+
+model RanobeBookmarks {
+    id        String    @id
+    bookmark  Bookmarks @default(Reading)
+    book      Ranobe    @relation(fields: [bookId], references: [id])
+    user      User      @relation(fields: [userId], references: [id])
+    bookId    Int
+    userId    Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now()) @updatedAt
+}
+
+model RanobeProgressRead {
+    id            String         @id
+    lastChapter   RanobeChapters @relation(fields: [lastChapterId], references: [id])
+    book          Ranobe         @relation(fields: [bookId], references: [id])
+    user          User           @relation(fields: [userId], references: [id])
+    lastChapterId Int
+    bookId        Int
+    userId        Int
+    show          Boolean        @default(true)
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @default(now()) @updatedAt
+}
+
+model RanobeStatistic {
+    id                Int      @id @default(autoincrement())
+    rate              Float    @default(0)
+    views             Int      @default(0)
+    likes             Int      @default(0)
+    rateCount         Int      @default(0)
+    chapterCount      Int      @default(0)
+    bookmarkCount     Int      @default(0)
+    rateStatistic     Json     @default("{}")
+    bookmarkStatistic Json     @default("{}")
+    book              Ranobe   @relation(fields: [bookId], references: [id])
+    bookId            Int      @unique
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @default(now()) @updatedAt
+}
+
+model RanobeRelated {
+    id        Int      @id @default(autoincrement())
+    manga     Json     @default("{}")
+    ranobe    Json     @default("{}")
+    book      Ranobe   @relation(fields: [bookId], references: [id])
+    bookId    Int      @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum RanobeType {
+    Japan
+    Korea
+    China
+    Foreign
+    Russia
+    Fanfic
+}

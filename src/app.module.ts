@@ -10,7 +10,7 @@ import { BookModule } from './modules/book/book.module';
 @Module({
     imports: [
         UserModule,
-        MangaModule,
+        //MangaModule,
         ConfigModule.forRoot({ isGlobal: true, validate: validateEnv }),
         FileModule,
         BookModule,

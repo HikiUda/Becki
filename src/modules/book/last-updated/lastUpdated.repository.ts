@@ -16,7 +16,6 @@ export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
         userId?: number,
     ): Promise<LastUpdatedMangaListDto> {
         const [manga, count] = await getLastUpdatedManga(this.prisma, query, userId);
-
         return {
             data: toLastUpdatedBookDto(manga, query.lang),
             ...getPagination(count, query.page, query.limit),

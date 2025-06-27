@@ -1,0 +1,78 @@
+// * Abstract
+model BookChapters {
+    id           Int                    @id @default(autoincrement())
+    title        BookChaptersTitle?
+    tome         Int                    @default(1)
+    chapter      Float
+    private      Boolean                @default(true)
+    book         Book                   @relation(fields: [bookId], references: [id])
+    bookId       Int
+    comments     BookChaptersComments[]
+    usersLike    UserLikeBookChapters[]
+    usersView    UserViewBookChapters[]
+    progressRead BookProgressRead[]
+    createdAt    DateTime               @default(now())
+    updatedAt    DateTime               @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookChaptersTitle {
+    id        Int          @id @default(autoincrement())
+    ru        String?
+    en        String?
+    chapter   BookChapters @relation(fields: [chapterId], references: [id])
+    chapterId Int          @unique
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @default(now()) @updatedAt
+}
+
+// * Abstract
+model UserLikeBookChapters {
+    id        String       @id
+    chapter   BookChapters @relation(fields: [chapterId], references: [id])
+    user      User         @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    isLiked   Boolean      @default(true)
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @default(now()) @updatedAt
+}
+
+model UserViewBookChapters {
+    id        String       @id
+    chapter   BookChapters @relation(fields: [chapterId], references: [id])
+    user      User         @relation(fields: [userId], references: [id])
+    chapterId Int
+    userId    Int
+    isViewed  Boolean      @default(true)
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @default(now()) @updatedAt
+}
+
+// * Abstract
+model BookChaptersComments {
+    id            Int                            @id @default(autoincrement())
+    content       String
+    page          Int
+    chapter       BookChapters                   @relation(fields: [chapterId], references: [id])
+    user          User                           @relation(fields: [userId], references: [id])
+    chapterId     Int
+    userId        Int
+    usersLike     UserLikeBookChaptersComments[]
+    predesessorId Int?
+    predecessor   BookChaptersComments?          @relation("BookChaptersCommentsFamily", fields: [predesessorId], references: [id])
+    successors    BookChaptersComments[]         @relation("BookChaptersCommentsFamily")
+    createdAt     DateTime                       @default(now())
+    updatedAt     DateTime                       @default(now()) @updatedAt
+}
+
+// * Abstract
+model UserLikeBookChaptersComments {
+    id               Int                  @id @default(autoincrement())
+    chapterComment   BookChaptersComments @relation(fields: [chapterCommentId], references: [id])
+    user             User                 @relation(fields: [userId], references: [id])
+    chapterCommentId Int
+    userId           Int
+    createdAt        DateTime             @default(now())
+    updatedAt        DateTime             @default(now()) @updatedAt
+}
