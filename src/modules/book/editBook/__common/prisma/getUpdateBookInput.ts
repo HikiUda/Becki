@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { MutateBookDto } from '../dto/mutateBook.dto';
 
-export const getUpdateBookInput = <T extends string>(dto: MutateBookDto & { type: T }) => {
+export const getUpdateBookInput = <T extends string>(dto: MutateBookDto & { type?: T }) => {
     return {
         urlId: dto.urlId,
         title: {

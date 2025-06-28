@@ -7,7 +7,7 @@ export const getLastUpdatedSelect = (lang: LangType) => {
         tome: true,
         chapter: true,
         createdAt: true,
-        manga: {
+        book: {
             select: {
                 id: true,
                 urlId: true,
@@ -16,5 +16,5 @@ export const getLastUpdatedSelect = (lang: LangType) => {
                 covers: { where: { main: true }, select: { cover: true } },
             },
         },
-    } satisfies Prisma.ChaptersSelect;
+    } satisfies Prisma.BookChaptersSelect;
 };

@@ -42,7 +42,7 @@ export class EditMangaService implements EditBookServiceInterface {
             dto.banner = savedBanner;
             if (prevBanner) await this.fileService.deleteFiles([prevBanner]);
         }
-        dto.urlId = dto.urlId + '---' + mangaId;
+        if (dto.urlId) dto.urlId = dto.urlId + '---' + mangaId;
         return await this.repository.updateBook(dto, mangaId, lang);
     }
 }

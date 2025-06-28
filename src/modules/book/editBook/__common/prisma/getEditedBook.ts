@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
 const getEditedBook = async (prisma: PrismaClient) =>
-    await prisma.manga.findUnique({
+    await prisma.book.findUnique({
         where: { id: 0 },
         include: {
             title: true,

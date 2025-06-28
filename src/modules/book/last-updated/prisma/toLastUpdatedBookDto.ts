@@ -8,11 +8,11 @@ export function toLastUpdatedBookDto(
 ): LastUpdatedMangaDto[] {
     return data.map((chapter) => {
         const manga: LastUpdatedMangaDto = {
-            id: chapter.manga.id,
-            urlId: chapter.manga.urlId,
-            title: chapter.manga.title?.[lang] || chapter.manga.title?.ru || '',
-            cover: chapter.manga.covers[0]?.cover || '',
-            type: chapter.manga.type,
+            id: chapter.book.id,
+            urlId: chapter.book.urlId,
+            title: chapter.book.title?.[lang] || chapter.book.title?.ru || '',
+            cover: chapter.book.covers[0]?.cover || '',
+            type: chapter.book.type,
             tome: chapter.tome,
             chapter: chapter.chapter,
             chapterCreatedAt: chapter.createdAt,

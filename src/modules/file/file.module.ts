@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { FileService } from './file.service';
 import { FileLocalRepository } from './fileLocal.repository';
 import { MangaFileService } from './mangaFile.service';
 import { RanobeFileService } from './ranobeFile.service';
@@ -13,7 +12,7 @@ import { RanobeFileService } from './ranobeFile.service';
             rootPath: join(__dirname, '..', '..', '..', 'static'),
         }),
     ],
-    providers: [FileService, FileLocalRepository, MangaFileService, RanobeFileService],
-    exports: [FileService, MangaFileService, RanobeFileService],
+    providers: [FileLocalRepository, MangaFileService, RanobeFileService],
+    exports: [MangaFileService, RanobeFileService],
 })
 export class FileModule {}

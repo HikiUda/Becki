@@ -3,7 +3,7 @@ import { getMutateBookSchema, getParseBodyMutateBook } from '../../__common/dto/
 import { createZodDto } from '@anatine/zod-nestjs';
 import { ApiHideProperty } from '@nestjs/swagger';
 
-const MutateMangaSchema = getMutateBookSchema(MangaTypeEnum);
+const MutateMangaSchema = getMutateBookSchema(MangaTypeEnum.optional());
 const ParseBodyMutateMangaSchema = getParseBodyMutateBook(MutateMangaSchema);
 
 export class MutateMangaDto extends createZodDto(MutateMangaSchema) {

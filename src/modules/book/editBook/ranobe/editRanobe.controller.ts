@@ -12,32 +12,32 @@ import {
 } from '@nestjs/common';
 import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { EditMangaService } from './editManga.service';
+import { EditRanobeService } from './editRanobe.service';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiMutateBookDto } from '../__common/ApiMutateBookDto';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
 import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
-import { EditBookControllerInterface } from '../__common/interfaces/editMangaController';
-import { EditedMangaDto } from './dto/editedManga.dto';
-import { MutateMangaDto, ParseBodyMutateMangaDto } from './dto/mutateManga.dto';
+import { EditedRanobeDto } from './dto/editedRanobe.dto';
+import { MutateRanobeDto, ParseBodyMutateRanobeDto } from './dto/mutateRanobe.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
+import { EditBookControllerInterface } from '../__common/interfaces/editMangaController';
 
-@Controller('manga')
-export class EditMangaController implements EditBookControllerInterface {
-    constructor(private service: EditMangaService) {}
+@Controller('ranobe')
+export class EditRanobeController implements EditBookControllerInterface {
+    constructor(private service: EditRanobeService) {}
 
-    @Get(':mangaId/edit')
-    @ApiOkResponse({ type: EditedMangaDto })
+    @Get(':ranobeId/edit')
+    @ApiOkResponse({ type: EditedRanobeDto })
     @ApiCustomNotFoundResponse()
     async getEditedBook(
-        @Param('mangaId', new ValidateBookIdPipe()) mangaId: number,
+        @Param('ranobeId', new ValidateBookIdPipe()) ranobeId: number,
         @Query() query: LangQueryDto,
-    ): Promise<EditedMangaDto> {
-        return await this.service.getEditedBook(mangaId, query.lang);
+    ): Promise<EditedRanobeDto> {
+        return await this.service.getEditedBook(ranobeId, query.lang);
     }
 
     @Post()
-    @ApiMutateBookDto(MutateMangaDto, EditedMangaDto)
+    @ApiMutateBookDto(MutateRanobeDto, EditedRanobeDto)
     @UseInterceptors(
         FileFieldsInterceptor([
             { name: 'banner', maxCount: 1 },
@@ -45,22 +45,22 @@ export class EditMangaController implements EditBookControllerInterface {
         ]),
     )
     async createBook(
-        @Body('body') body: ParseBodyMutateMangaDto,
+        @Body('body') body: ParseBodyMutateRanobeDto,
         @Query() query: LangQueryDto,
         @UploadedFiles() files: MutateBookFilesDto,
-    ): Promise<EditedMangaDto> {
+    ): Promise<EditedRanobeDto> {
         return await this.service.createBook(body, files, query.lang);
     }
 
-    @Put(':mangaId/edit')
-    @ApiMutateBookDto(MutateMangaDto, EditedMangaDto, false)
+    @Put(':ranobeId/edit')
+    @ApiMutateBookDto(MutateRanobeDto, EditedRanobeDto, false)
     @UseInterceptors(FileInterceptor('banner'))
     async updateBook(
-        @Param('mangaId', new ValidateBookIdPipe()) mangaId: number,
-        @Body('body') body: ParseBodyMutateMangaDto,
+        @Param('ranobeId', new ValidateBookIdPipe()) ranobeId: number,
+        @Body('body') body: ParseBodyMutateRanobeDto,
         @Query() query: LangQueryDto,
         @UploadedFile() banner: Express.Multer.File,
-    ): Promise<EditedMangaDto> {
-        return await this.service.updateBook(body, mangaId, query.lang, banner);
+    ): Promise<EditedRanobeDto> {
+        return await this.service.updateBook(body, ranobeId, query.lang, banner);
     }
 }
