@@ -6,6 +6,6 @@ export interface EditBookRepositoryInterface<> {
     getEditedBook: (bookId: number, lang: LangType) => Promise<EditedBookDto>;
     createBook: (dto: MutateBookDto) => Promise<number>;
     updateBook: (dto: MutateBookDto, bookId: number, lang: LangType) => Promise<EditedBookDto>;
-    deleteBook: (bookId: number) => Promise<number>;
+    addCover: (cover: string, bookId: number) => Promise<void>;
     getBookBanner: (bookId: number) => Promise<string | null>;
 }

@@ -1,4 +1,4 @@
 export interface MutateBookFilesDto {
-    covers?: Express.Multer.File[];
+    cover?: Express.Multer.File[];
     banner?: Express.Multer.File[];
 }

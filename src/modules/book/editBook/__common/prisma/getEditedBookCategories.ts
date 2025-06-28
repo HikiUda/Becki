@@ -14,9 +14,7 @@ function toEditedBookCategory(
 
 export const getEditedBookCategories = async (
     prisma: PrismaClient,
-    genresIds: number[],
-    tagsIds: number[],
-    lang: LangType,
+    { genresIds, tagsIds, lang }: { genresIds: number[]; tagsIds: number[]; lang: LangType },
 ) => {
     const genres = await prisma.bookGenres.findMany({
         where: { id: { in: genresIds } },

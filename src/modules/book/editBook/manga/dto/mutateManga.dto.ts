@@ -8,8 +8,6 @@ const ParseBodyMutateMangaSchema = getParseBodyMutateBook(MutateMangaSchema);
 
 export class MutateMangaDto extends createZodDto(MutateMangaSchema) {
     @ApiHideProperty()
-    coverId: number;
-    @ApiHideProperty()
-    banner: string;
+    banner?: string;
 }
 export class ParseBodyMutateMangaDto extends createZodDto(ParseBodyMutateMangaSchema) {}

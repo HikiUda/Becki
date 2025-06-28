@@ -7,8 +7,8 @@ export interface EditBookServiceInterface {
     getEditedBook: (bookId: number, lang: LangType) => Promise<EditedBookDto>;
     createBook: (
         dto: MutateBookDto,
-        lang: LangType,
         files: MutateBookFilesDto,
+        lang: LangType,
     ) => Promise<EditedBookDto>;
     updateBook: (
         dto: MutateBookDto,
@@ -16,5 +16,4 @@ export interface EditBookServiceInterface {
         lang: LangType,
         banner?: Express.Multer.File,
     ) => Promise<EditedBookDto>;
-    deleteBook: (bookId: number, lang: LangType) => Promise<void>;
 }

@@ -1,88 +1,48 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { EditMangaServiceInterface } from '../__common/interfaces/editMangaService';
+import { Injectable } from '@nestjs/common';
 import { EditMangaRepository } from './editManga.repository';
 import { LangType } from 'src/shared/dto/query/langQuery.dto';
-import { EditedMangaDto } from '../__common/dto/editedBook.dto';
-import { MutateMangaDto } from '../__common/dto/mutateManga/mutateManga.dto';
-import { MangaFilesUploadType } from '../../types/fileUpload';
-import { FileService } from 'src/modules/file/file.service';
-import { EditMangaCoverService } from '../editMangaCover/editMangaCover.service';
+import { MangaFileService } from 'src/modules/file/mangaFile.service';
+import { EditBookServiceInterface } from '../__common/interfaces/editMangaService';
+import { EditedMangaDto } from './dto/editedManga.dto';
+import { MutateMangaDto } from './dto/mutateManga.dto';
+import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
 @Injectable()
-export class EditMangaService implements EditMangaServiceInterface {
+export class EditMangaService implements EditBookServiceInterface {
     constructor(
-        private editMangaRepository: EditMangaRepository,
-        private fileService: FileService,
-        private editMangaCoversService: EditMangaCoverService,
+        private repository: EditMangaRepository,
+        private fileService: MangaFileService,
     ) {}
 
-    async getEditedManga(id: number, lang: LangType): Promise<EditedMangaDto> {
-        return await this.editMangaRepository.getEditedManga(id, lang);
-    }
-    async createManga(
-        dto: MutateMangaDto,
-        lang: LangType,
-        files: MangaFilesUploadType,
-    ): Promise<EditedMangaDto> {
-        const mangaId = await this.editMangaRepository.createManga(dto);
-        try {
-            if (files.covers?.length) {
-                const covers = await this.editMangaCoversService.addMangaCovers(
-                    mangaId,
-                    files.covers,
-                );
-                dto.coverId = covers[0].id;
-            }
-            if (files?.banner?.length) {
-                return await this.updateManga(dto, mangaId, lang, files.banner[0]);
-            }
-            return await this.updateManga(dto, mangaId, lang);
-        } catch (e: any) {
-            if (dto.coverId) {
-                await this.editMangaCoversService.deleteMangaCovers([dto.coverId]);
-            }
-            await this.deleteManga(mangaId, lang);
-            throw new BadRequestException(
-                'Что-то пошло не так. Пожалуйста попробуйте создать тайтл повторно.',
-                { description: e.message?.split('\n').slice(-1) },
-            );
-        }
+    async getEditedBook(mangaId: number, lang: LangType): Promise<EditedMangaDto> {
+        return await this.repository.getEditedBook(mangaId, lang);
     }
 
-    async updateManga(
+    async createBook(
+        dto: MutateMangaDto,
+        files: MutateBookFilesDto,
+        lang: LangType,
+    ): Promise<EditedMangaDto> {
+        const mangaId = await this.repository.createBook(dto);
+        if (files.cover?.length) {
+            const [cover] = await this.fileService.saveCovers(files.cover, mangaId);
+            await this.repository.addCover(cover, mangaId);
+        }
+        return await this.updateBook(dto, mangaId, lang, files.banner?.[0]);
+    }
+
+    async updateBook(
         dto: MutateMangaDto,
         mangaId: number,
         lang: LangType,
         banner?: Express.Multer.File,
     ): Promise<EditedMangaDto> {
-        const deleteFiles: string[] = [];
-        try {
-            let prevBanner: string | null = null;
-            if (banner) {
-                prevBanner = await this.editMangaRepository.getMangaBanner(mangaId);
-                const savedBanner = await this.fileService.saveMangaBanner(banner, mangaId);
-                dto.banner = savedBanner.url;
-                deleteFiles.push(savedBanner.url);
-            }
-            dto.urlId = dto.urlId + '---' + mangaId;
-            const manga = await this.editMangaRepository.updateManga(dto, mangaId, lang);
-            if (prevBanner) {
-                await this.fileService.deleteFiles([prevBanner]);
-            }
-            return manga;
-        } catch (e: any) {
-            await this.fileService.deleteFiles(deleteFiles);
-            throw new BadRequestException(
-                'Что-то пошло не так. Пожалуйста попробуйте обновить тайтл повторно.',
-                { description: e.message?.split('\n').slice(-1) },
-            );
+        if (banner) {
+            const prevBanner = await this.repository.getBookBanner(mangaId);
+            const savedBanner = await this.fileService.saveBanner(banner, mangaId);
+            dto.banner = savedBanner;
+            if (prevBanner) await this.fileService.deleteFiles([prevBanner]);
         }
-    }
-    async deleteManga(mangaId: number, lang: LangType): Promise<EditedMangaDto> {
-        const editedManga = await this.editMangaRepository.getEditedManga(mangaId, lang);
-        await this.editMangaRepository.deleteManga(editedManga);
-        const deletefiles = editedManga.covers.map((cover) => cover.cover);
-        if (editedManga.banner) deletefiles.push(editedManga.banner);
-        await this.fileService.deleteFiles(deletefiles);
-        return editedManga;
+        dto.urlId = dto.urlId + '---' + mangaId;
+        return await this.repository.updateBook(dto, mangaId, lang);
     }
 }

@@ -11,16 +11,16 @@ model User {
   lastQuickSearch UserLastQuickSearch? // TODO init in auht module
 
   // * Abstarct Book
-  book                        Book[]                         @ignore
-  bookRating                  BookRating[]                   @ignore
-  bookBookmarks               BookBookmarks[]                @ignore
-  bookComments                BookComments[]                 @ignore
-  userLikeBookComments        UserLikeBookComments[]         @ignore
-  bookChaptersComments        BookChaptersComments[]         @ignore
-  userLikeBookChaptersComment UserLikeBookChaptersComments[] @ignore
-  userLikeBookChapters        UserLikeBookChapters[]         @ignore
-  userViewBookChapters        UserViewBookChapters[]         @ignore
-  bookProgressRead            BookProgressRead[]             @ignore
+  book                        Book[]
+  bookRating                  BookRating[]
+  bookBookmarks               BookBookmarks[]
+  bookComments                BookComments[]
+  userLikeBookComments        UserLikeBookComments[]
+  bookChaptersComments        BookChaptersComments[]
+  userLikeBookChaptersComment UserLikeBookChaptersComments[]
+  userLikeBookChapters        UserLikeBookChapters[]
+  userViewBookChapters        UserViewBookChapters[]
+  bookProgressRead            BookProgressRead[]
 
   // * Manga
   manga                        Manga[]

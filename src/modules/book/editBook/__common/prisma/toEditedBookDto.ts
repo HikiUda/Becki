@@ -3,16 +3,11 @@ import { GetEditedBookReturnType } from './getEditedBook';
 import { AgeRatingEnum } from 'src/modules/book/_common/types/ageRating';
 import { GetEditedBookCategories } from './getEditedBookCategories';
 
-const getOtherTitles = (otherTitles: string | undefined) => {
-    if (!otherTitles) return [];
-    return otherTitles.split('/n');
-};
-
-export function toEditedMangaDto<T extends string>(
-    data: Omit<Exclude<GetEditedBookReturnType, null>, 'type'> & { type: T },
+export function toEditedBookDto<T extends string>(
+    data: Exclude<GetEditedBookReturnType, null> & { type: T },
     categories: GetEditedBookCategories,
-): Omit<EditedBookDto, 'type'> & { type: T } {
-    const manga: Omit<EditedBookDto, 'type'> & { type: T } = {
+): EditedBookDto & { type: T } {
+    const manga: EditedBookDto & { type: T } = {
         id: data.id,
         urlId: data.urlId,
         title: {
@@ -20,7 +15,7 @@ export function toEditedMangaDto<T extends string>(
             en: data.title?.en || null,
             origin: data.title?.origin || null,
         },
-        otherTitles: getOtherTitles(data.title?.otherTitles),
+        otherTitles: data.title?.otherTitles?.split('/n') || [],
         description: { ru: data.title?.ru || '', en: data.title?.en || null },
         releaseDate: data.releaseDate,
         status: data.status,

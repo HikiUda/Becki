@@ -12,9 +12,8 @@ export interface EditBookControllerInterface {
     ) => Promise<EditedBookDto>;
     updateBook: (
         bookId: number,
-        query: LangQueryDto,
         body: MutateBookDto,
+        query: LangQueryDto,
         banner: Express.Multer.File,
     ) => Promise<EditedBookDto>;
-    deleteBook: (bookId: number, query: LangQueryDto) => Promise<void>;
 }
