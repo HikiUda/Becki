@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
     EditedBookChapterList,
-    EditedBookChapterListQueryDto,
+    EditedBookChapterListQuery,
 } from '../__common/dto/editedBookChapterList';
 import { getEditedRanobeChapterList } from './prisma/getEditedChapterList';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { EditBookChaptersRepositoryInterface } from '../__common/interfaces/editChapterRepository';
 import { toEditedBookChapterList } from '../__common/prisma/toEditedBookChapterList';
-import { EditedBookChapterDto } from '../__common/dto/editedBookChapter.dto';
+import { EditedBookChapter } from '../__common/dto/editedBookChapter.dto';
 import { toEditedBookChapterDto } from '../__common/prisma/toEditedBookChapter';
 import { getCreateChapterInput } from '../__common/prisma/getCreateChapterInput';
 import { MutateBookChapterDto } from '../__common/dto/mutateChapter.dto';
@@ -19,13 +19,13 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
 
     async getEditedChapterList(
         bookId: number,
-        query: EditedBookChapterListQueryDto,
+        query: EditedBookChapterListQuery,
     ): Promise<EditedBookChapterList> {
         const data = await getEditedRanobeChapterList(this.prisma, bookId, query);
         return toEditedBookChapterList(data, query);
     }
 
-    async getEditedChapter(bookId: number, chapterId: number): Promise<EditedBookChapterDto> {
+    async getEditedChapter(bookId: number, chapterId: number): Promise<EditedBookChapter> {
         const chapter = await this.prisma.ranobeChapters.findUnique({
             where: { id: chapterId, bookId },
             include: { title: true },
@@ -34,9 +34,9 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
         return toEditedBookChapterDto(chapter);
     }
 
-    async createChapter(bookId: number, dto: MutateBookChapterDto): Promise<void> {
+    async createChapter(bookId: number, data: MutateBookChapterDto): Promise<void> {
         await this.prisma.ranobeChapters.create({
-            data: getCreateChapterInput(bookId, dto),
+            data: getCreateChapterInput(bookId, data),
         });
         await this.prisma.ranobeStatistic.update({
             where: { bookId },
@@ -48,11 +48,11 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
     async updateChapter(
         bookId: number,
         chapterId: number,
-        dto: MutateBookChapterDto,
+        data: MutateBookChapterDto,
     ): Promise<void> {
         await this.prisma.ranobeChapters.update({
             where: { id: chapterId, bookId },
-            data: getUpdateChapterInput(dto),
+            data: getUpdateChapterInput(data),
         });
         return;
     }

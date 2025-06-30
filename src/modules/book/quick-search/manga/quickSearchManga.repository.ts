@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { QuickSearchRepositoryInterface } from '../__common/interfaces/quickSearchRepository';
-import { QuickSearchMangaDto } from './dto/quickSearchManga';
-import { QuickSearchQueryDto } from '../__common/dto/quickSearchQuery.dto';
+import { QuickSearchManga } from './dto/quickSearchManga.dto';
+import { QuickSearchQuery } from '../__common/dto/quickSearchQuery.dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
-import { getQuickSearchManga, toQuickSearchMangaDto } from './prisma/getQuickSearchManga';
-import { setUserLastQuery } from './prisma/setUserLastQueries';
-import { getUserLastQueries } from './prisma/getUserLastQueries';
+import {
+    getQuickSearchBooksSelectInput,
+    getQuickSearchBooksWhereInput,
+    toQuickSearchBooks,
+} from '../__common/prisma/getQuickSearchBooks';
 
 @Injectable()
-export class QuickSearchMangaRepository
-    implements QuickSearchRepositoryInterface<QuickSearchMangaDto[]>
-{
+export class QuickSearchMangaRepository implements QuickSearchRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
-    async getBooks(query: QuickSearchQueryDto): Promise<QuickSearchMangaDto[]> {
-        const manga = await getQuickSearchManga(this.prisma, query);
-        return toQuickSearchMangaDto(manga, query.lang);
+    async getBooks(query: QuickSearchQuery): Promise<QuickSearchManga[]> {
+        const manga = await this.prisma.manga.findMany({
+            take: query.limit,
+            where: getQuickSearchBooksWhereInput(query.search),
+            orderBy: { statistic: { rate: 'desc' } },
+            select: getQuickSearchBooksSelectInput(),
+        });
+        return toQuickSearchBooks(manga, query.lang);
     }
+
     async getUserLastQueries(userId: number): Promise<string[]> {
-        return await getUserLastQueries(this.prisma, userId);
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { lastQuickSearch: { select: { manga: true } } },
+        });
+        return user?.lastQuickSearch?.manga || [];
     }
+
     async setUserLastQueries(data: string[], userId: number): Promise<string[]> {
-        return await setUserLastQuery(this.prisma, { data, userId });
+        const user = await this.prisma.user.update({
+            where: { id: userId },
+            data: { lastQuickSearch: { update: { manga: { set: data } } } },
+            select: { lastQuickSearch: { select: { manga: true } } },
+        });
+        return user.lastQuickSearch?.manga || [];
     }
 }

@@ -2,7 +2,7 @@ import { Bookmarks } from '@prisma/client';
 
 import { ApiProperty } from '@nestjs/swagger'; // импортируй свои типы
 
-export abstract class CatalogBookDto<T extends string> {
+export abstract class CatalogBook {
     @ApiProperty()
     id: number;
 
@@ -15,7 +15,7 @@ export abstract class CatalogBookDto<T extends string> {
     @ApiProperty()
     rate: number;
 
-    abstract type: T;
+    abstract type: string;
 
     @ApiProperty()
     cover: string;

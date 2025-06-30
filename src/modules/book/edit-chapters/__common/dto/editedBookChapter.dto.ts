@@ -7,7 +7,7 @@ export class EditedBookChapterTitle {
     en: string | null;
 }
 
-export class EditedBookChapterDto {
+export class EditedBookChapter {
     @ApiProperty()
     id: number;
     @ApiProperty()

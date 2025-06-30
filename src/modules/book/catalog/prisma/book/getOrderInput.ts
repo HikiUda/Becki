@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { OrderType, SortByType } from '../../dto/catalogQuery/sortByOrder.schema';
 
-type OrderBy = Prisma.MangaOrderByWithRelationInput;
+type OrderBy = Prisma.BookOrderByWithRelationInput;
 
 export const getOrderInput = ({ sortBy, order }: { sortBy: SortByType; order: OrderType }) => {
     if (sortBy === 'ruAlphabetically') return { title: { ru: order } } satisfies OrderBy;

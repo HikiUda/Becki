@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { EditedBookChapterList, EditedBookChapterListQueryDto } from '../dto/editedBookChapterList';
+import { EditedBookChapterList, EditedBookChapterListQuery } from '../dto/editedBookChapterList';
 import { getPagination } from 'src/shared/helpers/pagination/getPagination';
 
 const getEditedBookChapterList = async (prisma: PrismaClient) => {
@@ -17,7 +17,7 @@ type GetEditedBookChapterList = Prisma.PromiseReturnType<typeof getEditedBookCha
 
 export function toEditedBookChapterList(
     data: GetEditedBookChapterList,
-    query: EditedBookChapterListQueryDto,
+    query: EditedBookChapterListQuery,
 ): EditedBookChapterList {
     const { lang, limit, page } = query;
     const chapters = data[0].map((chapter) => ({

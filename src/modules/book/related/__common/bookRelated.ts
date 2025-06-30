@@ -23,3 +23,12 @@ export const BookRelatedDefault: BookRelated = {
     manga: {},
     ranobe: {},
 };
+
+const ParsedRelatedIdSchema = z.tuple([z.enum(['manga', 'ranobe']), z.coerce.number().int()]);
+export type ParsedRelatedId = z.infer<typeof ParsedRelatedIdSchema>;
+
+export const getRelatedId = (type: 'manga' | 'ranobe', id: number) => `${type}---${id}`;
+export const parseRelatedId = (relatedId: string) => {
+    const parsed = relatedId.split('---');
+    return ParsedRelatedIdSchema.parse(parsed);
+};

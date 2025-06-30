@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { EditedBookChapterDto } from '../dto/editedBookChapter.dto';
+import { EditedBookChapter } from '../dto/editedBookChapter.dto';
 
 const getEditedBookChapter = async (prisma: PrismaClient) => {
     return await prisma.bookChapters.findUnique({
@@ -11,7 +11,7 @@ type GetEditedBookChapter = Prisma.PromiseReturnType<typeof getEditedBookChapter
 
 export function toEditedBookChapterDto(
     data: Exclude<GetEditedBookChapter, null>,
-): EditedBookChapterDto {
+): EditedBookChapter {
     return {
         id: data.id,
         title: {

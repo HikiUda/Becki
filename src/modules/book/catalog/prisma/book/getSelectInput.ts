@@ -10,5 +10,5 @@ export const getSelectInput = (lang: LangType, userId?: number) => {
         statistic: { select: { chapterCount: true, rate: true } },
         bookmarks: !!userId && { where: { userId }, select: { bookmark: true } },
         covers: { where: { main: true }, select: { cover: true } },
-    } satisfies Prisma.MangaSelect;
+    } satisfies Prisma.BookSelect;
 };

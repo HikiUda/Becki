@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ResponseArrayData } from 'src/shared/types/pagination';
 
-export abstract class QuickSearchBookDto<T extends string> {
+export abstract class QuickSearchBook {
     @ApiProperty()
     id: number;
 
@@ -10,7 +11,7 @@ export abstract class QuickSearchBookDto<T extends string> {
     @ApiProperty()
     title: string;
 
-    abstract type: T;
+    abstract type: string;
 
     @ApiProperty()
     cover: string;
@@ -24,3 +25,5 @@ export abstract class QuickSearchBookDto<T extends string> {
     @ApiProperty()
     bookmarks: number;
 }
+
+export type QuickSearchBookList = ResponseArrayData<QuickSearchBook>;

@@ -1,10 +1,15 @@
 import { OptionalAuthUserRequest } from 'src/modules/user/auth';
-import { LastUpdatedQueryDto } from '../dto/lastUpdatedQuery.dto';
-import { LastUpdatedMangaListDto } from '../dto/lastUpdatedManga.dto';
+import { LastUpdatedQuery } from '../dto/lastUpdatedQuery.dto';
+import { LastUpdatedMangaList } from '../dto/lastUpdatedManga.dto';
+import { LastUpdatedRanobeList } from '../dto/lastUpdatedRanobe.dto';
 
 export interface LastUpdatedControllerInterface {
     getLastUpdatedManga: (
         req: OptionalAuthUserRequest,
-        query: LastUpdatedQueryDto,
-    ) => Promise<LastUpdatedMangaListDto>;
+        query: LastUpdatedQuery,
+    ) => Promise<LastUpdatedMangaList>;
+    getLastUpdatedRanobe: (
+        req: OptionalAuthUserRequest,
+        query: LastUpdatedQuery,
+    ) => Promise<LastUpdatedRanobeList>;
 }

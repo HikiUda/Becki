@@ -11,23 +11,23 @@ export class EditMangaCoversService implements EditBookCoversServiceInterface {
         private fileService: MangaFileService,
     ) {}
 
-    async getEditedCovers(mangaId: number): Promise<EditedBookCoverList> {
-        const covers = await this.repository.getEditedCovers(mangaId);
+    async getEditedCovers(bookId: number): Promise<EditedBookCoverList> {
+        const covers = await this.repository.getEditedCovers(bookId);
         return { data: covers };
     }
 
-    async addCovers(mangaId: number, covers: Express.Multer.File[]): Promise<void> {
-        const savedCovers = await this.fileService.saveCovers(covers, mangaId);
-        await this.repository.addCovers(mangaId, savedCovers);
+    async addCovers(bookId: number, covers: Express.Multer.File[]): Promise<void> {
+        const savedCovers = await this.fileService.saveCovers(covers, bookId);
+        await this.repository.addCovers(bookId, savedCovers);
         return;
     }
 
-    async setMainCover(mangaId: number, coverId: number): Promise<void> {
-        await this.repository.setMainCover(mangaId, coverId);
+    async setMainCover(bookId: number, coverId: number): Promise<void> {
+        await this.repository.setMainCover(bookId, coverId);
     }
 
-    async deleteCovers(mangaId: number, coversId: number[]): Promise<void> {
-        const deletedCovers = await this.repository.deleteCovers(mangaId, coversId);
+    async deleteCovers(bookId: number, coversId: number[]): Promise<void> {
+        const deletedCovers = await this.repository.deleteCovers(bookId, coversId);
         await this.fileService.deleteFiles(deletedCovers);
         return;
     }

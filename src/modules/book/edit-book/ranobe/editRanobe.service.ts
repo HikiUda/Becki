@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { EditRanobeRepository } from './editRanobe.repository';
 import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { RanobeFileService } from 'src/modules/file/ranobeFile.service';
-import { EditedRanobeDto } from './dto/editedRanobe.dto';
+import { EditedRanobe } from './dto/editedRanobe.dto';
 import { MutateRanobeDto } from './dto/mutateRanobe.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
-import { EditBookServiceInterface } from '../__common/interfaces/editMangaService';
+import { EditBookServiceInterface } from '../__common/interfaces/editBookService';
 
 @Injectable()
 export class EditRanobeService implements EditBookServiceInterface {
@@ -14,36 +14,33 @@ export class EditRanobeService implements EditBookServiceInterface {
         private fileService: RanobeFileService,
     ) {}
 
-    async getEditedBook(ranobeId: number, lang: LangType): Promise<EditedRanobeDto> {
-        return await this.repository.getEditedBook(ranobeId, lang);
+    async getEditedBook(bookId: number, lang: LangType): Promise<EditedRanobe> {
+        return await this.repository.getEditedBook(bookId, lang);
     }
 
-    async createBook(
-        dto: MutateRanobeDto,
-        files: MutateBookFilesDto,
-        lang: LangType,
-    ): Promise<EditedRanobeDto> {
-        const ranobeId = await this.repository.createBook(dto);
+    async createBook(data: MutateRanobeDto, files: MutateBookFilesDto): Promise<void> {
+        const bookId = await this.repository.createBook(data);
         if (files.cover?.length) {
-            const [cover] = await this.fileService.saveCovers(files.cover, ranobeId);
-            await this.repository.addCover(cover, ranobeId);
+            const [cover] = await this.fileService.saveCovers(files.cover, bookId);
+            await this.repository.addCover(cover, bookId);
         }
-        return await this.updateBook(dto, ranobeId, lang, files.banner?.[0]);
+        await this.updateBook(data, bookId, files.banner?.[0]);
+        return;
     }
 
     async updateBook(
-        dto: MutateRanobeDto,
-        ranobeId: number,
-        lang: LangType,
+        data: MutateRanobeDto,
+        bookId: number,
         banner?: Express.Multer.File,
-    ): Promise<EditedRanobeDto> {
+    ): Promise<void> {
         if (banner) {
-            const prevBanner = await this.repository.getBookBanner(ranobeId);
-            const savedBanner = await this.fileService.saveBanner(banner, ranobeId);
-            dto.banner = savedBanner;
+            const prevBanner = await this.repository.getBookBanner(bookId);
+            const savedBanner = await this.fileService.saveBanner(banner, bookId);
+            data.banner = savedBanner;
             if (prevBanner) await this.fileService.deleteFiles([prevBanner]);
         }
-        if (dto.urlId) dto.urlId = dto.urlId + '---' + ranobeId;
-        return await this.repository.updateBook(dto, ranobeId, lang);
+        if (data.urlId) data.urlId = data.urlId + '---' + bookId;
+        await this.repository.updateBook(data, bookId);
+        return;
     }
 }

@@ -1,10 +1,14 @@
 import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { DeleteQuickSearchLastDto } from '../dto/deleteQuickSearchLast.dto';
-import { QuickSearchQueryDto } from '../dto/quickSearchQuery.dto';
-import { QuickSearchLastDto } from '../dto/quickSearchLast.dto';
+import { QuickSearchQuery } from '../dto/quickSearchQuery.dto';
+import { QuickSearchLastList } from '../dto/quickSearchLastList.dto';
+import { QuickSearchBookList } from '../dto/quickSearchBook.dto';
 
-export interface QuickSearchControllerInterface<T> {
-    getBooks: (req: OptionalAuthUserRequest, query: QuickSearchQueryDto) => Promise<T>;
-    getUserLastQueries: (req: AuthUserRequest) => Promise<QuickSearchLastDto>;
+export interface QuickSearchControllerInterface {
+    getBooks: (
+        req: OptionalAuthUserRequest,
+        query: QuickSearchQuery,
+    ) => Promise<QuickSearchBookList>;
+    getUserLastQueries: (req: AuthUserRequest) => Promise<QuickSearchLastList>;
     deleteUserLastQuery: (req: AuthUserRequest, body: DeleteQuickSearchLastDto) => Promise<void>;
 }

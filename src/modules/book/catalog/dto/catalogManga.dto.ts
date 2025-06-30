@@ -1,14 +1,14 @@
 import { MangaType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { Pagination } from 'src/shared/types/pagination';
-import { CatalogBookDto } from './catalogBook.dto';
+import { CatalogBook } from './catalogBook.dto';
 
-export class CatalogMangaDto extends CatalogBookDto<MangaType> {
+export class CatalogManga extends CatalogBook {
     @ApiProperty({ enum: MangaType })
     type: MangaType;
 }
 
-export class CatalogMangaListDto extends Pagination<CatalogMangaDto> {
-    @ApiProperty({ type: [CatalogMangaDto] })
-    data: CatalogMangaDto[];
+export class CatalogMangaList extends Pagination<CatalogManga> {
+    @ApiProperty({ type: [CatalogManga] })
+    data: CatalogManga[];
 }

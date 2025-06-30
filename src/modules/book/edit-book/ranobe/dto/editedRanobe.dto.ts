@@ -1,8 +1,8 @@
 import { RanobeType } from '@prisma/client';
-import { EditedBookDto } from '../../__common/dto/editedBook.dto';
+import { EditedBook } from '../../__common/dto/editedBook.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class EditedRanobeDto extends EditedBookDto {
+export class EditedRanobe extends EditedBook {
     @ApiProperty({ enum: RanobeType })
     type: RanobeType;
 }

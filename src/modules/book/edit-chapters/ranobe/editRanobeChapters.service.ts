@@ -3,34 +3,34 @@ import { EditBookChaptersServiceInterface } from '../__common/interfaces/editCha
 import { EditRanobeChaptersRepository } from './editRanobeChapters.repository';
 import {
     EditedBookChapterList,
-    EditedBookChapterListQueryDto,
+    EditedBookChapterListQuery,
 } from '../__common/dto/editedBookChapterList';
 import { MutateBookChapterDto } from '../__common/dto/mutateChapter.dto';
-import { EditedBookChapterDto } from '../__common/dto/editedBookChapter.dto';
+import { EditedBookChapter } from '../__common/dto/editedBookChapter.dto';
 
 @Injectable()
 export class EditRanobeChaptersService implements EditBookChaptersServiceInterface {
     constructor(private repository: EditRanobeChaptersRepository) {}
     async getEditedChapterList(
         bookId: number,
-        query: EditedBookChapterListQueryDto,
+        query: EditedBookChapterListQuery,
     ): Promise<EditedBookChapterList> {
         return await this.repository.getEditedChapterList(bookId, query);
     }
 
-    async getEditedChapter(bookId: number, chapterId: number): Promise<EditedBookChapterDto> {
+    async getEditedChapter(bookId: number, chapterId: number): Promise<EditedBookChapter> {
         return await this.repository.getEditedChapter(bookId, chapterId);
     }
 
-    async createChapter(bookId: number, dto: MutateBookChapterDto): Promise<void> {
-        return await this.repository.createChapter(bookId, dto);
+    async createChapter(bookId: number, data: MutateBookChapterDto): Promise<void> {
+        return await this.repository.createChapter(bookId, data);
     }
 
     async updateChapter(
         bookId: number,
         chapterId: number,
-        dto: MutateBookChapterDto,
+        data: MutateBookChapterDto,
     ): Promise<void> {
-        return await this.repository.updateChapter(bookId, chapterId, dto);
+        return await this.repository.updateChapter(bookId, chapterId, data);
     }
 }

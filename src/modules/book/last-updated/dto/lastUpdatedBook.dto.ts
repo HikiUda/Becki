@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export abstract class LastUpdatedBookDto<T extends string> {
+export abstract class LastUpdatedBook {
     @ApiProperty()
     id: number;
 
@@ -10,7 +10,7 @@ export abstract class LastUpdatedBookDto<T extends string> {
     @ApiProperty()
     title: string;
 
-    abstract type: T;
+    abstract type: string;
 
     @ApiProperty()
     cover: string;

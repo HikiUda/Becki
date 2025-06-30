@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { QuickSearchMangaRepository } from './quickSearchManga.repository';
 import { QuickSearchServiceInterface } from '../__common/interfaces/quickSearchService';
-import { QuickSearchMangaDto } from './dto/quickSearchManga';
-import { QuickSearchQueryDto } from '../__common/dto/quickSearchQuery.dto';
+import { QuickSearchMangaList } from './dto/quickSearchManga.dto';
+import { QuickSearchQuery } from '../__common/dto/quickSearchQuery.dto';
+import { QuickSearchLastList } from '../__common/dto/quickSearchLastList.dto';
 
 @Injectable()
-export class QuickSearchMangaService implements QuickSearchServiceInterface<QuickSearchMangaDto[]> {
+export class QuickSearchMangaService implements QuickSearchServiceInterface {
     constructor(private repository: QuickSearchMangaRepository) {}
 
-    async getBooks(
-        query: QuickSearchQueryDto,
-        userId: number | null,
-    ): Promise<QuickSearchMangaDto[]> {
+    async getBooks(query: QuickSearchQuery, userId: number | null): Promise<QuickSearchMangaList> {
         const { search } = query;
         if (userId && search) {
             const queries = await this.repository.getUserLastQueries(userId);
@@ -19,10 +17,13 @@ export class QuickSearchMangaService implements QuickSearchServiceInterface<Quic
             await this.repository.setUserLastQueries(handledQueries, userId);
         }
 
-        return await this.repository.getBooks(query);
+        const data = await this.repository.getBooks(query);
+        return { data };
     }
-    async getUserLastQueries(userId: number): Promise<string[]> {
-        return await this.repository.getUserLastQueries(userId);
+
+    async getUserLastQueries(userId: number): Promise<QuickSearchLastList> {
+        const data = await this.repository.getUserLastQueries(userId);
+        return { data };
     }
     async deleteUserLastQuery(search: string, userId: number): Promise<void> {
         const queries = await this.repository.getUserLastQueries(userId);

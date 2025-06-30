@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { EditedBookChapterListQueryDto } from '../../__common/dto/editedBookChapterList';
+import { EditedBookChapterListQuery } from '../../__common/dto/editedBookChapterList';
 import { getEditedChapterListWhereInput } from '../../__common/prisma/getEditedChapterListWhereInput';
 
 export const getEditedMangaChapterList = async (
     prisma: PrismaClient,
     bookId: number,
-    query: EditedBookChapterListQueryDto,
+    query: EditedBookChapterListQuery,
 ) => {
     const { search, limit, page, order } = query;
     const skip = limit * (page - 1);

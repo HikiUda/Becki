@@ -7,40 +7,44 @@ import { getCreateBookCoversInput } from '../__common/prisma/getCreateBookCovers
 @Injectable()
 export class EditMangaCoversRepository implements EditBookCoversRepositoryInterface {
     constructor(private prisma: PrismaService) {}
-    async getEditedCovers(mangaId: number): Promise<EditedBookCover[]> {
+
+    async getEditedCovers(bookId: number): Promise<EditedBookCover[]> {
         return await this.prisma.mangaCovers.findMany({
-            where: { bookId: mangaId },
+            where: { bookId },
             select: { id: true, cover: true, main: true },
         });
     }
 
-    async addCovers(mangaId: number, covers: string[]): Promise<void> {
+    async addCovers(bookId: number, covers: string[]): Promise<void> {
         const haveMainCover = await this.prisma.mangaCovers.findFirst({
-            where: { bookId: mangaId, main: true },
+            where: { bookId, main: true },
         });
         await this.prisma.mangaCovers.createMany({
-            data: getCreateBookCoversInput(mangaId, covers, !haveMainCover),
+            data: getCreateBookCoversInput(bookId, covers, !haveMainCover),
         });
         return;
     }
 
-    async setMainCover(mangaId: number, coverId: number): Promise<void> {
+    async setMainCover(bookId: number, coverId: number): Promise<void> {
         await this.prisma.mangaCovers.updateMany({
-            where: { bookId: mangaId },
+            where: { bookId },
             data: { main: false },
         });
-        await this.prisma.mangaCovers.update({ where: { id: coverId }, data: { main: true } });
+        await this.prisma.mangaCovers.update({
+            where: { id: coverId, bookId },
+            data: { main: true },
+        });
         return;
     }
 
-    async deleteCovers(mangaId: number, coversId: number[]): Promise<string[]> {
+    async deleteCovers(bookId: number, coversId: number[]): Promise<string[]> {
         const covers = await this.prisma.mangaCovers.findMany({
-            where: { id: { in: coversId }, bookId: mangaId },
+            where: { id: { in: coversId }, bookId },
             select: { cover: true },
         });
 
         await this.prisma.mangaCovers.deleteMany({
-            where: { id: { in: coversId }, bookId: mangaId },
+            where: { id: { in: coversId }, bookId },
         });
 
         return covers.map((cover) => cover.cover);

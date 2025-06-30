@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { EditMangaRepository } from './editManga.repository';
 import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { MangaFileService } from 'src/modules/file/mangaFile.service';
-import { EditBookServiceInterface } from '../__common/interfaces/editMangaService';
-import { EditedMangaDto } from './dto/editedManga.dto';
+import { EditBookServiceInterface } from '../__common/interfaces/editBookService';
+import { EditedManga } from './dto/editedManga.dto';
 import { MutateMangaDto } from './dto/mutateManga.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
 @Injectable()
@@ -13,36 +13,33 @@ export class EditMangaService implements EditBookServiceInterface {
         private fileService: MangaFileService,
     ) {}
 
-    async getEditedBook(mangaId: number, lang: LangType): Promise<EditedMangaDto> {
-        return await this.repository.getEditedBook(mangaId, lang);
+    async getEditedBook(bookId: number, lang: LangType): Promise<EditedManga> {
+        return await this.repository.getEditedBook(bookId, lang);
     }
 
-    async createBook(
-        dto: MutateMangaDto,
-        files: MutateBookFilesDto,
-        lang: LangType,
-    ): Promise<EditedMangaDto> {
-        const mangaId = await this.repository.createBook(dto);
+    async createBook(data: MutateMangaDto, files: MutateBookFilesDto): Promise<void> {
+        const bookId = await this.repository.createBook(data);
         if (files.cover?.length) {
-            const [cover] = await this.fileService.saveCovers(files.cover, mangaId);
-            await this.repository.addCover(cover, mangaId);
+            const [cover] = await this.fileService.saveCovers(files.cover, bookId);
+            await this.repository.addCover(cover, bookId);
         }
-        return await this.updateBook(dto, mangaId, lang, files.banner?.[0]);
+        await this.updateBook(data, bookId, files.banner?.[0]);
+        return;
     }
 
     async updateBook(
-        dto: MutateMangaDto,
-        mangaId: number,
-        lang: LangType,
+        data: MutateMangaDto,
+        bookId: number,
         banner?: Express.Multer.File,
-    ): Promise<EditedMangaDto> {
+    ): Promise<void> {
         if (banner) {
-            const prevBanner = await this.repository.getBookBanner(mangaId);
-            const savedBanner = await this.fileService.saveBanner(banner, mangaId);
-            dto.banner = savedBanner;
+            const prevBanner = await this.repository.getBookBanner(bookId);
+            const savedBanner = await this.fileService.saveBanner(banner, bookId);
+            data.banner = savedBanner;
             if (prevBanner) await this.fileService.deleteFiles([prevBanner]);
         }
-        if (dto.urlId) dto.urlId = dto.urlId + '---' + mangaId;
-        return await this.repository.updateBook(dto, mangaId, lang);
+        if (data.urlId) data.urlId = data.urlId + '---' + bookId;
+        await this.repository.updateBook(data, bookId);
+        return;
     }
 }

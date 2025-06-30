@@ -18,8 +18,11 @@ export class RelatedBookRepository implements RelatedBookRepositoryInt {
     constructor(private prisma: PrismaService) {}
 
     async getRelatedBooks(bookRelated: BookRelated, lang: LangType): Promise<RelatedBookDto[]> {
-        const { manga } = await getRelatedBooks(this.prisma, bookRelated, lang);
-        return toRelatedBookDto(manga, bookRelated, 'manga', lang);
+        const { manga, ranobe } = await getRelatedBooks(this.prisma, bookRelated, lang);
+        return [
+            ...toRelatedBookDto(manga, bookRelated, 'manga', lang),
+            ...toRelatedBookDto(ranobe, bookRelated, 'ranobe', lang),
+        ];
     }
 
     async getBooksByUrlIds(ids: string[]): Promise<BooksByUrlIds> {

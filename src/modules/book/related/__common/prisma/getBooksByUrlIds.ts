@@ -5,7 +5,10 @@ export const getBooksByUrlIds = async (prisma: PrismaClient, ids: string[]) => {
         where: { urlId: { in: ids } },
         select: { id: true, urlId: true },
     });
-    const ranobe: { id: number; urlId: string }[] = [];
+    const ranobe = await prisma.ranobe.findMany({
+        where: { urlId: { in: ids } },
+        select: { id: true, urlId: true },
+    });
 
     return { manga, ranobe } as const;
 };

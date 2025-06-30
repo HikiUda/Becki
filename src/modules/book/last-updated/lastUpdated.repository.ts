@@ -1,23 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { LastUpdatedRepositoryInterface } from './interfaces/publicMangaRepository';
-import { LastUpdatedQueryDto } from './dto/lastUpdatedQuery.dto';
+import { LastUpdatedQuery } from './dto/lastUpdatedQuery.dto';
 import { getPagination } from 'src/shared/helpers/pagination/getPagination';
-import { LastUpdatedMangaListDto } from './dto/lastUpdatedManga.dto';
+import { LastUpdatedMangaList } from './dto/lastUpdatedManga.dto';
 import { getLastUpdatedManga } from './prisma/getLastUpdatedManga';
-import { toLastUpdatedBookDto } from './prisma/toLastUpdatedBookDto';
+import { toLastUpdatedBook } from './prisma/toLastUpdatedBook';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
+import { LastUpdatedRanobeList } from './dto/lastUpdatedRanobe.dto';
+import { getLastUpdatedRanobe } from './prisma/getLastUpdatedRanobe';
 
 @Injectable()
 export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
     async getLastUpdatedManga(
-        query: LastUpdatedQueryDto,
+        query: LastUpdatedQuery,
         userId?: number,
-    ): Promise<LastUpdatedMangaListDto> {
+    ): Promise<LastUpdatedMangaList> {
         const [manga, count] = await getLastUpdatedManga(this.prisma, query, userId);
         return {
-            data: toLastUpdatedBookDto(manga, query.lang),
+            data: toLastUpdatedBook(manga, query.lang),
+            ...getPagination(count, query.page, query.limit),
+        };
+    }
+
+    async getLastUpdatedRanobe(
+        query: LastUpdatedQuery,
+        userId?: number,
+    ): Promise<LastUpdatedRanobeList> {
+        const [ranboe, count] = await getLastUpdatedRanobe(this.prisma, query, userId);
+        return {
+            data: toLastUpdatedBook(ranboe, query.lang),
             ...getPagination(count, query.page, query.limit),
         };
     }

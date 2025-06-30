@@ -25,7 +25,7 @@ export class EditedBookChapterList extends Pagination<EditedBookChapterListItem>
     data: EditedBookChapterListItem[];
 }
 
-export const EditedBookChapterListQuery = z
+export const EditedBookChapterListQuerySchema = z
     .object({
         search: z.string().default(''),
         order: z.enum(['asc', 'desc']).default('desc'),
@@ -33,4 +33,4 @@ export const EditedBookChapterListQuery = z
     .merge(LangQueryScheme)
     .merge(PaginationQueryScheme);
 
-export class EditedBookChapterListQueryDto extends createZodDto(EditedBookChapterListQuery) {}
+export class EditedBookChapterListQuery extends createZodDto(EditedBookChapterListQuerySchema) {}

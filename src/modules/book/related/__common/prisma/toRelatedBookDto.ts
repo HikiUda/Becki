@@ -1,27 +1,25 @@
 import { LangType } from 'src/shared/dto/query/langQuery.dto';
-import { GetRelatedBooksReturnType } from './getRelatedBooks';
+import { GetRelatedBook } from './getRelatedBooks';
 import { RelatedBookDto } from '../dto/relatedBook.dto';
-import { BookRelated } from '../bookRelated';
-import { ParsedRelatedId } from '../dto/mutateRelatedBook.dto';
+import { BookRelated, getRelatedId } from '../bookRelated';
+import { ParsedRelatedId } from '../bookRelated';
 
 export function toRelatedBookDto(
-    data: GetRelatedBooksReturnType['manga'],
+    data: GetRelatedBook,
     bookRelated: BookRelated,
     bookType: ParsedRelatedId[0],
     lang: LangType,
 ): RelatedBookDto[] {
-    return data.map((mangaData) => {
-        const manga: RelatedBookDto = {
-            id: mangaData.id,
-            urlId: mangaData.urlId,
-            title: mangaData.title?.[lang] || mangaData.title?.ru || '',
-            cover: mangaData.covers[0]?.cover || '',
-            type: mangaData.type,
-            status: mangaData.status,
-            relationship: bookRelated.manga[mangaData.id] || 'Other',
-            relatedId: bookType + '---' + mangaData.id,
+    return data.map((book) => {
+        return {
+            id: book.id,
+            urlId: book.urlId,
+            title: book.title?.[lang] || book.title?.ru || '',
+            cover: book.covers[0]?.cover || '',
+            type: book.type,
+            status: book.status,
+            relationship: bookRelated[bookType][book.id] || 'Other',
+            relatedId: getRelatedId(bookType, book.id),
         };
-
-        return manga;
     });
 }

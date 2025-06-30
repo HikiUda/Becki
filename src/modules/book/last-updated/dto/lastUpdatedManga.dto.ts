@@ -1,14 +1,14 @@
 import { MangaType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { Pagination } from 'src/shared/types/pagination';
-import { LastUpdatedBookDto } from './lastUpdatedBook.dto';
+import { LastUpdatedBook } from './lastUpdatedBook.dto';
 
-export class LastUpdatedMangaDto extends LastUpdatedBookDto<MangaType> {
+export class LastUpdatedManga extends LastUpdatedBook {
     @ApiProperty({ enum: MangaType })
     type: MangaType;
 }
 
-export class LastUpdatedMangaListDto extends Pagination<LastUpdatedMangaDto> {
-    @ApiProperty({ type: [LastUpdatedMangaDto] })
-    data: LastUpdatedMangaDto[];
+export class LastUpdatedMangaList extends Pagination<LastUpdatedManga> {
+    @ApiProperty({ type: [LastUpdatedManga] })
+    data: LastUpdatedManga[];
 }

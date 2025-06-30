@@ -1,17 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { LastUpdatedRepository } from './lastUpdated.repository';
-import { LastUpdatedQueryDto } from './dto/lastUpdatedQuery.dto';
+import { LastUpdatedQuery } from './dto/lastUpdatedQuery.dto';
 import { LastUpdatedServiceInterface } from './interfaces/publicMangaService';
-import { LastUpdatedMangaListDto } from './dto/lastUpdatedManga.dto';
+import { LastUpdatedMangaList } from './dto/lastUpdatedManga.dto';
+import { LastUpdatedRanobeList } from './dto/lastUpdatedRanobe.dto';
 
 @Injectable()
 export class LastUpdatedService implements LastUpdatedServiceInterface {
     constructor(private repository: LastUpdatedRepository) {}
 
     async getLastUpdatedManga(
-        query: LastUpdatedQueryDto,
+        query: LastUpdatedQuery,
         userId?: number,
-    ): Promise<LastUpdatedMangaListDto> {
+    ): Promise<LastUpdatedMangaList> {
         return await this.repository.getLastUpdatedManga(query, userId);
+    }
+
+    async getLastUpdatedRanobe(
+        query: LastUpdatedQuery,
+        userId?: number,
+    ): Promise<LastUpdatedRanobeList> {
+        return await this.repository.getLastUpdatedRanobe(query, userId);
     }
 }

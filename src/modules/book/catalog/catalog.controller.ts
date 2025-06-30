@@ -3,22 +3,36 @@ import { CatalogService } from './catalog.service';
 import { CatalogControllerInterface } from './interfaces/publicMangaController';
 import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { CatalogMangaQueryDto } from './dto/catalogMangaQuery.dto';
-import { CatalogMangaListDto } from './dto/catalogManga.dto';
+import { CatalogMangaQuery } from './dto/catalogMangaQuery.dto';
+import { CatalogMangaList } from './dto/catalogManga.dto';
+import { CatalogRanobeList } from './dto/catalogRanobe.dto';
+import { CatalogRanobeQuery } from './dto/catalogRanobeQuery.dto';
 
 @Controller('catalog')
 export class CatalogController implements CatalogControllerInterface {
     constructor(private service: CatalogService) {}
 
     @Get('manga')
-    @ApiOkResponse({ type: CatalogMangaListDto })
+    @ApiOkResponse({ type: CatalogMangaList })
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
     @UseInterceptors(AuthInterceptor)
     async getCatalogManga(
         @Req() req: OptionalAuthUserRequest,
-        @Query() query: CatalogMangaQueryDto,
-    ): Promise<CatalogMangaListDto> {
+        @Query() query: CatalogMangaQuery,
+    ): Promise<CatalogMangaList> {
         return await this.service.getCatalogManga(query, req.user?.id);
+    }
+
+    @Get('ranobe')
+    @ApiOkResponse({ type: CatalogRanobeList })
+    @ApiOperation({ summary: 'Optional auth endpoint' })
+    @ApiBearerAuth()
+    @UseInterceptors(AuthInterceptor)
+    async getCatalogRanobe(
+        @Req() req: OptionalAuthUserRequest,
+        @Query() query: CatalogRanobeQuery,
+    ): Promise<CatalogRanobeList> {
+        return await this.service.getCatalogRanobe(query, req.user?.id);
     }
 }

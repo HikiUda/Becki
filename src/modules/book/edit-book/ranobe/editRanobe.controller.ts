@@ -17,27 +17,29 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiMutateBookDto } from '../__common/ApiMutateBookDto';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
 import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
-import { EditedRanobeDto } from './dto/editedRanobe.dto';
+import { EditedRanobe } from './dto/editedRanobe.dto';
 import { MutateRanobeDto, ParseBodyMutateRanobeDto } from './dto/mutateRanobe.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
-import { EditBookControllerInterface } from '../__common/interfaces/editMangaController';
+import { EditBookControllerInterface } from '../__common/interfaces/editBookController';
+import { ApiBookIdParam } from '../../_common/decorators/ApiBookIdParam';
 
 @Controller('ranobe')
 export class EditRanobeController implements EditBookControllerInterface {
     constructor(private service: EditRanobeService) {}
 
     @Get(':ranobeId/edit')
-    @ApiOkResponse({ type: EditedRanobeDto })
+    @ApiBookIdParam('ranobeId')
+    @ApiOkResponse({ type: EditedRanobe })
     @ApiCustomNotFoundResponse()
     async getEditedBook(
-        @Param('ranobeId', new ValidateBookIdPipe()) ranobeId: number,
+        @Param('ranobeId', new ValidateBookIdPipe()) bookId: number,
         @Query() query: LangQueryDto,
-    ): Promise<EditedRanobeDto> {
-        return await this.service.getEditedBook(ranobeId, query.lang);
+    ): Promise<EditedRanobe> {
+        return await this.service.getEditedBook(bookId, query.lang);
     }
 
     @Post()
-    @ApiMutateBookDto(MutateRanobeDto, EditedRanobeDto)
+    @ApiMutateBookDto(MutateRanobeDto)
     @UseInterceptors(
         FileFieldsInterceptor([
             { name: 'banner', maxCount: 1 },
@@ -46,21 +48,21 @@ export class EditRanobeController implements EditBookControllerInterface {
     )
     async createBook(
         @Body('body') body: ParseBodyMutateRanobeDto,
-        @Query() query: LangQueryDto,
         @UploadedFiles() files: MutateBookFilesDto,
-    ): Promise<EditedRanobeDto> {
-        return await this.service.createBook(body, files, query.lang);
+    ): Promise<void> {
+        await this.service.createBook(body, files);
+        return;
     }
 
     @Put(':ranobeId/edit')
-    @ApiMutateBookDto(MutateRanobeDto, EditedRanobeDto, false)
+    @ApiBookIdParam('ranobeId')
+    @ApiMutateBookDto(MutateRanobeDto, false)
     @UseInterceptors(FileInterceptor('banner'))
     async updateBook(
-        @Param('ranobeId', new ValidateBookIdPipe()) ranobeId: number,
+        @Param('ranobeId', new ValidateBookIdPipe()) bookId: number,
         @Body('body') body: ParseBodyMutateRanobeDto,
-        @Query() query: LangQueryDto,
         @UploadedFile() banner: Express.Multer.File,
-    ): Promise<EditedRanobeDto> {
-        return await this.service.updateBook(body, ranobeId, query.lang, banner);
+    ): Promise<void> {
+        return await this.service.updateBook(body, bookId, banner);
     }
 }

@@ -15,7 +15,7 @@ export type BooksByUrlIds = {
     ranobe: { id: number; urlId: string }[];
 };
 
-export function getAddedRelatedBook(
+export function getAddedBookRelated(
     { manga, ranobe }: BooksByUrlIds,
     data: AddBookRelated,
     bookRelated: BookRelated,

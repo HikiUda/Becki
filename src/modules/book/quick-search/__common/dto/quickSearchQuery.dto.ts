@@ -9,4 +9,4 @@ const QuickSearchQuerySchema = z
     })
     .merge(LangQueryScheme);
 
-export class QuickSearchQueryDto extends createZodDto(QuickSearchQuerySchema) {}
+export class QuickSearchQuery extends createZodDto(QuickSearchQuerySchema) {}

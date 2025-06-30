@@ -13,4 +13,4 @@ const LastUpdatedQueryScheme = z
     .merge(LangQueryScheme)
     .merge(PaginationQueryScheme);
 
-export class LastUpdatedQueryDto extends createZodDto(LastUpdatedQueryScheme) {}
+export class LastUpdatedQuery extends createZodDto(LastUpdatedQueryScheme) {}

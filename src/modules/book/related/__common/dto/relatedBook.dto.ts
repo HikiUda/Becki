@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BookStatus, MangaType } from '@prisma/client';
+import { BookStatus, MangaType, RanobeType } from '@prisma/client';
 import { BookRelationship } from '../bookRelated';
 import { ResponseArrayData } from 'src/shared/types/pagination';
 
@@ -13,8 +13,8 @@ export abstract class RelatedBookDto {
     @ApiProperty()
     title: string;
 
-    @ApiProperty({ enum: MangaType })
-    type: MangaType;
+    @ApiProperty({ enum: { ...MangaType, ...RanobeType } })
+    type: MangaType | RanobeType;
 
     @ApiProperty()
     cover: string;
@@ -29,7 +29,7 @@ export abstract class RelatedBookDto {
     relatedId: string;
 }
 
-export class RelatedBookListDto extends ResponseArrayData<RelatedBookDto> {
+export class RelatedBookDtoList extends ResponseArrayData<RelatedBookDto> {
     @ApiProperty({ type: [RelatedBookDto] })
     data: RelatedBookDto[];
 }

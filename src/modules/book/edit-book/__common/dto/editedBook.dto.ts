@@ -25,7 +25,7 @@ export class EditedBookCategory {
     title: string;
 }
 
-export abstract class EditedBookDto {
+export abstract class EditedBook {
     @ApiProperty()
     id: number;
 

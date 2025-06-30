@@ -1,12 +1,12 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { getOrderInput } from './book/getOrderInput';
 import { getCatalogMangaWhereInput } from './getCatalogMangaWhereInput';
-import { CatalogMangaQueryDto } from '../dto/catalogMangaQuery.dto';
+import { CatalogMangaQuery } from '../dto/catalogMangaQuery.dto';
 import { getSelectInput } from './book/getSelectInput';
 
 export const getCatalogManga = async (
     prisma: PrismaClient,
-    query: CatalogMangaQueryDto,
+    query: CatalogMangaQuery,
     userId?: number,
 ) => {
     const { limit, page, lang } = query;
@@ -24,5 +24,3 @@ export const getCatalogManga = async (
     });
     return [manga, count] as const;
 };
-
-export type CatalogMangaDB = Prisma.PromiseReturnType<typeof getCatalogManga>[0];

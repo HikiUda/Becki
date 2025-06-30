@@ -17,45 +17,40 @@ import {
     OptionalAuthUserRequest,
 } from 'src/modules/user/auth';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ResponseArrayData } from 'src/shared/types/pagination';
 import { DeleteQuickSearchLastDto } from '../__common/dto/deleteQuickSearchLast.dto';
-import { QuickSearchQueryDto } from '../__common/dto/quickSearchQuery.dto';
-import { QuickSearchLastDto } from '../__common/dto/quickSearchLast.dto';
+import { QuickSearchQuery } from '../__common/dto/quickSearchQuery.dto';
+import { QuickSearchLastList } from '../__common/dto/quickSearchLastList.dto';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
-import { QuickSearchMangaListDto } from './dto/quickSearchManga';
+import { QuickSearchMangaList } from './dto/quickSearchManga.dto';
 
 @Controller('quick-search/manga')
-export class QuickSearchMangaController
-    implements QuickSearchControllerInterface<QuickSearchMangaListDto>
-{
+export class QuickSearchMangaController implements QuickSearchControllerInterface {
     constructor(private service: QuickSearchMangaService) {}
 
     @Get()
     @ApiOkResponse({
-        type: QuickSearchMangaListDto,
+        type: QuickSearchMangaList,
     })
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
     @UseInterceptors(AuthInterceptor)
     async getBooks(
         @Req() req: OptionalAuthUserRequest,
-        @Query() query: QuickSearchQueryDto,
-    ): Promise<QuickSearchMangaListDto> {
+        @Query() query: QuickSearchQuery,
+    ): Promise<QuickSearchMangaList> {
         const userId = req.user && req.user.id;
-        const data = await this.service.getBooks(query, userId);
-        return { data };
+        return await this.service.getBooks(query, userId);
     }
 
     @Get('last')
     @ApiBearerAuth()
     @ApiOkResponse({
-        type: QuickSearchLastDto,
+        type: QuickSearchLastList,
     })
     @ApiCustomUnauthorizedResponse()
     @UseGuards(JwtAuthGuard)
-    async getUserLastQueries(@Req() req: AuthUserRequest): Promise<ResponseArrayData<string>> {
-        const data = await this.service.getUserLastQueries(req.user.id);
-        return { data };
+    async getUserLastQueries(@Req() req: AuthUserRequest): Promise<QuickSearchLastList> {
+        return await this.service.getUserLastQueries(req.user.id);
     }
 
     @Delete('last')

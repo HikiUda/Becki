@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { CatalogMangaQueryDto } from '../dto/catalogMangaQuery.dto';
+import { CatalogMangaQuery } from '../dto/catalogMangaQuery.dto';
 import { getSearch } from './book/whereInput/search';
 import { getStatus } from './book/whereInput/status';
 import { getMangaType } from './book/whereInput/mangaType';
@@ -12,7 +12,7 @@ import { getRateCountFrom, getRateCountTo } from './book/whereInput/rateCount';
 import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapterCount';
 
 export const getCatalogMangaWhereInput = (
-    query: CatalogMangaQueryDto,
+    query: CatalogMangaQuery,
     userId?: number,
 ): Prisma.MangaWhereInput => {
     const where: Prisma.MangaWhereInput = {};

@@ -1,21 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
-import {
-    ApiBody,
-    ApiConsumes,
-    ApiExtraModels,
-    ApiOkResponse,
-    getSchemaPath,
-} from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
 
-export function ApiMutateBookDto(
-    mutateBookDto: any,
-    editedBookDto: any,
-    withCover: boolean = true,
-) {
+export function ApiMutateBookDto(mutateBookDto: any, withCover: boolean = true) {
     return applyDecorators(
         ApiExtraModels(mutateBookDto),
         ApiConsumes('multipart/form-data'),
-        ApiOkResponse({ type: editedBookDto }),
+        ApiResponse({ status: 204 }),
         ApiBody({
             schema: {
                 type: 'object',
