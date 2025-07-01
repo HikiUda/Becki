@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { EditBookChaptersControllerInterface } from '../__common/interfaces/editChapterController';
 import { EditMangaChaptersService } from './editMangaChapters.service';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
@@ -29,7 +29,6 @@ export class EditMangaChaptersController implements EditBookChaptersControllerIn
 
     @Get(':chapterId')
     @ApiBookIdParam('mangaId')
-    @ApiBookIdParam('chapterId', 'number id')
     @ApiOkResponse({ type: EditedBookChapter })
     @ApiCustomNotFoundResponse()
     async getEditedChapter(@Param() params: EditMangaChapterParams): Promise<EditedBookChapter> {
@@ -48,12 +47,18 @@ export class EditMangaChaptersController implements EditBookChaptersControllerIn
 
     @Put(':chapterId')
     @ApiBookIdParam('mangaId')
-    @ApiBookIdParam('chapterId', 'number id')
     @ApiResponse({ status: 204 })
     async updateChapter(
         @Param() params: EditMangaChapterParams,
         @Body() body: MutateBookChapterDto,
     ): Promise<void> {
         return await this.service.updateChapter(params.mangaId, params.chapterId, body);
+    }
+
+    @Patch(':chapterId/publish')
+    @ApiBookIdParam('mangaId')
+    @ApiResponse({ status: 204 })
+    async toggleChapterPublish(@Param() params: EditMangaChapterParams): Promise<void> {
+        return await this.service.toggleChapterPublish(params.mangaId, params.chapterId);
     }
 }

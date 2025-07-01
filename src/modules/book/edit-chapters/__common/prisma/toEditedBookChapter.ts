@@ -20,7 +20,7 @@ export function toEditedBookChapterDto(
         },
         tome: data.tome,
         chpater: data.chapter,
-        private: data.private,
+        publish: data.publish,
         bookId: data.bookId,
     };
 }

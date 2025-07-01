@@ -10,7 +10,6 @@ export const MutateBookChapterSchema = z.object({
     title: MutateBookChapterTitleSchema.optional(),
     tome: z.number().int().optional(),
     chapter: z.number().optional(),
-    private: z.boolean().optional(),
 });
 
 export class MutateBookChapterDto extends createZodDto(MutateBookChapterSchema) {}

@@ -20,9 +20,8 @@ export const getEditedRanobeChapterList = async (
         },
     });
 
-    const chapterCount = await prisma.ranobeStatistic.findUnique({
-        where: { bookId },
-        select: { chapterCount: true },
+    const chapterCount = await prisma.ranobeChapters.count({
+        where: getEditedChapterListWhereInput(bookId, search),
     });
-    return [chapters, chapterCount?.chapterCount || 0] as const;
+    return [chapters, chapterCount] as const;
 };

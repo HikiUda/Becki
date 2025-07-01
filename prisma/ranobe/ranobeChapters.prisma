@@ -4,7 +4,7 @@ model RanobeChapters {
     tome         Int                      @default(1)
     chapter      Float
     pages        RanobeChaptersPages[]
-    private      Boolean                  @default(true)
+    publish      Boolean                  @default(false)
     book         Ranobe                   @relation(fields: [bookId], references: [id])
     bookId       Int
     comments     RanobeChaptersComments[]

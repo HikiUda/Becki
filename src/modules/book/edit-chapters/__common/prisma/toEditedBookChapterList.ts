@@ -26,7 +26,7 @@ export function toEditedBookChapterList(
         chapter: chapter.chapter,
         title: chapter.title && (chapter.title[lang] || chapter.title.ru),
         createdAt: chapter.createdAt,
-        private: chapter.private,
+        publish: chapter.publish,
     }));
 
     return { data: chapters, ...getPagination(data[1], page, limit) };

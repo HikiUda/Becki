@@ -38,10 +38,6 @@ export class EditMangaChaptersRepository implements EditBookChaptersRepositoryIn
         await this.prisma.mangaChapters.create({
             data: getCreateChapterInput(bookId, data),
         });
-        await this.prisma.mangaStatistic.update({
-            where: { bookId },
-            data: { chapterCount: { increment: 1 } },
-        });
         return;
     }
 
@@ -55,5 +51,28 @@ export class EditMangaChaptersRepository implements EditBookChaptersRepositoryIn
             data: getUpdateChapterInput(data),
         });
         return;
+    }
+
+    async toggleChapterPublish(bookId: number, chapterId: number): Promise<void> {
+        const chapter = await this.prisma.mangaChapters.findUnique({
+            where: { id: chapterId },
+            select: { publish: true },
+        });
+        if (!chapter) throw new NotFoundException('Такой главы не существует!');
+        if (chapter.publish) {
+            await this.prisma.mangaStatistic.update({
+                where: { bookId },
+                data: { chapterCount: { decrement: 1 } },
+            });
+        } else {
+            await this.prisma.mangaStatistic.update({
+                where: { bookId },
+                data: { chapterCount: { increment: 1 } },
+            });
+        }
+        await this.prisma.mangaChapters.update({
+            where: { id: chapterId, bookId },
+            data: { publish: !chapter.publish },
+        });
     }
 }

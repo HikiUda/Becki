@@ -20,9 +20,9 @@ export const getEditedMangaChapterList = async (
         },
     });
 
-    const chapterCount = await prisma.mangaStatistic.findUnique({
-        where: { bookId },
-        select: { chapterCount: true },
+    const chapterCount = await prisma.mangaChapters.count({
+        where: getEditedChapterListWhereInput(bookId, search),
     });
-    return [chapters, chapterCount?.chapterCount || 0] as const;
+
+    return [chapters, chapterCount] as const;
 };

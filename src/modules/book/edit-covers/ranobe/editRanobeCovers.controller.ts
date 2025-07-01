@@ -52,7 +52,6 @@ export class EditRanobeCoversController implements EditBookCoversControllerInter
 
     @Patch(':coverId')
     @ApiBookIdParam('ranobeId')
-    @ApiBookIdParam('coverId', 'number id')
     @ApiResponse({ status: 204 })
     async setMainCover(@Param() params: SetMainRanobeCoverParamsDto): Promise<void> {
         await this.service.setMainCover(params.ranobeId, params.coverId);

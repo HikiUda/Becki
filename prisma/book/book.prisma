@@ -3,7 +3,6 @@ model Book {
     id                 Int                @id @default(autoincrement())
     urlId              String             @unique @default(uuid()) @db.VarChar(255)
     title              BookTitle?
-    otherTitles        BookOtherTitles[]
     description        BookDescription?
     releaseDate        DateTime?
     type               String             @default("")
@@ -39,16 +38,6 @@ model BookTitle {
     bookId      Int      @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
-}
-
-// * Abstract
-model BookOtherTitles {
-    id        Int      @id @default(autoincrement())
-    title     String
-    book      Book     @relation(fields: [bookId], references: [id])
-    bookId    Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
 }
 
 // * Abstract
@@ -126,16 +115,16 @@ model BookBookmarks {
 
 // * Abstract
 model BookProgressRead {
-    id            String       @id
-    lastChapter   BookChapters @relation(fields: [lastChapterId], references: [id])
-    book          Book         @relation(fields: [bookId], references: [id])
-    user          User         @relation(fields: [userId], references: [id])
-    lastChapterId Int
-    bookId        Int
-    userId        Int
-    show          Boolean      @default(true)
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @default(now()) @updatedAt
+    id        String       @id
+    chapter   BookChapters @relation(fields: [chapterId], references: [id]) // ? last readed chapter
+    book      Book         @relation(fields: [bookId], references: [id])
+    user      User         @relation(fields: [userId], references: [id])
+    chapterId Int
+    bookId    Int
+    userId    Int
+    show      Boolean      @default(true)
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @default(now()) @updatedAt
 }
 
 // * Abstract
@@ -145,7 +134,7 @@ model BookStatistic {
     views             Int      @default(0)
     likes             Int      @default(0)
     rateCount         Int      @default(0)
-    chapterCount      Int      @default(0)
+    chapterCount      Int      @default(0) // ? public chapters (available for users)
     bookmarkCount     Int      @default(0)
     rateStatistic     Json     @default("{}")
     bookmarkStatistic Json     @default("{}")

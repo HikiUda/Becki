@@ -38,10 +38,6 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
         await this.prisma.ranobeChapters.create({
             data: getCreateChapterInput(bookId, data),
         });
-        await this.prisma.ranobeStatistic.update({
-            where: { bookId },
-            data: { chapterCount: { increment: 1 } },
-        });
         return;
     }
 
@@ -55,5 +51,28 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
             data: getUpdateChapterInput(data),
         });
         return;
+    }
+
+    async toggleChapterPublish(bookId: number, chapterId: number): Promise<void> {
+        const chapter = await this.prisma.ranobeChapters.findUnique({
+            where: { id: chapterId },
+            select: { publish: true },
+        });
+        if (!chapter) throw new NotFoundException('Такой главы не существует!');
+        if (chapter.publish) {
+            await this.prisma.ranobeStatistic.update({
+                where: { bookId },
+                data: { chapterCount: { decrement: 1 } },
+            });
+        } else {
+            await this.prisma.ranobeStatistic.update({
+                where: { bookId },
+                data: { chapterCount: { increment: 1 } },
+            });
+        }
+        await this.prisma.ranobeChapters.update({
+            where: { id: chapterId, bookId },
+            data: { publish: !chapter.publish },
+        });
     }
 }

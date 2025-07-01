@@ -2,7 +2,6 @@ model Ranobe {
     id                 Int                  @id @default(autoincrement())
     urlId              String               @unique @default(uuid()) @db.VarChar(255)
     title              RanobeTitle?
-    otherTitles        RanobeOtherTitles[]
     description        RanobeDescription?
     releaseDate        DateTime?
     type               RanobeType           @default(Japan)
@@ -37,15 +36,6 @@ model RanobeTitle {
     bookId      Int      @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
-}
-
-model RanobeOtherTitles {
-    id        Int      @id @default(autoincrement())
-    title     String
-    book      Ranobe   @relation(fields: [bookId], references: [id])
-    bookId    Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model RanobeDescription {
@@ -116,16 +106,16 @@ model RanobeBookmarks {
 }
 
 model RanobeProgressRead {
-    id            String         @id
-    lastChapter   RanobeChapters @relation(fields: [lastChapterId], references: [id])
-    book          Ranobe         @relation(fields: [bookId], references: [id])
-    user          User           @relation(fields: [userId], references: [id])
-    lastChapterId Int
-    bookId        Int
-    userId        Int
-    show          Boolean        @default(true)
-    createdAt     DateTime       @default(now())
-    updatedAt     DateTime       @default(now()) @updatedAt
+    id        String         @id
+    chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
+    book      Ranobe         @relation(fields: [bookId], references: [id])
+    user      User           @relation(fields: [userId], references: [id])
+    chapterId Int
+    bookId    Int
+    userId    Int
+    show      Boolean        @default(true)
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @default(now()) @updatedAt
 }
 
 model RanobeStatistic {

@@ -17,7 +17,7 @@ export class EditedBookChapter {
     @ApiProperty()
     chpater: number;
     @ApiProperty()
-    private: boolean;
+    publish: boolean;
     @ApiProperty()
     bookId: number;
 }

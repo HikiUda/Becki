@@ -33,4 +33,9 @@ export class EditRanobeChaptersService implements EditBookChaptersServiceInterfa
     ): Promise<void> {
         return await this.repository.updateChapter(bookId, chapterId, data);
     }
+
+    async toggleChapterPublish(bookId: number, chapterId: number): Promise<void> {
+        await this.repository.toggleChapterPublish(bookId, chapterId);
+        return;
+    }
 }

@@ -52,7 +52,6 @@ export class EditMangaCoversController implements EditBookCoversControllerInterf
 
     @Patch(':coverId')
     @ApiBookIdParam('mangaId')
-    @ApiBookIdParam('coverId', 'number id')
     @ApiResponse({ status: 204 })
     async setMainCover(@Param() params: SetMainMangaCoverParamsDto): Promise<void> {
         await this.service.setMainCover(params.mangaId, params.coverId);

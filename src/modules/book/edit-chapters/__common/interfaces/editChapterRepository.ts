@@ -10,4 +10,5 @@ export interface EditBookChaptersRepositoryInterface {
     getEditedChapter: (bookId: number, chapterId: number) => Promise<EditedBookChapter>;
     createChapter: (bookId: number, data: MutateBookChapterDto) => Promise<void>;
     updateChapter: (bookId: number, chapterId: number, data: MutateBookChapterDto) => Promise<void>;
+    toggleChapterPublish: (bookId: number, chapterId: number) => Promise<void>;
 }

@@ -11,4 +11,5 @@ export interface EditBookChaptersControllerInterface {
     getEditedChapter: (params: EditBookChapterParams) => Promise<EditedBookChapter>;
     createChapter: (bookId: number, body: MutateBookChapterDto) => Promise<void>;
     updateChapter: (params: EditBookChapterParams, body: MutateBookChapterDto) => Promise<void>;
+    toggleChapterPublish: (params: EditBookChapterParams) => Promise<void>;
 }

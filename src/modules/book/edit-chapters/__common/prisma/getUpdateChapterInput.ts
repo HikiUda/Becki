@@ -11,6 +11,5 @@ export const getUpdateChapterInput = (dto: MutateBookChapterDto) => {
         },
         tome: dto.tome,
         chapter: dto.chapter,
-        private: dto.private,
     } satisfies Prisma.BookChaptersUpdateInput;
 };

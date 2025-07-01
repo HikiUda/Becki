@@ -2,7 +2,6 @@ model Manga {
     id                 Int                 @id @default(autoincrement())
     urlId              String              @unique @default(uuid()) @db.VarChar(255)
     title              MangaTitle?
-    otherTitles        MangaOtherTitles[]
     description        MangaDescription?
     releaseDate        DateTime?
     type               MangaType           @default(Manga)
@@ -37,15 +36,6 @@ model MangaTitle {
     bookId      Int      @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
-}
-
-model MangaOtherTitles {
-    id        Int      @id @default(autoincrement())
-    title     String
-    book      Manga    @relation(fields: [bookId], references: [id])
-    bookId    Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model MangaDescription {
@@ -116,16 +106,16 @@ model MangaBookmarks {
 }
 
 model MangaProgressRead {
-    id            String        @id
-    lastChapter   MangaChapters @relation(fields: [lastChapterId], references: [id])
-    book          Manga         @relation(fields: [bookId], references: [id])
-    user          User          @relation(fields: [userId], references: [id])
-    lastChapterId Int
-    bookId        Int
-    userId        Int
-    show          Boolean       @default(true)
-    createdAt     DateTime      @default(now())
-    updatedAt     DateTime      @default(now()) @updatedAt
+    id        String        @id
+    chapter   MangaChapters @relation(fields: [chapterId], references: [id])
+    book      Manga         @relation(fields: [bookId], references: [id])
+    user      User          @relation(fields: [userId], references: [id])
+    chapterId Int
+    bookId    Int
+    userId    Int
+    show      Boolean       @default(true)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now()) @updatedAt
 }
 
 model MangaStatistic {

@@ -17,7 +17,7 @@ export class EditedBookChapterListItem {
     @ApiProperty()
     createdAt: Date;
     @ApiProperty()
-    private: boolean;
+    publish: boolean;
 }
 
 export class EditedBookChapterList extends Pagination<EditedBookChapterListItem> {

@@ -4,7 +4,7 @@ model BookChapters {
     title        BookChaptersTitle?
     tome         Int                    @default(1)
     chapter      Float
-    private      Boolean                @default(true)
+    publish      Boolean                @default(false)
     book         Book                   @relation(fields: [bookId], references: [id])
     bookId       Int
     comments     BookChaptersComments[]
