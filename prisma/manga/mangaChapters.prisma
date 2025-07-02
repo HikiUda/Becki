@@ -1,18 +1,18 @@
 model MangaChapters {
-    id           Int                     @id @default(autoincrement())
-    title        MangaChaptersTitle?
-    tome         Int                     @default(1)
-    chapter      Float
-    pages        MangaChaptersPages[]
-    publish      Boolean                 @default(false)
-    book         Manga                   @relation(fields: [bookId], references: [id])
-    bookId       Int
-    comments     MangaChaptersComments[]
-    usersLike    UserLikeMangaChapters[]
-    usersView    UserViewMangaChapters[]
-    progressRead MangaProgressRead[]
-    createdAt    DateTime                @default(now())
-    updatedAt    DateTime                @default(now()) @updatedAt
+    id        Int                     @id @default(autoincrement())
+    title     MangaChaptersTitle?
+    tome      Int                     @default(1)
+    chapter   Float
+    pages     MangaChaptersPages[]
+    publish   Boolean                 @default(false)
+    book      Manga                   @relation(fields: [bookId], references: [id])
+    bookId    Int
+    comments  MangaChaptersComments[]
+    usersLike UserLikeMangaChapters[]
+    usersView UserViewMangaChapters[]
+    bookmarks MangaBookmarks[]
+    createdAt DateTime                @default(now())
+    updatedAt DateTime                @default(now()) @updatedAt
 }
 
 model MangaChaptersTitle {

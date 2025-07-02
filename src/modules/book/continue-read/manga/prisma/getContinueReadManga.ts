@@ -1,12 +1,38 @@
-import { prisma } from 'src/shared/prisma/prisma';
-import { getContinueReadBooksSelectInput } from '../../__common/prisma/getContinueReadBookSelectInput';
-import { ContinueReadBookQuery } from '../../__common/dto/continueReadBook.dto';
+import { PrismaClient } from '@prisma/client';
+import { getContinueReadBookChapterSelect } from '../../__common/prisma/getContinueReadBookChapterSelect';
+import { getReadedChapterCountWhereInput } from '../../__common/prisma/getReadedChapterCountWhereInput';
 
-export const getContinueReadManga = async (userId: number, query: ContinueReadBookQuery) => {
-    return await prisma.mangaProgressRead.findMany({
-        where: { userId, show: true },
-        orderBy: { updatedAt: 'desc' },
-        take: query.limit,
-        select: getContinueReadBooksSelectInput(query.lang),
-    });
+export const getContinueReadManga = async (
+    prisma: PrismaClient,
+    userId: number | null,
+    bookId: number,
+) => {
+    const lastChapter = userId
+        ? await prisma.bookBookmarks
+              .findFirst({
+                  where: { userId, bookId },
+                  select: {
+                      chapter: {
+                          select: getContinueReadBookChapterSelect(),
+                      },
+                  },
+              })
+              .then((data) => data?.chapter || null)
+        : null;
+
+    const readedChapterCount = lastChapter
+        ? await prisma.bookChapters.count({
+              where: getReadedChapterCountWhereInput(bookId, lastChapter.tome, lastChapter.chapter),
+          })
+        : 0;
+
+    const firstChapter = lastChapter
+        ? null
+        : await prisma.bookChapters.findFirst({
+              where: { bookId },
+              orderBy: [{ tome: 'asc' }, { chapter: 'asc' }],
+              select: getContinueReadBookChapterSelect(),
+          });
+
+    return [lastChapter || firstChapter, readedChapterCount] as const;
 };

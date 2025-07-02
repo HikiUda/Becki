@@ -1,4 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { z } from 'zod';
+
+export const UserId = z.number().int().brand('UserId');
+export type UserId = z.infer<typeof UserId>;
 
 export interface AuthDataUser {
     id: number;
@@ -37,9 +41,16 @@ export class ReturnAuthUser {
     tokens: AuthTokens;
 }
 
+export type AuthUser = {
+    id: UserId;
+    login: string;
+    name: string;
+    sub: number;
+};
+
 export interface AuthUserRequest extends Request {
-    user: AuthUserDto;
+    user: AuthUser;
 }
 export interface OptionalAuthUserRequest extends Request {
-    user: AuthUserDto | null;
+    user: AuthUser | null;
 }

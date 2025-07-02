@@ -1,19 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { ContinueReadMangaServiceInterface } from './interfaces/continueReadMangaService';
 import { ContinueReadMangaRepository } from './continueReadManga.repository';
-import { MangaListItemContinueReadDto } from '../../dto/mangaListItemContinueRead.dto';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { ContinueReadBookServiceInterface } from '../__common/interfaces/continueReadBookService';
+import { ContinueReadBook } from '../__common/dto/continueReadBook.dto';
+import {
+    ContinueReadBookListQuery,
+    ContinueReadBookList,
+} from '../__common/dto/continueReadBookList.dto';
 
 @Injectable()
-export class ContinueReadMangaService implements ContinueReadMangaServiceInterface {
-    constructor(private continueReadMangaRepository: ContinueReadMangaRepository) {}
-    async getContinueReadManga(
+export class ContinueReadMangaService implements ContinueReadBookServiceInterface {
+    constructor(private repository: ContinueReadMangaRepository) {}
+
+    async getContinueReadBookList(
         userId: number,
-        lang: LangType,
-    ): Promise<MangaListItemContinueReadDto[]> {
-        return await this.continueReadMangaRepository.getContinueReadManga(userId, lang);
+        query: ContinueReadBookListQuery,
+    ): Promise<ContinueReadBookList> {
+        return await this.repository.getContinueReadBookList(userId, query);
     }
-    async dontShowContinueReadManga(userId: number, mangaId: number): Promise<void> {
-        await this.continueReadMangaRepository.dontShowContinueReadManga(userId, mangaId);
+
+    async getContinueReadBook(userId: number | null, bookId: number): Promise<ContinueReadBook> {
+        return await this.repository.getContinueReadBook(userId, bookId);
+    }
+
+    async setContinueReadBook(
+        userId: number,
+        bookId: number,
+        chapterId: number | null,
+    ): Promise<void> {
+        return await this.repository.setContinueReadBook(userId, bookId, chapterId);
+    }
+
+    async dontShowContinueReadBook(userId: number, bookId: number): Promise<void> {
+        return await this.repository.dontShowContinueReadBook(userId, bookId);
     }
 }

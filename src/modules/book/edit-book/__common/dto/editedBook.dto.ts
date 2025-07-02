@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BookStatus } from '@prisma/client';
-import { AgeRating } from 'src/modules/book/_common/types/ageRating';
+import { AgeRating } from 'src/modules/book/_common/model/ageRating';
 
 export class EditedBookTitle {
     @ApiProperty()

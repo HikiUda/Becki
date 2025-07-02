@@ -1,25 +1,25 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { getContinueReadBooksSelectInput } from './getContinueReadBookSelectInput';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { ContinueReadBook } from '../dto/continueReadBook.dto';
+import { getContinueReadBookChapterSelect } from './getContinueReadBookChapterSelect';
 
-const getContinueReadBooks = async (prisma: PrismaClient) => {
-    return await prisma.mangaProgressRead.findMany({
-        select: getContinueReadBooksSelectInput('ru'),
+const getContinueReadBook = async (prisma: PrismaClient) => {
+    const chapter = await prisma.bookChapters.findFirst({
+        select: getContinueReadBookChapterSelect(),
     });
+    const readedChapterCount: number = 0;
+    return [chapter, readedChapterCount] as const;
 };
-export type GetContinueReadBooks = Prisma.PromiseReturnType<typeof getContinueReadBooks>;
 
-export function toContinueReadBook(data: GetContinueReadBooks, lang: LangType): ContinueReadBook[] {
-    return data.map((item) => {
-        return {
-            id: item.book.id,
-            urlId: item.book.urlId,
-            title: item.book.title?.[lang] || item.book.title?.ru || '',
-            cover: item.book.covers[0]?.cover || '',
-            tome: item.chapter.tome,
-            chapter: item.chapter.chapter,
-            chapterId: item.chapter.id,
-        };
-    });
+type GetContinueReadBook = Prisma.PromiseReturnType<typeof getContinueReadBook>;
+
+export function toContinueReadBook(data: GetContinueReadBook, bookId: number): ContinueReadBook {
+    const [chapter, readedChapterCount] = data;
+    return {
+        tome: chapter?.tome || 0,
+        chapter: chapter?.chapter || 0,
+        chapterId: chapter?.id || null,
+        chapterCount: chapter?.book.statistic?.chapterCount || 0,
+        readedChapterCount,
+        bookId,
+    };
 }

@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { LangType } from 'src/shared/dto/query/langQuery.dto';
 
-export const getContinueReadBooksSelectInput = (lang: LangType) => {
+export const getContinueReadBookListSelect = (lang: LangType) => {
     return {
         book: {
             select: {
@@ -12,5 +12,5 @@ export const getContinueReadBooksSelectInput = (lang: LangType) => {
             },
         },
         chapter: { select: { chapter: true, tome: true, id: true } },
-    } satisfies Prisma.BookProgressReadSelect;
+    } satisfies Prisma.BookBookmarksSelect;
 };

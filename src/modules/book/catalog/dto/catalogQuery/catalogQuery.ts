@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { OrderEnum, SortByEnum } from './sortByOrder.schema';
 import { StringToNumberArray, StringToStringArray } from './stringToArray';
-import { BookStatusEnum } from 'src/modules/book/_common/types/bookStatus';
-import { BookmarksEnum } from 'src/modules/book/_common/types/bookmarks';
-import { AgeRating, AgeRatingEnum } from 'src/modules/book/_common/types/ageRating';
+import { BookStatusEnum } from 'src/modules/book/_common/model/bookStatus';
+import { BookmarksEnum } from 'src/modules/book/_common/model/bookmarks';
+import { AgeRating, AgeRatingEnum } from 'src/modules/book/_common/model/ageRating';
 import { RangeScheme, refineRanges } from './rangeScheme';
 import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
 import { PaginationQueryScheme } from 'src/shared/dto/query/pagination.dto';

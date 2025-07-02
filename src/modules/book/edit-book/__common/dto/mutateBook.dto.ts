@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { AgeRatingEnum } from 'src/modules/book/_common/types/ageRating';
-import { BookStatusEnum } from 'src/modules/book/_common/types/bookStatus';
+import { AgeRatingEnum } from 'src/modules/book/_common/model/ageRating';
+import { BookStatusEnum } from 'src/modules/book/_common/model/bookStatus';
 
 export const MutateBookTitleSchema = z.object({
     ru: z.string().optional(),

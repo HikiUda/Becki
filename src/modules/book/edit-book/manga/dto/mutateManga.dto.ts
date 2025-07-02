@@ -1,4 +1,4 @@
-import { MangaTypeEnum } from 'src/modules/book/_common/types/mangaType';
+import { MangaTypeEnum } from 'src/modules/book/_common/model/mangaType';
 import { getMutateBookSchema, getParseBodyMutateBook } from '../../__common/dto/mutateBook.dto';
 import { createZodDto } from '@anatine/zod-nestjs';
 import { ApiHideProperty } from '@nestjs/swagger';

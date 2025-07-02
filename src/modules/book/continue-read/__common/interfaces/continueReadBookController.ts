@@ -1,12 +1,20 @@
-import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
-import { AuthUserRequest } from 'src/modules/user/auth';
-import { ContinueReadBookList } from '../dto/continueReadBook.dto';
+import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { ContinueReadBookList, ContinueReadBookListQuery } from '../dto/continueReadBookList.dto';
+import { ContinueReadBook } from '../dto/continueReadBook.dto';
 
 export interface ContinueReadBookControllerInterface {
     getContinueReadManga: (
         req: AuthUserRequest,
-        query: LangQueryDto,
+        query: ContinueReadBookListQuery,
     ) => Promise<ContinueReadBookList>;
-    setContinueReadBook: (req: AuthUserRequest, bookId: number, chapterId: number) => Promise<void>;
+    getContinueReadBook: (
+        req: OptionalAuthUserRequest,
+        bookId: number,
+    ) => Promise<ContinueReadBook>;
+    setContinueReadBook: (
+        req: AuthUserRequest,
+        bookId: number,
+        chapterId: number | null,
+    ) => Promise<void>;
     dontShowContinueReadManga: (req: AuthUserRequest, bookId: number) => Promise<void>;
 }

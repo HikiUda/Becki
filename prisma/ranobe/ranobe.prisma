@@ -1,14 +1,14 @@
 model Ranobe {
-    id                 Int                  @id @default(autoincrement())
-    urlId              String               @unique @default(uuid()) @db.VarChar(255)
+    id                 Int                @id @default(autoincrement())
+    urlId              String             @unique @default(uuid()) @db.VarChar(255)
     title              RanobeTitle?
     description        RanobeDescription?
     releaseDate        DateTime?
-    type               RanobeType           @default(Japan)
-    status             BookStatus           @default(Ongoing)
-    ageRating          Int                  @default(0)
+    type               RanobeType         @default(Japan)
+    status             BookStatus         @default(Ongoing)
+    ageRating          Int                @default(0)
     covers             RanobeCovers[]
-    owner              User                 @relation(fields: [ownerId], references: [id])
+    owner              User               @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
     genres             Int[]
@@ -18,12 +18,11 @@ model Ranobe {
     comments           RanobeComments[]
     bookmarks          RanobeBookmarks[]
     chapters           RanobeChapters[]
-    progressRead       RanobeProgressRead[]
     statistic          RanobeStatistic?
-    moderated          Boolean              @default(false)
-    lastChapterAddedAt DateTime             @default(now())
-    createdAt          DateTime             @default(now())
-    updatedAt          DateTime             @default(now()) @updatedAt
+    moderated          Boolean            @default(false)
+    lastChapterAddedAt DateTime           @default(now())
+    createdAt          DateTime           @default(now())
+    updatedAt          DateTime           @default(now()) @updatedAt
 }
 
 model RanobeTitle {
@@ -95,27 +94,17 @@ model UserLikeRanobeComments {
 }
 
 model RanobeBookmarks {
-    id        String    @id
-    bookmark  Bookmarks @default(Reading)
-    book      Ranobe    @relation(fields: [bookId], references: [id])
-    user      User      @relation(fields: [userId], references: [id])
-    bookId    Int
+    id        String          @id
+    bookmark  Bookmarks       @default(Reading)
+    show      Boolean         @default(true)
+    user      User            @relation(fields: [userId], references: [id])
+    book      Ranobe          @relation(fields: [bookId], references: [id])
+    chapter   RanobeChapters? @relation(fields: [chapterId], references: [id]) // ? last readed chapter    
     userId    Int
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @default(now()) @updatedAt
-}
-
-model RanobeProgressRead {
-    id        String         @id
-    chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
-    book      Ranobe         @relation(fields: [bookId], references: [id])
-    user      User           @relation(fields: [userId], references: [id])
+    bookId    Int
     chapterId Int
-    bookId    Int
-    userId    Int
-    show      Boolean        @default(true)
-    createdAt DateTime       @default(now())
-    updatedAt DateTime       @default(now()) @updatedAt
+    createdAt DateTime        @default(now())
+    updatedAt DateTime        @default(now()) @updatedAt
 }
 
 model RanobeStatistic {

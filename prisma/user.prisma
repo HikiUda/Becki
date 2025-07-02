@@ -20,7 +20,6 @@ model User {
   userLikeBookChaptersComment UserLikeBookChaptersComments[]
   userLikeBookChapters        UserLikeBookChapters[]
   userViewBookChapters        UserViewBookChapters[]
-  bookProgressRead            BookProgressRead[]
 
   // * Manga
   manga                        Manga[]
@@ -32,7 +31,6 @@ model User {
   userLikeMangaChaptersComment UserLikeMangaChaptersComments[]
   userLikeMangaChapters        UserLikeMangaChapters[]
   userViewMangaChapters        UserViewMangaChapters[]
-  mangaProgressRead            MangaProgressRead[]
 
   // * Ranobe
   mranobe                       Ranobe[]
@@ -44,7 +42,6 @@ model User {
   userLikeRanobeChaptersComment UserLikeRanobeChaptersComments[]
   userLikeRanobeChapters        UserLikeRanobeChapters[]
   userViewRanobeChapters        UserViewRanobeChapters[]
-  ranobeProgressRead            RanobeProgressRead[]
 }
 
 model UserAuthToken {

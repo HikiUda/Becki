@@ -1,15 +1,15 @@
 // * Abstract
 model Book {
-    id                 Int                @id @default(autoincrement())
-    urlId              String             @unique @default(uuid()) @db.VarChar(255)
+    id                 Int              @id @default(autoincrement())
+    urlId              String           @unique @default(uuid()) @db.VarChar(255)
     title              BookTitle?
     description        BookDescription?
     releaseDate        DateTime?
-    type               String             @default("")
-    status             BookStatus         @default(Ongoing)
-    ageRating          Int                @default(0)
+    type               String           @default("")
+    status             BookStatus       @default(Ongoing)
+    ageRating          Int              @default(0)
     covers             BookCovers[]
-    owner              User               @relation(fields: [ownerId], references: [id])
+    owner              User             @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
     genres             Int[]
@@ -19,12 +19,11 @@ model Book {
     comments           BookComments[]
     bookmarks          BookBookmarks[]
     chapters           BookChapters[]
-    progressRead       BookProgressRead[]
     statistic          BookStatistic?
-    moderated          Boolean            @default(false)
-    lastChapterAddedAt DateTime           @default(now())
-    createdAt          DateTime           @default(now())
-    updatedAt          DateTime           @default(now()) @updatedAt
+    moderated          Boolean          @default(false)
+    lastChapterAddedAt DateTime         @default(now())
+    createdAt          DateTime         @default(now())
+    updatedAt          DateTime         @default(now()) @updatedAt
 }
 
 // * Abstract
@@ -103,28 +102,17 @@ model UserLikeBookComments {
 
 // * Abstract
 model BookBookmarks {
-    id        String    @id
-    bookmark  Bookmarks @default(Reading)
-    book      Book      @relation(fields: [bookId], references: [id])
-    user      User      @relation(fields: [userId], references: [id])
-    bookId    Int
+    id        String        @id
+    bookmark  Bookmarks     @default(Reading)
+    show      Boolean       @default(true)
+    user      User          @relation(fields: [userId], references: [id])
+    book      Book          @relation(fields: [bookId], references: [id])
+    chapter   BookChapters? @relation(fields: [chapterId], references: [id]) // ? last readed chapter    
     userId    Int
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @default(now()) @updatedAt
-}
-
-// * Abstract
-model BookProgressRead {
-    id        String       @id
-    chapter   BookChapters @relation(fields: [chapterId], references: [id]) // ? last readed chapter
-    book      Book         @relation(fields: [bookId], references: [id])
-    user      User         @relation(fields: [userId], references: [id])
+    bookId    Int
     chapterId Int
-    bookId    Int
-    userId    Int
-    show      Boolean      @default(true)
-    createdAt DateTime     @default(now())
-    updatedAt DateTime     @default(now()) @updatedAt
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now()) @updatedAt
 }
 
 // * Abstract

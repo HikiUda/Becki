@@ -1,18 +1,18 @@
 model RanobeChapters {
-    id           Int                      @id @default(autoincrement())
-    title        RanobeChaptersTitle?
-    tome         Int                      @default(1)
-    chapter      Float
-    pages        RanobeChaptersPages[]
-    publish      Boolean                  @default(false)
-    book         Ranobe                   @relation(fields: [bookId], references: [id])
-    bookId       Int
-    comments     RanobeChaptersComments[]
-    usersLike    UserLikeRanobeChapters[]
-    usersView    UserViewRanobeChapters[]
-    progressRead RanobeProgressRead[]
-    createdAt    DateTime                 @default(now())
-    updatedAt    DateTime                 @default(now()) @updatedAt
+    id        Int                      @id @default(autoincrement())
+    title     RanobeChaptersTitle?
+    tome      Int                      @default(1)
+    chapter   Float
+    pages     RanobeChaptersPages[]
+    publish   Boolean                  @default(false)
+    book      Ranobe                   @relation(fields: [bookId], references: [id])
+    bookId    Int
+    comments  RanobeChaptersComments[]
+    usersLike UserLikeRanobeChapters[]
+    usersView UserViewRanobeChapters[]
+    bookmarks RanobeBookmarks[]
+    createdAt DateTime                 @default(now())
+    updatedAt DateTime                 @default(now()) @updatedAt
 }
 
 model RanobeChaptersTitle {

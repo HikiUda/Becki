@@ -1,6 +1,6 @@
 import { EditedBook } from '../dto/editedBook.dto';
 import { GetEditedBookReturnType } from './getEditedBook';
-import { AgeRatingEnum } from 'src/modules/book/_common/types/ageRating';
+import { AgeRatingEnum } from 'src/modules/book/_common/model/ageRating';
 import { GetEditedBookCategories } from './getEditedBookCategories';
 
 export function toEditedBook<T extends string>(

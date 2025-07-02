@@ -1,14 +1,14 @@
 model Manga {
-    id                 Int                 @id @default(autoincrement())
-    urlId              String              @unique @default(uuid()) @db.VarChar(255)
+    id                 Int               @id @default(autoincrement())
+    urlId              String            @unique @default(uuid()) @db.VarChar(255)
     title              MangaTitle?
     description        MangaDescription?
     releaseDate        DateTime?
-    type               MangaType           @default(Manga)
-    status             BookStatus          @default(Ongoing)
-    ageRating          Int                 @default(0)
+    type               MangaType         @default(Manga)
+    status             BookStatus        @default(Ongoing)
+    ageRating          Int               @default(0)
     covers             MangaCovers[]
-    owner              User                @relation(fields: [ownerId], references: [id])
+    owner              User              @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
     genres             Int[]
@@ -18,12 +18,11 @@ model Manga {
     comments           MangaComments[]
     bookmarks          MangaBookmarks[]
     chapters           MangaChapters[]
-    progressRead       MangaProgressRead[]
     statistic          MangaStatistic?
-    moderated          Boolean             @default(false)
-    lastChapterAddedAt DateTime            @default(now())
-    createdAt          DateTime            @default(now())
-    updatedAt          DateTime            @default(now()) @updatedAt
+    moderated          Boolean           @default(false)
+    lastChapterAddedAt DateTime          @default(now())
+    createdAt          DateTime          @default(now())
+    updatedAt          DateTime          @default(now()) @updatedAt
 }
 
 model MangaTitle {
@@ -95,27 +94,17 @@ model UserLikeMangaComments {
 }
 
 model MangaBookmarks {
-    id        String    @id
-    bookmark  Bookmarks @default(Reading)
-    book      Manga     @relation(fields: [bookId], references: [id])
-    user      User      @relation(fields: [userId], references: [id])
-    bookId    Int
+    id        String         @id
+    bookmark  Bookmarks      @default(Reading)
+    show      Boolean        @default(true)
+    user      User           @relation(fields: [userId], references: [id])
+    book      Manga          @relation(fields: [bookId], references: [id])
+    chapter   MangaChapters? @relation(fields: [chapterId], references: [id]) // ? last readed chapter    
     userId    Int
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @default(now()) @updatedAt
-}
-
-model MangaProgressRead {
-    id        String        @id
-    chapter   MangaChapters @relation(fields: [chapterId], references: [id])
-    book      Manga         @relation(fields: [bookId], references: [id])
-    user      User          @relation(fields: [userId], references: [id])
+    bookId    Int
     chapterId Int
-    bookId    Int
-    userId    Int
-    show      Boolean       @default(true)
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @default(now()) @updatedAt
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @default(now()) @updatedAt
 }
 
 model MangaStatistic {

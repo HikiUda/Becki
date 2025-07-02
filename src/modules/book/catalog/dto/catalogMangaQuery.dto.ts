@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { MangaTypeEnum } from '../../_common/types/mangaType';
+import { MangaTypeEnum } from '../../_common/model/mangaType';
 import { StringToStringArray } from './catalogQuery/stringToArray';
 import { CatalogQueryBase } from './catalogQuery/catalogQuery';
 import { createZodDto } from '@anatine/zod-nestjs';

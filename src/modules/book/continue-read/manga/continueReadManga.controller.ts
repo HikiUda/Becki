@@ -1,38 +1,59 @@
-import { Controller, Get, Param, Patch, Query, Req, UseGuards } from '@nestjs/common';
-import { ContinueReadMangaControllerInterface } from './interfaces/continueReadMangaController';
+import {
+    Controller,
+    Get,
+    Param,
+    Patch,
+    Query,
+    Req,
+    UseGuards,
+    UseInterceptors,
+} from '@nestjs/common';
 import { ContinueReadMangaService } from './continueReadManga.service';
-import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
-import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
-import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
-import { MangaListItemContinueReadResponseArrayData } from '../../dto/mangaListItemContinueRead.dto';
-import { ValidateMangaIdPipe } from 'src/modules/manga/common/pipes/ValidateMangaIdPipe';
+import {
+    AuthInterceptor,
+    AuthUserRequest,
+    JwtAuthGuard,
+    OptionalAuthUserRequest,
+} from 'src/modules/user/auth';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ContinueReadBookControllerInterface } from '../__common/interfaces/continueReadBookController';
+import { ContinueReadBook } from '../__common/dto/continueReadBook.dto';
+import {
+    ContinueReadBookListQuery,
+    ContinueReadBookList,
+} from '../__common/dto/continueReadBookList.dto';
+import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
 
 @ApiBearerAuth()
 @ApiCustomUnauthorizedResponse()
-@UseGuards(JwtAuthGuard)
-@Controller('manga/continue-read')
-export class ContinueReadMangaController implements ContinueReadMangaControllerInterface {
-    constructor(private continueReadMangaService: ContinueReadMangaService) {}
+@Controller('continue-read/manga')
+export class ContinueReadMangaController implements ContinueReadBookControllerInterface {
+    constructor(private service: ContinueReadMangaService) {}
 
     @Get()
-    @ApiOkResponse({ type: MangaListItemContinueReadResponseArrayData })
+    @UseGuards(JwtAuthGuard)
     async getContinueReadManga(
         @Req() req: AuthUserRequest,
-        @Query() query: LangQueryDto,
-    ): Promise<MangaListItemContinueReadResponseArrayData> {
-        const data = await this.continueReadMangaService.getContinueReadManga(
-            req.user.id,
-            query.lang,
-        );
-        return { data };
+        @Query() query: ContinueReadBookListQuery,
+    ): Promise<ContinueReadBookList> {
+        return await this.service.getContinueReadBookList(req.user.id, query);
     }
-    @Patch(':id')
-    @ApiResponse({ description: 'set id to 0 to delete all manga', status: 204 })
-    async dontShowContinueReadManga(
-        @Req() req: AuthUserRequest,
-        @Param('id', new ValidateMangaIdPipe()) mangaId: number,
-    ): Promise<void> {
-        await this.continueReadMangaService.dontShowContinueReadManga(req.user.id, mangaId);
+
+    @Get(':mangaId')
+    @UseInterceptors(AuthInterceptor)
+    async getContinueReadBook(
+        @Req() req: OptionalAuthUserRequest,
+        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+    ): Promise<ContinueReadBook> {
+        return await this.service.getContinueReadBook(req.user && req.user.id, bookId);
     }
+
+    async setContinueReadBook(
+        req: AuthUserRequest,
+        bookId: number,
+        chapterId: number | null,
+    ): Promise<void> {}
+
+    async dontShowContinueReadManga(req: AuthUserRequest, bookId: number): Promise<void> {}
 }
