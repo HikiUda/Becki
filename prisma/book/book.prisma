@@ -110,7 +110,7 @@ model BookBookmarks {
     chapter   BookChapters? @relation(fields: [chapterId], references: [id]) // ? last readed chapter    
     userId    Int
     bookId    Int
-    chapterId Int
+    chapterId Int?
     createdAt DateTime      @default(now())
     updatedAt DateTime      @default(now()) @updatedAt
 }

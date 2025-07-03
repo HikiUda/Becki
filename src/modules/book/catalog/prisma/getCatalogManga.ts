@@ -3,11 +3,12 @@ import { getOrderInput } from './book/getOrderInput';
 import { getCatalogMangaWhereInput } from './getCatalogMangaWhereInput';
 import { CatalogMangaQuery } from '../dto/catalogMangaQuery.dto';
 import { getSelectInput } from './book/getSelectInput';
+import { UserId } from 'src/modules/user/auth';
 
 export const getCatalogManga = async (
     prisma: PrismaClient,
     query: CatalogMangaQuery,
-    userId?: number,
+    userId?: UserId,
 ) => {
     const { limit, page, lang } = query;
     const skip = limit * (page - 1);

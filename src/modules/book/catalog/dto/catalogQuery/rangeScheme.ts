@@ -24,24 +24,31 @@ function fromBiggerTo(from: number | undefined, to: number | undefined) {
 }
 
 export const refineRanges = (data: RangeType, ctx: z.RefinementCtx) => {
+    // * ChapterCount
     if (fromBiggerTo(data.chapterCountFrom, data.chapterCountTo)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'chapterCountFrom dont be bigger than chapterCountTo',
         });
     }
+
+    // * RateCount
     if (fromBiggerTo(data.rateCountFrom, data.rateCountTo)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'rateCountFrom dont be bigger than rateCountTo',
         });
     }
+
+    // * Rate
     if (fromBiggerTo(data.rateFrom, data.rateTo)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'rateFrom dont be bigger than rateTo',
         });
     }
+
+    // * ReleaseDate
     if (fromBiggerTo(data.releaseDateFrom?.getTime(), data.releaseDateTo?.getTime())) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,

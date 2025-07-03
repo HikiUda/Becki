@@ -12,20 +12,21 @@ import { toEditedBookChapterDto } from '../__common/prisma/toEditedBookChapter';
 import { getCreateChapterInput } from '../__common/prisma/getCreateChapterInput';
 import { MutateBookChapterDto } from '../__common/dto/mutateChapter.dto';
 import { getUpdateChapterInput } from '../__common/prisma/getUpdateChapterInput';
+import { MangaChapterId, MangaId } from '../../_common/model/bookId';
 
 @Injectable()
 export class EditMangaChaptersRepository implements EditBookChaptersRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
     async getEditedChapterList(
-        bookId: number,
+        bookId: MangaId,
         query: EditedBookChapterListQuery,
     ): Promise<EditedBookChapterList> {
         const data = await getEditedMangaChapterList(this.prisma, bookId, query);
         return toEditedBookChapterList(data, query);
     }
 
-    async getEditedChapter(bookId: number, chapterId: number): Promise<EditedBookChapter> {
+    async getEditedChapter(bookId: MangaId, chapterId: MangaChapterId): Promise<EditedBookChapter> {
         const chapter = await this.prisma.mangaChapters.findUnique({
             where: { id: chapterId, bookId },
             include: { title: true },
@@ -34,7 +35,7 @@ export class EditMangaChaptersRepository implements EditBookChaptersRepositoryIn
         return toEditedBookChapterDto(chapter);
     }
 
-    async createChapter(bookId: number, data: MutateBookChapterDto): Promise<void> {
+    async createChapter(bookId: MangaId, data: MutateBookChapterDto): Promise<void> {
         await this.prisma.mangaChapters.create({
             data: getCreateChapterInput(bookId, data),
         });
@@ -42,8 +43,8 @@ export class EditMangaChaptersRepository implements EditBookChaptersRepositoryIn
     }
 
     async updateChapter(
-        bookId: number,
-        chapterId: number,
+        bookId: MangaId,
+        chapterId: MangaChapterId,
         data: MutateBookChapterDto,
     ): Promise<void> {
         await this.prisma.mangaChapters.update({
@@ -53,7 +54,7 @@ export class EditMangaChaptersRepository implements EditBookChaptersRepositoryIn
         return;
     }
 
-    async toggleChapterPublish(bookId: number, chapterId: number): Promise<void> {
+    async toggleChapterPublish(bookId: MangaId, chapterId: MangaChapterId): Promise<void> {
         const chapter = await this.prisma.mangaChapters.findUnique({
             where: { id: chapterId },
             select: { publish: true },

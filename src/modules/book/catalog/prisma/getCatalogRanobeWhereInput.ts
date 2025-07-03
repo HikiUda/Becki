@@ -10,10 +10,11 @@ import { getRateCountFrom, getRateCountTo } from './book/whereInput/rateCount';
 import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapterCount';
 import { getRanobeType } from './book/whereInput/ranobeType';
 import { CatalogRanobeQuery } from '../dto/catalogRanobeQuery.dto';
+import { UserId } from 'src/modules/user/auth';
 
 export const getCatalogRanobeWhereInput = (
     query: CatalogRanobeQuery,
-    userId?: number,
+    userId?: UserId,
 ): Prisma.RanobeWhereInput => {
     const where: Prisma.RanobeWhereInput = {};
     const AND: Prisma.RanobeWhereInput[] = [];

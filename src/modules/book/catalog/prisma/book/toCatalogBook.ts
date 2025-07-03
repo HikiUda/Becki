@@ -2,10 +2,11 @@ import { LangType } from 'src/shared/dto/query/langQuery.dto';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getSelectInput } from './getSelectInput';
 import { CatalogBook } from '../../dto/catalogBook.dto';
+import { UserId } from 'src/modules/user/auth';
 
 const getCatalogBook = async (prisma: PrismaClient) => {
     return await prisma.book.findMany({
-        select: getSelectInput('ru', 0),
+        select: getSelectInput('ru', 0 as UserId),
     });
 };
 type GetCatalogBook = Prisma.PromiseReturnType<typeof getCatalogBook>[number];

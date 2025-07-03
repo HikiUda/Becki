@@ -8,6 +8,7 @@ import {
     getQuickSearchBooksWhereInput,
     toQuickSearchBooks,
 } from '../__common/prisma/getQuickSearchBooks';
+import { UserId } from 'src/modules/user/auth';
 
 @Injectable()
 export class QuickSearchMangaRepository implements QuickSearchRepositoryInterface {
@@ -23,7 +24,7 @@ export class QuickSearchMangaRepository implements QuickSearchRepositoryInterfac
         return toQuickSearchBooks(manga, query.lang);
     }
 
-    async getUserLastQueries(userId: number): Promise<string[]> {
+    async getUserLastQueries(userId: UserId): Promise<string[]> {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
             select: { lastQuickSearch: { select: { manga: true } } },
@@ -31,7 +32,7 @@ export class QuickSearchMangaRepository implements QuickSearchRepositoryInterfac
         return user?.lastQuickSearch?.manga || [];
     }
 
-    async setUserLastQueries(data: string[], userId: number): Promise<string[]> {
+    async setUserLastQueries(data: string[], userId: UserId): Promise<string[]> {
         const user = await this.prisma.user.update({
             where: { id: userId },
             data: { lastQuickSearch: { update: { manga: { set: data } } } },

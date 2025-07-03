@@ -1,7 +1,8 @@
 import { Prisma } from '@prisma/client';
+import { UserId } from 'src/modules/user/auth';
 import { LangType } from 'src/shared/dto/query/langQuery.dto';
 
-export const getSelectInput = (lang: LangType, userId?: number) => {
+export const getSelectInput = (lang: LangType, userId?: UserId) => {
     return {
         id: true,
         urlId: true,

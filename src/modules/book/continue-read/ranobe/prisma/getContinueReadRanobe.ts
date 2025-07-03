@@ -2,15 +2,15 @@ import { PrismaClient } from '@prisma/client';
 import { getContinueReadBookChapterSelect } from '../../__common/prisma/getContinueReadBook';
 import { getReadedChapterCountWhereInput } from '../../__common/prisma/getContinueReadBook';
 import { UserId } from 'src/modules/user/auth';
-import { MangaId } from 'src/modules/book/_common/model/bookId';
+import { RanobeId } from 'src/modules/book/_common/model/bookId';
 
-export const getContinueReadManga = async (
+export const getContinueReadRanobe = async (
     prisma: PrismaClient,
     userId: UserId | null,
-    bookId: MangaId,
+    bookId: RanobeId,
 ) => {
     const lastChapter = userId
-        ? await prisma.mangaBookmarks
+        ? await prisma.ranobeBookmarks
               .findFirst({
                   where: { userId, bookId },
                   select: {
@@ -23,14 +23,14 @@ export const getContinueReadManga = async (
         : null;
 
     const readedChapterCount = lastChapter
-        ? await prisma.mangaChapters.count({
+        ? await prisma.ranobeChapters.count({
               where: getReadedChapterCountWhereInput(bookId, lastChapter.tome, lastChapter.chapter),
           })
         : 0;
 
     const firstChapter = lastChapter
         ? null
-        : await prisma.mangaChapters.findFirst({
+        : await prisma.ranobeChapters.findFirst({
               where: { bookId },
               orderBy: [{ tome: 'asc' }, { chapter: 'asc' }],
               select: getContinueReadBookChapterSelect(),

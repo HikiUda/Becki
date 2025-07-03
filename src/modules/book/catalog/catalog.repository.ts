@@ -9,12 +9,13 @@ import { toCatalogBook } from './prisma/book/toCatalogBook';
 import { getCatalogRanobe } from './prisma/getCatalogRanobe';
 import { CatalogRanobeList } from './dto/catalogRanobe.dto';
 import { CatalogRanobeQuery } from './dto/catalogRanobeQuery.dto';
+import { UserId } from 'src/modules/user/auth';
 
 @Injectable()
 export class CatalogRepository implements CatalogRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
-    async getCatalogManga(query: CatalogMangaQuery, userId?: number): Promise<CatalogMangaList> {
+    async getCatalogManga(query: CatalogMangaQuery, userId?: UserId): Promise<CatalogMangaList> {
         const [manga, count] = await getCatalogManga(this.prisma, query, userId);
         const data = toCatalogBook(manga, query.lang);
         return {
@@ -23,7 +24,7 @@ export class CatalogRepository implements CatalogRepositoryInterface {
         };
     }
 
-    async getCatalogRanobe(query: CatalogRanobeQuery, userId?: number): Promise<CatalogRanobeList> {
+    async getCatalogRanobe(query: CatalogRanobeQuery, userId?: UserId): Promise<CatalogRanobeList> {
         const [ranobe, count] = await getCatalogRanobe(this.prisma, query, userId);
         const data = toCatalogBook(ranobe, query.lang);
         return {

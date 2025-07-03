@@ -1,7 +1,8 @@
 import { Prisma } from '@prisma/client';
+import { BookId } from 'src/modules/book/_common/model/bookId';
 
 export const getCreateBookCoversInput = (
-    bookId: number,
+    bookId: BookId,
     covers: string[],
     isFirstMain: boolean = false,
 ) => {

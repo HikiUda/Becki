@@ -16,26 +16,24 @@ import { EditMangaService } from './editManga.service';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiMutateBookDto } from '../__common/ApiMutateBookDto';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
-import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
 import { EditBookControllerInterface } from '../__common/interfaces/editBookController';
 import { EditedManga } from './dto/editedManga.dto';
 import { MutateMangaDto, ParseBodyMutateMangaDto } from './dto/mutateManga.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
-import { ApiBookIdParam } from '../../_common/decorators/ApiBookIdParam';
+import { MangaIdParam } from '../../_common/model/bookId';
 
 @Controller('manga')
 export class EditMangaController implements EditBookControllerInterface {
     constructor(private service: EditMangaService) {}
 
     @Get(':mangaId/edit')
-    @ApiBookIdParam('mangaId')
     @ApiOkResponse({ type: EditedManga })
     @ApiCustomNotFoundResponse()
     async getEditedBook(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Query() query: LangQueryDto,
     ): Promise<EditedManga> {
-        return await this.service.getEditedBook(bookId, query.lang);
+        return await this.service.getEditedBook(params.mangaId, query.lang);
     }
 
     @Post()
@@ -55,14 +53,13 @@ export class EditMangaController implements EditBookControllerInterface {
     }
 
     @Put(':mangaId/edit')
-    @ApiBookIdParam('mangaId')
     @ApiMutateBookDto(MutateMangaDto, false)
     @UseInterceptors(FileInterceptor('banner'))
     async updateBook(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Body('body') body: ParseBodyMutateMangaDto,
         @UploadedFile() banner: Express.Multer.File,
     ): Promise<void> {
-        return await this.service.updateBook(body, bookId, banner);
+        return await this.service.updateBook(body, params.mangaId, banner);
     }
 }

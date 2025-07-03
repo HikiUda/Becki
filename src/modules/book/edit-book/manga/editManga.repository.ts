@@ -8,12 +8,13 @@ import { getEditedBookCategories } from '../__common/prisma/getEditedBookCategor
 import { MutateMangaDto } from './dto/mutateManga.dto';
 import { createBookInput } from '../__common/prisma/getCreateBookInput';
 import { getUpdateBookInput } from '../__common/prisma/getUpdateBookInput';
+import { MangaId } from '../../_common/model/bookId';
 
 @Injectable()
 export class EditMangaRepository implements EditBookRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
-    async getEditedBook(bookId: number, lang: LangType): Promise<EditedManga> {
+    async getEditedBook(bookId: MangaId, lang: LangType): Promise<EditedManga> {
         const data = await this.prisma.manga.findUnique({
             where: { id: bookId },
             include: {
@@ -30,12 +31,12 @@ export class EditMangaRepository implements EditBookRepositoryInterface {
         return toEditedBook(data, categories);
     }
 
-    async createBook(data: MutateMangaDto): Promise<number> {
+    async createBook(data: MutateMangaDto): Promise<MangaId> {
         const { id } = await this.prisma.manga.create({ data: createBookInput(data) });
-        return id;
+        return id as MangaId;
     }
 
-    async updateBook(data: MutateMangaDto, bookId: number): Promise<void> {
+    async updateBook(data: MutateMangaDto, bookId: MangaId): Promise<void> {
         await this.prisma.manga.update({
             where: { id: bookId },
             data: getUpdateBookInput(data),
@@ -43,7 +44,7 @@ export class EditMangaRepository implements EditBookRepositoryInterface {
         return;
     }
 
-    async addCover(cover: string, bookId: number): Promise<void> {
+    async addCover(cover: string, bookId: MangaId): Promise<void> {
         await this.prisma.mangaCovers.create({
             data: {
                 cover,
@@ -54,7 +55,7 @@ export class EditMangaRepository implements EditBookRepositoryInterface {
         return;
     }
 
-    async getBookBanner(bookId: number): Promise<string | null> {
+    async getBookBanner(bookId: MangaId): Promise<string | null> {
         const book = await this.prisma.manga.findUnique({
             where: { id: bookId },
             select: { banner: true },

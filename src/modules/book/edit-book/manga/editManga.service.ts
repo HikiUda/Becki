@@ -6,6 +6,7 @@ import { EditBookServiceInterface } from '../__common/interfaces/editBookService
 import { EditedManga } from './dto/editedManga.dto';
 import { MutateMangaDto } from './dto/mutateManga.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
+import { MangaId } from '../../_common/model/bookId';
 @Injectable()
 export class EditMangaService implements EditBookServiceInterface {
     constructor(
@@ -13,7 +14,7 @@ export class EditMangaService implements EditBookServiceInterface {
         private fileService: MangaFileService,
     ) {}
 
-    async getEditedBook(bookId: number, lang: LangType): Promise<EditedManga> {
+    async getEditedBook(bookId: MangaId, lang: LangType): Promise<EditedManga> {
         return await this.repository.getEditedBook(bookId, lang);
     }
 
@@ -29,7 +30,7 @@ export class EditMangaService implements EditBookServiceInterface {
 
     async updateBook(
         data: MutateMangaDto,
-        bookId: number,
+        bookId: MangaId,
         banner?: Express.Multer.File,
     ): Promise<void> {
         if (banner) {

@@ -16,26 +16,24 @@ import { EditRanobeService } from './editRanobe.service';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiMutateBookDto } from '../__common/ApiMutateBookDto';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
-import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
 import { EditedRanobe } from './dto/editedRanobe.dto';
 import { MutateRanobeDto, ParseBodyMutateRanobeDto } from './dto/mutateRanobe.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
 import { EditBookControllerInterface } from '../__common/interfaces/editBookController';
-import { ApiBookIdParam } from '../../_common/decorators/ApiBookIdParam';
+import { RanobeIdParam } from '../../_common/model/bookId';
 
 @Controller('ranobe')
 export class EditRanobeController implements EditBookControllerInterface {
     constructor(private service: EditRanobeService) {}
 
     @Get(':ranobeId/edit')
-    @ApiBookIdParam('ranobeId')
     @ApiOkResponse({ type: EditedRanobe })
     @ApiCustomNotFoundResponse()
     async getEditedBook(
-        @Param('ranobeId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: RanobeIdParam,
         @Query() query: LangQueryDto,
     ): Promise<EditedRanobe> {
-        return await this.service.getEditedBook(bookId, query.lang);
+        return await this.service.getEditedBook(params.ranobeId, query.lang);
     }
 
     @Post()
@@ -55,14 +53,13 @@ export class EditRanobeController implements EditBookControllerInterface {
     }
 
     @Put(':ranobeId/edit')
-    @ApiBookIdParam('ranobeId')
     @ApiMutateBookDto(MutateRanobeDto, false)
     @UseInterceptors(FileInterceptor('banner'))
     async updateBook(
-        @Param('ranobeId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: RanobeIdParam,
         @Body('body') body: ParseBodyMutateRanobeDto,
         @UploadedFile() banner: Express.Multer.File,
     ): Promise<void> {
-        return await this.service.updateBook(body, bookId, banner);
+        return await this.service.updateBook(body, params.ranobeId, banner);
     }
 }

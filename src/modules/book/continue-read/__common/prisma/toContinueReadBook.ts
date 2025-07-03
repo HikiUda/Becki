@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { ContinueReadBook } from '../dto/continueReadBook.dto';
-import { getContinueReadBookChapterSelect } from './getContinueReadBookChapterSelect';
+import { getContinueReadBookChapterSelect } from './getContinueReadBook';
+import { BookId } from 'src/modules/book/_common/model/bookId';
 
 const getContinueReadBook = async (prisma: PrismaClient) => {
     const chapter = await prisma.bookChapters.findFirst({
@@ -12,7 +13,7 @@ const getContinueReadBook = async (prisma: PrismaClient) => {
 
 type GetContinueReadBook = Prisma.PromiseReturnType<typeof getContinueReadBook>;
 
-export function toContinueReadBook(data: GetContinueReadBook, bookId: number): ContinueReadBook {
+export function toContinueReadBook(data: GetContinueReadBook, bookId: BookId): ContinueReadBook {
     const [chapter, readedChapterCount] = data;
     return {
         tome: chapter?.tome || 0,

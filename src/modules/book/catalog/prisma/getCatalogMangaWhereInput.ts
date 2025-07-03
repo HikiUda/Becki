@@ -10,10 +10,11 @@ import { getReleaseDateFrom, getReleaseDateTo } from './book/whereInput/releaseD
 import { getRateFrom, getRateTo } from './book/whereInput/rate';
 import { getRateCountFrom, getRateCountTo } from './book/whereInput/rateCount';
 import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapterCount';
+import { UserId } from 'src/modules/user/auth';
 
 export const getCatalogMangaWhereInput = (
     query: CatalogMangaQuery,
-    userId?: number,
+    userId?: UserId,
 ): Prisma.MangaWhereInput => {
     const where: Prisma.MangaWhereInput = {};
     const AND: Prisma.MangaWhereInput[] = [];

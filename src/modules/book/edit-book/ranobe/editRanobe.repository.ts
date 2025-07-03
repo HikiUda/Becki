@@ -8,12 +8,13 @@ import { EditedRanobe } from './dto/editedRanobe.dto';
 import { EditBookRepositoryInterface } from '../__common/interfaces/editBookRepository';
 import { getUpdateBookInput } from '../__common/prisma/getUpdateBookInput';
 import { createBookInput } from '../__common/prisma/getCreateBookInput';
+import { RanobeId } from '../../_common/model/bookId';
 
 @Injectable()
 export class EditRanobeRepository implements EditBookRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
-    async getEditedBook(bookId: number, lang: LangType): Promise<EditedRanobe> {
+    async getEditedBook(bookId: RanobeId, lang: LangType): Promise<EditedRanobe> {
         const data = await this.prisma.ranobe.findUnique({
             where: { id: bookId },
             include: {
@@ -30,12 +31,12 @@ export class EditRanobeRepository implements EditBookRepositoryInterface {
         return toEditedBook(data, categories);
     }
 
-    async createBook(data: MutateRanobeDto): Promise<number> {
+    async createBook(data: MutateRanobeDto): Promise<RanobeId> {
         const { id } = await this.prisma.ranobe.create({ data: createBookInput(data) });
-        return id;
+        return id as RanobeId;
     }
 
-    async updateBook(data: MutateRanobeDto, bookId: number): Promise<void> {
+    async updateBook(data: MutateRanobeDto, bookId: RanobeId): Promise<void> {
         await this.prisma.ranobe.update({
             where: { id: bookId },
             data: getUpdateBookInput(data),
@@ -43,7 +44,7 @@ export class EditRanobeRepository implements EditBookRepositoryInterface {
         return;
     }
 
-    async addCover(cover: string, bookId: number): Promise<void> {
+    async addCover(cover: string, bookId: RanobeId): Promise<void> {
         await this.prisma.ranobeCovers.create({
             data: {
                 cover,
@@ -54,7 +55,7 @@ export class EditRanobeRepository implements EditBookRepositoryInterface {
         return;
     }
 
-    async getBookBanner(bookId: number): Promise<string | null> {
+    async getBookBanner(bookId: RanobeId): Promise<string | null> {
         const book = await this.prisma.ranobe.findUnique({
             where: { id: bookId },
             select: { banner: true },

@@ -1,8 +1,9 @@
 import { Prisma } from '@prisma/client';
+import { BookId } from 'src/modules/book/_common/model/bookId';
 
 type WhereInput = Prisma.BookChaptersWhereInput;
 
-export const getEditedChapterListWhereInput = (bookId: number, search: string) => {
+export const getEditedChapterListWhereInput = (bookId: BookId, search: string) => {
     const searchNumber = isNaN(Number(search)) ? undefined : Number(search);
     const OR = [];
 

@@ -1,13 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { RelatedBookControllerInterface } from '../__common/interfaces/relatedBookController';
 import { RelatedMangaService } from './relatedManga.service';
-import { ApiBookIdParam } from '../../_common/decorators/ApiBookIdParam';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { RelatedBookDtoList } from '../__common/dto/relatedBook.dto';
 import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
-import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
 import { AddRelatedBooksDto } from '../__common/dto/addRelatedBooks.dto';
 import { UpdateRelatedBookDto, DeleteRelatedBookDto } from '../__common/dto/mutateRelatedBook.dto';
+import { MangaIdParam } from '../../_common/model/bookId';
 
 @Controller('related-books/manga/:mangaId')
 export class RelatedMangaController implements RelatedBookControllerInterface {
@@ -17,44 +16,40 @@ export class RelatedMangaController implements RelatedBookControllerInterface {
     @ApiOkResponse({
         type: RelatedBookDtoList,
     })
-    @ApiBookIdParam('mangaId')
     async getRelatedBooks(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Query() query: LangQueryDto,
     ): Promise<RelatedBookDtoList> {
-        return await this.service.getRelatedBooks(bookId, query.lang);
+        return await this.service.getRelatedBooks(params.mangaId, query.lang);
     }
 
     @Post()
     @ApiResponse({ status: 204 })
-    @ApiBookIdParam('mangaId')
     async addBookRelated(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Body() body: AddRelatedBooksDto,
     ): Promise<void> {
-        await this.service.addBookRelated(bookId, body.data);
+        await this.service.addBookRelated(params.mangaId, body.data);
         return;
     }
 
     @Patch()
     @ApiResponse({ status: 204 })
-    @ApiBookIdParam('mangaId')
     async updateBookRelated(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Body() body: UpdateRelatedBookDto,
     ): Promise<void> {
-        await this.service.updateBookRelated(bookId, body);
+        await this.service.updateBookRelated(params.mangaId, body);
         return;
     }
 
     @Delete()
     @ApiResponse({ status: 204 })
-    @ApiBookIdParam('mangaId')
     async deleteBookRelated(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Body() body: DeleteRelatedBookDto,
     ): Promise<void> {
-        await this.service.deleteBookRelated(bookId, body);
+        await this.service.deleteBookRelated(params.mangaId, body);
         return;
     }
 }

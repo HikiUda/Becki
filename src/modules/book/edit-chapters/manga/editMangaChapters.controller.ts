@@ -6,59 +6,52 @@ import {
     EditedBookChapterList,
     EditedBookChapterListQuery,
 } from '../__common/dto/editedBookChapterList';
-import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
 import { EditedBookChapter } from '../__common/dto/editedBookChapter.dto';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
-import { EditMangaChapterParams } from '../__common/dto/editBookChapterParams.dto';
 import { MutateBookChapterDto } from '../__common/dto/mutateChapter.dto';
-import { ApiBookIdParam } from '../../_common/decorators/ApiBookIdParam';
+import { MangaChapterParams, MangaIdParam } from '../../_common/model/bookId';
 
 @Controller('manga/:mangaId/edit/chapters')
 export class EditMangaChaptersController implements EditBookChaptersControllerInterface {
     constructor(private service: EditMangaChaptersService) {}
 
     @Get()
-    @ApiBookIdParam('mangaId')
     @ApiOkResponse({ type: EditedBookChapterList })
     async getEditedChapterList(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Query() query: EditedBookChapterListQuery,
     ): Promise<EditedBookChapterList> {
-        return await this.service.getEditedChapterList(bookId, query);
+        return await this.service.getEditedChapterList(params.mangaId, query);
     }
 
     @Get(':chapterId')
-    @ApiBookIdParam('mangaId')
     @ApiOkResponse({ type: EditedBookChapter })
     @ApiCustomNotFoundResponse()
-    async getEditedChapter(@Param() params: EditMangaChapterParams): Promise<EditedBookChapter> {
+    async getEditedChapter(@Param() params: MangaChapterParams): Promise<EditedBookChapter> {
         return await this.service.getEditedChapter(params.mangaId, params.chapterId);
     }
 
     @Post()
-    @ApiBookIdParam('mangaId')
     @ApiResponse({ status: 204 })
     async createChapter(
-        @Param('mangaId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: MangaIdParam,
         @Body() body: MutateBookChapterDto,
     ): Promise<void> {
-        return await this.service.createChapter(bookId, body);
+        return await this.service.createChapter(params.mangaId, body);
     }
 
     @Put(':chapterId')
-    @ApiBookIdParam('mangaId')
     @ApiResponse({ status: 204 })
     async updateChapter(
-        @Param() params: EditMangaChapterParams,
+        @Param() params: MangaChapterParams,
         @Body() body: MutateBookChapterDto,
     ): Promise<void> {
         return await this.service.updateChapter(params.mangaId, params.chapterId, body);
     }
 
     @Patch(':chapterId/publish')
-    @ApiBookIdParam('mangaId')
     @ApiResponse({ status: 204 })
-    async toggleChapterPublish(@Param() params: EditMangaChapterParams): Promise<void> {
+    async toggleChapterPublish(@Param() params: MangaChapterParams): Promise<void> {
         return await this.service.toggleChapterPublish(params.mangaId, params.chapterId);
     }
 }

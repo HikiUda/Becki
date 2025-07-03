@@ -1,10 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { EditedBookChapterListQuery } from '../../__common/dto/editedBookChapterList';
 import { getEditedChapterListWhereInput } from '../../__common/prisma/getEditedChapterListWhereInput';
+import { MangaId } from 'src/modules/book/_common/model/bookId';
 
 export const getEditedMangaChapterList = async (
     prisma: PrismaClient,
-    bookId: number,
+    bookId: MangaId,
     query: EditedBookChapterListQuery,
 ) => {
     const { search, limit, page, order } = query;

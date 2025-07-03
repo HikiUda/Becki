@@ -5,60 +5,53 @@ import {
     EditedBookChapterList,
     EditedBookChapterListQuery,
 } from '../__common/dto/editedBookChapterList';
-import { ValidateBookIdPipe } from '../../_common/pipes/validateBookIdPipe';
 import { EditedBookChapter } from '../__common/dto/editedBookChapter.dto';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
-import { EditRanobeChapterParams } from '../__common/dto/editBookChapterParams.dto';
 import { MutateBookChapterDto } from '../__common/dto/mutateChapter.dto';
 import { EditRanobeChaptersService } from './editRanobeChapters.service';
-import { ApiBookIdParam } from '../../_common/decorators/ApiBookIdParam';
+import { RanobeChapterParams, RanobeIdParam } from '../../_common/model/bookId';
 
 @Controller('ranobe/:ranobeId/edit/chapters')
 export class EditRanobeChaptersController implements EditBookChaptersControllerInterface {
     constructor(private service: EditRanobeChaptersService) {}
 
     @Get()
-    @ApiBookIdParam('ranobeId')
     @ApiOkResponse({ type: EditedBookChapterList })
     async getEditedChapterList(
-        @Param('ranobeId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: RanobeIdParam,
         @Query() query: EditedBookChapterListQuery,
     ): Promise<EditedBookChapterList> {
-        return await this.service.getEditedChapterList(bookId, query);
+        return await this.service.getEditedChapterList(params.ranobeId, query);
     }
 
     @Get(':chapterId')
-    @ApiBookIdParam('ranobeId')
     @ApiOkResponse({ type: EditedBookChapter })
     @ApiCustomNotFoundResponse()
-    async getEditedChapter(@Param() params: EditRanobeChapterParams): Promise<EditedBookChapter> {
+    async getEditedChapter(@Param() params: RanobeChapterParams): Promise<EditedBookChapter> {
         return await this.service.getEditedChapter(params.ranobeId, params.chapterId);
     }
 
     @Post()
-    @ApiBookIdParam('ranobeId')
     @ApiResponse({ status: 204 })
     async createChapter(
-        @Param('ranobeId', new ValidateBookIdPipe()) bookId: number,
+        @Param() params: RanobeIdParam,
         @Body() body: MutateBookChapterDto,
     ): Promise<void> {
-        return await this.service.createChapter(bookId, body);
+        return await this.service.createChapter(params.ranobeId, body);
     }
 
     @Put(':chapterId')
-    @ApiBookIdParam('ranobeId')
     @ApiResponse({ status: 204 })
     async updateChapter(
-        @Param() params: EditRanobeChapterParams,
+        @Param() params: RanobeChapterParams,
         @Body() body: MutateBookChapterDto,
     ): Promise<void> {
         return await this.service.updateChapter(params.ranobeId, params.chapterId, body);
     }
 
     @Patch(':chapterId/publish')
-    @ApiBookIdParam('ranobeId')
     @ApiResponse({ status: 204 })
-    async toggleChapterPublish(@Param() params: EditRanobeChapterParams): Promise<void> {
+    async toggleChapterPublish(@Param() params: RanobeChapterParams): Promise<void> {
         return await this.service.toggleChapterPublish(params.ranobeId, params.chapterId);
     }
 }

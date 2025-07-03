@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CatalogModule } from './catalog/catalog.module';
+import { ContinueReadBookModule } from './continue-read/continueRead.module';
 import { EditBookModule } from './edit-book/editBook.module';
 import { EditBookCoversModule } from './edit-covers/editCover.module';
 import { EditBookChaptersModule } from './edit-chapters/editBookChapters.module';
@@ -10,6 +11,7 @@ import { RelatedBookModule } from './related/relatedBook.module';
 @Module({
     imports: [
         CatalogModule,
+        ContinueReadBookModule,
         EditBookModule,
         EditBookChaptersModule,
         EditBookCoversModule,

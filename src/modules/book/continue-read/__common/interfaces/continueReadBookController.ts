@@ -1,20 +1,18 @@
 import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
 import { ContinueReadBookList, ContinueReadBookListQuery } from '../dto/continueReadBookList.dto';
 import { ContinueReadBook } from '../dto/continueReadBook.dto';
+import { BookIdParam } from 'src/modules/book/_common/model/bookId';
+import { SetContinueReadBookParams } from '../dto/setContinueReadBookParams';
 
 export interface ContinueReadBookControllerInterface {
-    getContinueReadManga: (
+    getContinueReadBookList: (
         req: AuthUserRequest,
         query: ContinueReadBookListQuery,
     ) => Promise<ContinueReadBookList>;
     getContinueReadBook: (
         req: OptionalAuthUserRequest,
-        bookId: number,
+        params: BookIdParam,
     ) => Promise<ContinueReadBook>;
-    setContinueReadBook: (
-        req: AuthUserRequest,
-        bookId: number,
-        chapterId: number | null,
-    ) => Promise<void>;
-    dontShowContinueReadManga: (req: AuthUserRequest, bookId: number) => Promise<void>;
+    setContinueReadBook: (req: AuthUserRequest, params: SetContinueReadBookParams) => Promise<void>;
+    dontShowContinueReadBook: (req: AuthUserRequest, params: BookIdParam) => Promise<void>;
 }

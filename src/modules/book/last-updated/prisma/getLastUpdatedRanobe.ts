@@ -2,11 +2,12 @@ import { PrismaClient } from '@prisma/client';
 import { getLastUpdatedSelect } from './getLastUpdatedSelect';
 import { LastUpdatedQuery } from '../dto/lastUpdatedQuery.dto';
 import { getLastUpdatedWhereInput } from './getLastUpdatedWhereInput';
+import { UserId } from 'src/modules/user/auth';
 
 export const getLastUpdatedRanobe = async (
     prisma: PrismaClient,
     query: LastUpdatedQuery,
-    userId?: number,
+    userId?: UserId,
 ) => {
     const { scope, lang, limit, page } = query;
     const skip = limit * (page - 1);

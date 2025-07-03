@@ -9,7 +9,6 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
-import { ContinueReadMangaService } from './continueReadManga.service';
 import {
     AuthInterceptor,
     AuthUserRequest,
@@ -24,14 +23,15 @@ import {
     ContinueReadBookListQuery,
     ContinueReadBookList,
 } from '../__common/dto/continueReadBookList.dto';
-import { MangaIdParam } from '../../_common/model/bookId';
-import { SetContinueReadMangaParams } from '../__common/dto/setContinueReadBookParams';
+import { RanobeIdParam } from '../../_common/model/bookId';
+import { SetContinueReadRanobeParams } from '../__common/dto/setContinueReadBookParams';
+import { ContinueReadRanobeService } from './continueReadRanobe.service';
 
 @ApiBearerAuth()
 @ApiCustomUnauthorizedResponse()
-@Controller('continue-read/manga')
-export class ContinueReadMangaController implements ContinueReadBookControllerInterface {
-    constructor(private service: ContinueReadMangaService) {}
+@Controller('continue-read/ranobe')
+export class ContinueReadRanobeController implements ContinueReadBookControllerInterface {
+    constructor(private service: ContinueReadRanobeService) {}
 
     @Get()
     @ApiOkResponse({ type: ContinueReadBookList })
@@ -43,35 +43,35 @@ export class ContinueReadMangaController implements ContinueReadBookControllerIn
         return await this.service.getContinueReadBookList(req.user.id, query);
     }
 
-    @Get(':mangaId')
+    @Get(':ranobeId')
     @ApiOkResponse({ type: ContinueReadBook })
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @UseInterceptors(AuthInterceptor)
     async getContinueReadBook(
         @Req() req: OptionalAuthUserRequest,
-        @Param() params: MangaIdParam,
+        @Param() params: RanobeIdParam,
     ): Promise<ContinueReadBook> {
-        return await this.service.getContinueReadBook(req.user && req.user.id, params.mangaId);
+        return await this.service.getContinueReadBook(req.user && req.user.id, params.ranobeId);
     }
 
-    @Patch(':mangaId/:chapterId')
+    @Patch(':ranobeId/:chapterId')
     @ApiResponse({ status: 204 })
     @UseGuards(JwtAuthGuard)
     async setContinueReadBook(
         @Req() req: AuthUserRequest,
-        @Param() params: SetContinueReadMangaParams,
+        @Param() params: SetContinueReadRanobeParams,
     ): Promise<void> {
         await this.service.setContinueReadBook(req.user.id, params);
         return;
     }
 
-    @Delete(':mangaId')
+    @Delete(':ranobeId')
     @ApiResponse({ status: 204 })
     @UseGuards(JwtAuthGuard)
     async dontShowContinueReadBook(
         @Req() req: AuthUserRequest,
-        @Param() params: MangaIdParam,
+        @Param() params: RanobeIdParam,
     ): Promise<void> {
-        await this.service.dontShowContinueReadBook(req.user.id, params.mangaId);
+        await this.service.dontShowContinueReadBook(req.user.id, params.ranobeId);
     }
 }

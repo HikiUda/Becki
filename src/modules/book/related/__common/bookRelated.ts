@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// * BookRelationship
 export const BookRelationship = {
     Continuation: 'Continuation',
     Prequel: 'Prequel',
@@ -12,6 +13,7 @@ export const BookRelationship = {
 export const BookRelationshipEnum = z.nativeEnum(BookRelationship);
 export type BookRelationship = z.infer<typeof BookRelationshipEnum>;
 
+// * BookRelated
 export const BookRelatedSchema = z.record(z.string().regex(/^\d+$/), BookRelationshipEnum);
 
 export const BookRelated = z.object({
@@ -24,7 +26,10 @@ export const BookRelatedDefault: BookRelated = {
     ranobe: {},
 };
 
-const ParsedRelatedIdSchema = z.tuple([z.enum(['manga', 'ranobe']), z.coerce.number().int()]);
+// * RelatedId
+const ParsedRelatedIdSchema = z
+    .tuple([z.enum(['manga', 'ranobe']), z.coerce.number().int()])
+    .brand('ParsedRelatedId');
 export type ParsedRelatedId = z.infer<typeof ParsedRelatedIdSchema>;
 
 export const getRelatedId = (type: 'manga' | 'ranobe', id: number) => `${type}---${id}`;

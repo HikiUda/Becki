@@ -12,20 +12,24 @@ import { toEditedBookChapterDto } from '../__common/prisma/toEditedBookChapter';
 import { getCreateChapterInput } from '../__common/prisma/getCreateChapterInput';
 import { MutateBookChapterDto } from '../__common/dto/mutateChapter.dto';
 import { getUpdateChapterInput } from '../__common/prisma/getUpdateChapterInput';
+import { RanobeChapterId, RanobeId } from '../../_common/model/bookId';
 
 @Injectable()
 export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
     async getEditedChapterList(
-        bookId: number,
+        bookId: RanobeId,
         query: EditedBookChapterListQuery,
     ): Promise<EditedBookChapterList> {
         const data = await getEditedRanobeChapterList(this.prisma, bookId, query);
         return toEditedBookChapterList(data, query);
     }
 
-    async getEditedChapter(bookId: number, chapterId: number): Promise<EditedBookChapter> {
+    async getEditedChapter(
+        bookId: RanobeId,
+        chapterId: RanobeChapterId,
+    ): Promise<EditedBookChapter> {
         const chapter = await this.prisma.ranobeChapters.findUnique({
             where: { id: chapterId, bookId },
             include: { title: true },
@@ -34,7 +38,7 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
         return toEditedBookChapterDto(chapter);
     }
 
-    async createChapter(bookId: number, data: MutateBookChapterDto): Promise<void> {
+    async createChapter(bookId: RanobeId, data: MutateBookChapterDto): Promise<void> {
         await this.prisma.ranobeChapters.create({
             data: getCreateChapterInput(bookId, data),
         });
@@ -42,8 +46,8 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
     }
 
     async updateChapter(
-        bookId: number,
-        chapterId: number,
+        bookId: RanobeId,
+        chapterId: RanobeChapterId,
         data: MutateBookChapterDto,
     ): Promise<void> {
         await this.prisma.ranobeChapters.update({
@@ -53,7 +57,7 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
         return;
     }
 
-    async toggleChapterPublish(bookId: number, chapterId: number): Promise<void> {
+    async toggleChapterPublish(bookId: RanobeId, chapterId: RanobeChapterId): Promise<void> {
         const chapter = await this.prisma.ranobeChapters.findUnique({
             where: { id: chapterId },
             select: { publish: true },

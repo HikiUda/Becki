@@ -3,6 +3,8 @@ import { EditBookCoversServiceInterface } from '../__common/interfaces/editBookC
 import { EditMangaCoversRepository } from './editMangaCovers.repository';
 import { MangaFileService } from 'src/modules/file/mangaFile.service';
 import { EditedBookCoverList } from '../__common/dto/editedBookCovers.dto';
+import { MangaId } from '../../_common/model/bookId';
+import { MangaCoverId } from '../__common/dto/setMainCoverParams.dto';
 
 @Injectable()
 export class EditMangaCoversService implements EditBookCoversServiceInterface {
@@ -11,22 +13,22 @@ export class EditMangaCoversService implements EditBookCoversServiceInterface {
         private fileService: MangaFileService,
     ) {}
 
-    async getEditedCovers(bookId: number): Promise<EditedBookCoverList> {
+    async getEditedCovers(bookId: MangaId): Promise<EditedBookCoverList> {
         const covers = await this.repository.getEditedCovers(bookId);
         return { data: covers };
     }
 
-    async addCovers(bookId: number, covers: Express.Multer.File[]): Promise<void> {
+    async addCovers(bookId: MangaId, covers: Express.Multer.File[]): Promise<void> {
         const savedCovers = await this.fileService.saveCovers(covers, bookId);
         await this.repository.addCovers(bookId, savedCovers);
         return;
     }
 
-    async setMainCover(bookId: number, coverId: number): Promise<void> {
+    async setMainCover(bookId: MangaId, coverId: MangaCoverId): Promise<void> {
         await this.repository.setMainCover(bookId, coverId);
     }
 
-    async deleteCovers(bookId: number, coversId: number[]): Promise<void> {
+    async deleteCovers(bookId: MangaId, coversId: number[]): Promise<void> {
         const deletedCovers = await this.repository.deleteCovers(bookId, coversId);
         await this.fileService.deleteFiles(deletedCovers);
         return;

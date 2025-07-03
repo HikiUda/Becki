@@ -9,21 +9,21 @@ import {
 import { getContinueReadBookListSelect } from '../__common/prisma/getContinueReadBookListSelect';
 import { toContinueReadBookList } from '../__common/prisma/toContinueReadBookList';
 import { getBookBookmarksId } from '../__common/getBookBookmarksId';
-import { getContinueReadManga } from './prisma/getContinueReadManga';
+import { getContinueReadRanobe } from './prisma/getContinueReadRanobe';
 import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
 import { UserId } from 'src/modules/user/auth';
-import { MangaId } from '../../_common/model/bookId';
-import { SetContinueReadMangaParams } from '../__common/dto/setContinueReadBookParams';
+import { RanobeId } from '../../_common/model/bookId';
+import { SetContinueReadRanobeParams } from '../__common/dto/setContinueReadBookParams';
 
 @Injectable()
-export class ContinueReadMangaRepository implements ContinueReadBookRepositoryInterface {
+export class ContinueReadRanobeRepository implements ContinueReadBookRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
     async getContinueReadBookList(
         userId: UserId,
         query: ContinueReadBookListQuery,
     ): Promise<ContinueReadBookList> {
-        const data = await this.prisma.mangaBookmarks.findMany({
+        const data = await this.prisma.ranobeBookmarks.findMany({
             where: { userId, show: true },
             orderBy: { updatedAt: 'desc' },
             take: query.limit,
@@ -32,16 +32,16 @@ export class ContinueReadMangaRepository implements ContinueReadBookRepositoryIn
         return toContinueReadBookList(data, query.lang);
     }
 
-    async getContinueReadBook(userId: UserId | null, bookId: MangaId): Promise<ContinueReadBook> {
-        const data = await getContinueReadManga(this.prisma, userId, bookId);
+    async getContinueReadBook(userId: UserId | null, bookId: RanobeId): Promise<ContinueReadBook> {
+        const data = await getContinueReadRanobe(this.prisma, userId, bookId);
         return toContinueReadBook(data, bookId);
     }
 
     async setContinueReadBook(
         userId: UserId,
-        { mangaId: bookId, chapterId }: SetContinueReadMangaParams,
+        { ranobeId: bookId, chapterId }: SetContinueReadRanobeParams,
     ): Promise<void> {
-        await this.prisma.mangaBookmarks.update({
+        await this.prisma.ranobeBookmarks.update({
             where: { id: getBookBookmarksId(userId, bookId) },
             data: {
                 show: !!chapterId,
@@ -51,8 +51,8 @@ export class ContinueReadMangaRepository implements ContinueReadBookRepositoryIn
         return;
     }
 
-    async dontShowContinueReadBook(userId: UserId, bookId: MangaId): Promise<void> {
-        await this.prisma.mangaBookmarks.updateMany({
+    async dontShowContinueReadBook(userId: UserId, bookId: RanobeId): Promise<void> {
+        await this.prisma.ranobeBookmarks.updateMany({
             where: { userId, bookId: bookId === 0 ? undefined : bookId },
             data: { show: false },
         });

@@ -3,11 +3,12 @@ import { getOrderInput } from './book/getOrderInput';
 import { getSelectInput } from './book/getSelectInput';
 import { CatalogRanobeQuery } from '../dto/catalogRanobeQuery.dto';
 import { getCatalogRanobeWhereInput } from './getCatalogRanobeWhereInput';
+import { UserId } from 'src/modules/user/auth';
 
 export const getCatalogRanobe = async (
     prisma: PrismaClient,
     query: CatalogRanobeQuery,
-    userId?: number,
+    userId?: UserId,
 ) => {
     const { limit, page, lang } = query;
     const skip = limit * (page - 1);

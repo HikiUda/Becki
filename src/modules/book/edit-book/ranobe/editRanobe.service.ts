@@ -6,6 +6,7 @@ import { EditedRanobe } from './dto/editedRanobe.dto';
 import { MutateRanobeDto } from './dto/mutateRanobe.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';
 import { EditBookServiceInterface } from '../__common/interfaces/editBookService';
+import { RanobeId } from '../../_common/model/bookId';
 
 @Injectable()
 export class EditRanobeService implements EditBookServiceInterface {
@@ -14,7 +15,7 @@ export class EditRanobeService implements EditBookServiceInterface {
         private fileService: RanobeFileService,
     ) {}
 
-    async getEditedBook(bookId: number, lang: LangType): Promise<EditedRanobe> {
+    async getEditedBook(bookId: RanobeId, lang: LangType): Promise<EditedRanobe> {
         return await this.repository.getEditedBook(bookId, lang);
     }
 
@@ -30,7 +31,7 @@ export class EditRanobeService implements EditBookServiceInterface {
 
     async updateBook(
         data: MutateRanobeDto,
-        bookId: number,
+        bookId: RanobeId,
         banner?: Express.Multer.File,
     ): Promise<void> {
         if (banner) {

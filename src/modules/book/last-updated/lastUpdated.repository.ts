@@ -8,6 +8,7 @@ import { toLastUpdatedBook } from './prisma/toLastUpdatedBook';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { LastUpdatedRanobeList } from './dto/lastUpdatedRanobe.dto';
 import { getLastUpdatedRanobe } from './prisma/getLastUpdatedRanobe';
+import { UserId } from 'src/modules/user/auth';
 
 @Injectable()
 export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
@@ -15,7 +16,7 @@ export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
 
     async getLastUpdatedManga(
         query: LastUpdatedQuery,
-        userId?: number,
+        userId?: UserId,
     ): Promise<LastUpdatedMangaList> {
         const [manga, count] = await getLastUpdatedManga(this.prisma, query, userId);
         return {
@@ -26,7 +27,7 @@ export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
 
     async getLastUpdatedRanobe(
         query: LastUpdatedQuery,
-        userId?: number,
+        userId?: UserId,
     ): Promise<LastUpdatedRanobeList> {
         const [ranboe, count] = await getLastUpdatedRanobe(this.prisma, query, userId);
         return {

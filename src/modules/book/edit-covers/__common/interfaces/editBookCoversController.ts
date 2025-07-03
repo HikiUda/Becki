@@ -1,10 +1,11 @@
 import { EditedBookCoverList } from '../dto/editedBookCovers.dto';
 import { DeleteBookCoversDto } from '../dto/deleteBookCovers.dto';
-import { SetMainCoverParamsDto } from '../dto/setMainCoverParams.dto';
+import { SetMainCoverParams } from '../dto/setMainCoverParams.dto';
+import { BookIdParam } from 'src/modules/book/_common/model/bookId';
 
 export interface EditBookCoversControllerInterface {
-    getEditedCovers: (bookId: number) => Promise<EditedBookCoverList>;
-    addCovers: (bookId: number, files: Express.Multer.File[]) => Promise<void>;
-    setMainCover: (params: SetMainCoverParamsDto) => Promise<void>;
-    deleteCovers: (bookId: number, body: DeleteBookCoversDto) => Promise<void>;
+    getEditedCovers: (params: BookIdParam) => Promise<EditedBookCoverList>;
+    addCovers: (params: BookIdParam, files: Express.Multer.File[]) => Promise<void>;
+    setMainCover: (params: SetMainCoverParams) => Promise<void>;
+    deleteCovers: (params: BookIdParam, body: DeleteBookCoversDto) => Promise<void>;
 }
