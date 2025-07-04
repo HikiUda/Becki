@@ -1,5 +1,3 @@
-import { ValueOf } from 'src/shared/types/common';
-
 export const CaslAction = {
     Manage: 'manage',
     Create: 'create',

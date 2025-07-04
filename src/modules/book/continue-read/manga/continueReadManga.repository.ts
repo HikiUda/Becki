@@ -8,12 +8,12 @@ import {
 } from '../__common/dto/continueReadBookList.dto';
 import { getContinueReadBookListSelect } from '../__common/prisma/getContinueReadBookListSelect';
 import { toContinueReadBookList } from '../__common/prisma/toContinueReadBookList';
-import { getBookBookmarksId } from '../__common/getBookBookmarksId';
 import { getContinueReadManga } from './prisma/getContinueReadManga';
 import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
 import { UserId } from 'src/modules/user/auth';
 import { MangaId } from '../../_common/model/bookId';
 import { SetContinueReadMangaParams } from '../__common/dto/setContinueReadBookParams';
+import { getBookBookmarksId } from '../../bookmarks';
 
 @Injectable()
 export class ContinueReadMangaRepository implements ContinueReadBookRepositoryInterface {
@@ -45,7 +45,7 @@ export class ContinueReadMangaRepository implements ContinueReadBookRepositoryIn
             where: { id: getBookBookmarksId(userId, bookId) },
             data: {
                 show: !!chapterId,
-                chapter: chapterId ? { connect: { id: chapterId } } : { disconnect: true },
+                chapterId: chapterId,
             },
         });
         return;

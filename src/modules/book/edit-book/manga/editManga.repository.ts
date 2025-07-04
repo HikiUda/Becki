@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EditBookRepositoryInterface } from '../__common/interfaces/editBookRepository';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { EditedManga } from './dto/editedManga.dto';
 import { toEditedBook } from '../__common/prisma/toEditedBook';
@@ -14,7 +14,7 @@ import { MangaId } from '../../_common/model/bookId';
 export class EditMangaRepository implements EditBookRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
-    async getEditedBook(bookId: MangaId, lang: LangType): Promise<EditedManga> {
+    async getEditedBook(bookId: MangaId, lang: Lang): Promise<EditedManga> {
         const data = await this.prisma.manga.findUnique({
             where: { id: bookId },
             include: {

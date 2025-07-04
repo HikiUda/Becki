@@ -1,4 +1,4 @@
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { RelatedBookDto } from './dto/relatedBook.dto';
 import { BookRelated } from './bookRelated';
 import { Injectable } from '@nestjs/common';
@@ -9,7 +9,7 @@ import { getBooksByUrlIds } from './prisma/getBooksByUrlIds';
 import { BooksByUrlIds } from './dto/addRelatedBooks.dto';
 
 interface RelatedBookRepositoryInt {
-    getRelatedBooks: (bookRelated: BookRelated, lang: LangType) => Promise<RelatedBookDto[]>;
+    getRelatedBooks: (bookRelated: BookRelated, lang: Lang) => Promise<RelatedBookDto[]>;
     getBooksByUrlIds: (ids: string[]) => Promise<BooksByUrlIds>;
 }
 
@@ -17,7 +17,7 @@ interface RelatedBookRepositoryInt {
 export class RelatedBookRepository implements RelatedBookRepositoryInt {
     constructor(private prisma: PrismaService) {}
 
-    async getRelatedBooks(bookRelated: BookRelated, lang: LangType): Promise<RelatedBookDto[]> {
+    async getRelatedBooks(bookRelated: BookRelated, lang: Lang): Promise<RelatedBookDto[]> {
         const { manga, ranobe } = await getRelatedBooks(this.prisma, bookRelated, lang);
         return [
             ...toRelatedBookDto(manga, bookRelated, 'manga', lang),

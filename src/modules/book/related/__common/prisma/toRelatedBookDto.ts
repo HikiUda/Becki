@@ -1,4 +1,4 @@
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { GetRelatedBook } from './getRelatedBooks';
 import { RelatedBookDto } from '../dto/relatedBook.dto';
 import { BookRelated, getRelatedId } from '../bookRelated';
@@ -8,7 +8,7 @@ export function toRelatedBookDto(
     data: GetRelatedBook,
     bookRelated: BookRelated,
     bookType: ParsedRelatedId[0],
-    lang: LangType,
+    lang: Lang,
 ): RelatedBookDto[] {
     return data.map((book) => {
         return {

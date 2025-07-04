@@ -1,6 +1,6 @@
 import { MangaType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
-import { Pagination } from 'src/shared/types/pagination';
+import { Pagination } from 'src/shared/dto/pagination.dto';
 import { CatalogBook } from './catalogBook.dto';
 
 export class CatalogManga extends CatalogBook {

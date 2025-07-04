@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { toEditedBook } from '../__common/prisma/toEditedBook';
 import { getEditedBookCategories } from '../__common/prisma/getEditedBookCategories';
@@ -14,7 +14,7 @@ import { RanobeId } from '../../_common/model/bookId';
 export class EditRanobeRepository implements EditBookRepositoryInterface {
     constructor(private prisma: PrismaService) {}
 
-    async getEditedBook(bookId: RanobeId, lang: LangType): Promise<EditedRanobe> {
+    async getEditedBook(bookId: RanobeId, lang: Lang): Promise<EditedRanobe> {
         const data = await this.prisma.ranobe.findUnique({
             where: { id: bookId },
             include: {

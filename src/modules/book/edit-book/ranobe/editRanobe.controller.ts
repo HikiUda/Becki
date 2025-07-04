@@ -10,7 +10,7 @@ import {
     UploadedFiles,
     UseInterceptors,
 } from '@nestjs/common';
-import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
+import { LangQuery } from 'src/shared/dto/langQuery.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { EditRanobeService } from './editRanobe.service';
 import { ApiOkResponse } from '@nestjs/swagger';
@@ -31,7 +31,7 @@ export class EditRanobeController implements EditBookControllerInterface {
     @ApiCustomNotFoundResponse()
     async getEditedBook(
         @Param() params: RanobeIdParam,
-        @Query() query: LangQueryDto,
+        @Query() query: LangQuery,
     ): Promise<EditedRanobe> {
         return await this.service.getEditedBook(params.ranobeId, query.lang);
     }

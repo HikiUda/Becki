@@ -1,4 +1,4 @@
-import { ResponseArrayData } from 'src/shared/types/pagination';
+import { ResponseArrayData } from 'src/shared/dto/pagination.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { QuickSearchBook } from '../../__common/dto/quickSearchBook.dto';
 import { RanobeType } from '@prisma/client';

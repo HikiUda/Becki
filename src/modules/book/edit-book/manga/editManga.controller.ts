@@ -10,7 +10,7 @@ import {
     UploadedFiles,
     UseInterceptors,
 } from '@nestjs/common';
-import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
+import { LangQuery } from 'src/shared/dto/langQuery.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { EditMangaService } from './editManga.service';
 import { ApiOkResponse } from '@nestjs/swagger';
@@ -31,7 +31,7 @@ export class EditMangaController implements EditBookControllerInterface {
     @ApiCustomNotFoundResponse()
     async getEditedBook(
         @Param() params: MangaIdParam,
-        @Query() query: LangQueryDto,
+        @Query() query: LangQuery,
     ): Promise<EditedManga> {
         return await this.service.getEditedBook(params.mangaId, query.lang);
     }

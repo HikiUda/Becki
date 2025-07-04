@@ -1,5 +1,5 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
+import { LangQueryScheme } from 'src/shared/dto/langQuery.dto';
 import { z } from 'zod';
 
 const QuickSearchQuerySchema = z

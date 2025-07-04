@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LastUpdatedRepositoryInterface } from './interfaces/publicMangaRepository';
 import { LastUpdatedQuery } from './dto/lastUpdatedQuery.dto';
-import { getPagination } from 'src/shared/helpers/pagination/getPagination';
+import { getPagination } from 'src/shared/dto/pagination.dto';
 import { LastUpdatedMangaList } from './dto/lastUpdatedManga.dto';
 import { getLastUpdatedManga } from './prisma/getLastUpdatedManga';
 import { toLastUpdatedBook } from './prisma/toLastUpdatedBook';

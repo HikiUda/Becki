@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { QuickSearchBook } from '../dto/quickSearchBook.dto';
 
 export const getQuickSearchBooksWhereInput = (search: string) => {
@@ -35,7 +35,7 @@ type GetQuickSearchBook = Prisma.PromiseReturnType<typeof getQuickSearchBooks>[n
 
 export function toQuickSearchBooks<T extends string>(
     data: (GetQuickSearchBook & { type: T })[],
-    lang: LangType,
+    lang: Lang,
 ): (QuickSearchBook & { type: T })[] {
     return data.map((book) => {
         return {

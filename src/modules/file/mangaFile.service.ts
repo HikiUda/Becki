@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FileLocalRepository } from './fileLocal.repository';
 import { join } from 'path';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 
 export interface MangaFileServiceInterface {
     saveBanner: (banner: Express.Multer.File, mangaId: number) => Promise<string>;
@@ -10,7 +10,7 @@ export interface MangaFileServiceInterface {
         page: Express.Multer.File,
         mangaId: number,
         chapterId: number,
-        lang: LangType,
+        lang: Lang,
     ) => Promise<string>;
     deleteFiles: (filesUrl: string[]) => Promise<void>;
 }
@@ -35,7 +35,7 @@ export class MangaFileService implements MangaFileServiceInterface {
         page: Express.Multer.File,
         mangaId: number,
         chapterId: number,
-        lang: LangType,
+        lang: Lang,
     ): Promise<string> {
         const key = join('mangas', `${mangaId}`, 'chapters', `${chapterId}`, lang);
         const savedPage = await this.fileRepository.saveFiles([page], key);

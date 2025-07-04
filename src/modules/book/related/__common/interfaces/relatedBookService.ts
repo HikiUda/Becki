@@ -1,11 +1,11 @@
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { RelatedBookDtoList } from '../dto/relatedBook.dto';
 import { AddBookRelated } from '../dto/addRelatedBooks.dto';
 import { DeleteRelatedBookDto, UpdateRelatedBookDto } from '../dto/mutateRelatedBook.dto';
 import { BookId } from 'src/modules/book/_common/model/bookId';
 
 export interface RelatedBookServiceInterface {
-    getRelatedBooks: (bookId: BookId, lang: LangType) => Promise<RelatedBookDtoList>;
+    getRelatedBooks: (bookId: BookId, lang: Lang) => Promise<RelatedBookDtoList>;
     addBookRelated: (bookId: BookId, data: AddBookRelated) => Promise<void>;
     updateBookRelated: (bookId: BookId, data: UpdateRelatedBookDto) => Promise<void>;
     deleteBookRelated: (bookId: BookId, data: DeleteRelatedBookDto) => Promise<void>;

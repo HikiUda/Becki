@@ -1,8 +1,8 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { BookRelated } from '../bookRelated';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 
-const getRelatedBooksSelect = (lang: LangType) => {
+const getRelatedBooksSelect = (lang: Lang) => {
     return {
         id: true,
         urlId: true,
@@ -16,7 +16,7 @@ const getRelatedBooksSelect = (lang: LangType) => {
 export const getRelatedBooks = async (
     prisma: PrismaClient,
     boolRelated: BookRelated,
-    lang: LangType,
+    lang: Lang,
 ) => {
     const mangaIds = Object.keys(boolRelated.manga).map((key) => Number(key));
     const ranobeIds = Object.keys(boolRelated.ranobe).map((key) => Number(key));

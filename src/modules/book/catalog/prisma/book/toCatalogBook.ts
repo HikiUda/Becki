@@ -1,4 +1,4 @@
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getSelectInput } from './getSelectInput';
 import { CatalogBook } from '../../dto/catalogBook.dto';
@@ -13,7 +13,7 @@ type GetCatalogBook = Prisma.PromiseReturnType<typeof getCatalogBook>[number];
 
 export function toCatalogBook<T extends string>(
     data: (GetCatalogBook & { type: T })[],
-    lang: LangType,
+    lang: Lang,
 ): (CatalogBook & { type: T })[] {
     return data.map((book) => {
         return {

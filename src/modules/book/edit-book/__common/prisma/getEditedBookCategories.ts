@@ -1,10 +1,10 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { EditedBookCategory } from '../dto/editedBook.dto';
 
 function toEditedBookCategory(
     categories: { id: number; ru: string; en?: string | null }[],
-    lang: LangType,
+    lang: Lang,
 ): EditedBookCategory[] {
     return categories.map((category) => ({
         id: category.id,
@@ -14,7 +14,7 @@ function toEditedBookCategory(
 
 export const getEditedBookCategories = async (
     prisma: PrismaClient,
-    { genresIds, tagsIds, lang }: { genresIds: number[]; tagsIds: number[]; lang: LangType },
+    { genresIds, tagsIds, lang }: { genresIds: number[]; tagsIds: number[]; lang: Lang },
 ) => {
     const genres = await prisma.bookGenres.findMany({
         where: { id: { in: genresIds } },

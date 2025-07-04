@@ -1,8 +1,8 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
-import { PaginationQueryScheme } from 'src/shared/dto/query/pagination.dto';
+import { LangQueryScheme } from 'src/shared/dto/langQuery.dto';
+import { PaginationQueryScheme } from 'src/shared/dto/pagination.dto';
 import { z } from 'zod';
-import { Pagination } from 'src/shared/types/pagination';
+import { Pagination } from 'src/shared/dto/pagination.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class EditedBookChapterListItem {

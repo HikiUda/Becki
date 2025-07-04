@@ -1,4 +1,4 @@
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getLastUpdatedSelect } from './getLastUpdatedSelect';
 import { LastUpdatedBook } from '../dto/lastUpdatedBook.dto';
@@ -12,7 +12,7 @@ export type GetLastUpdatedBooks = Prisma.PromiseReturnType<typeof getLastUpdated
 
 export function toLastUpdatedBook<T extends string>(
     data: (GetLastUpdatedBooks & { book: { type: T } })[],
-    lang: LangType,
+    lang: Lang,
 ): (LastUpdatedBook & { type: T })[] {
     return data.map((chapter) => {
         return {

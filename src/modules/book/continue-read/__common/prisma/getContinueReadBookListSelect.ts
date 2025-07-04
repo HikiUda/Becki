@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 
-export const getContinueReadBookListSelect = (lang: LangType) => {
+export const getContinueReadBookListSelect = (lang: Lang) => {
     return {
         book: {
             select: {

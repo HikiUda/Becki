@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestj
 import { RelatedBookControllerInterface } from '../__common/interfaces/relatedBookController';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { RelatedBookDtoList } from '../__common/dto/relatedBook.dto';
-import { LangQueryDto } from 'src/shared/dto/query/langQuery.dto';
+import { LangQuery } from 'src/shared/dto/langQuery.dto';
 import { AddRelatedBooksDto } from '../__common/dto/addRelatedBooks.dto';
 import { UpdateRelatedBookDto, DeleteRelatedBookDto } from '../__common/dto/mutateRelatedBook.dto';
 import { RelatedRanobeService } from './relatedRanobe.service';
@@ -18,7 +18,7 @@ export class RelatedRanobeController implements RelatedBookControllerInterface {
     })
     async getRelatedBooks(
         @Param() params: RanobeIdParam,
-        @Query() query: LangQueryDto,
+        @Query() query: LangQuery,
     ): Promise<RelatedBookDtoList> {
         return await this.service.getRelatedBooks(params.ranobeId, query.lang);
     }

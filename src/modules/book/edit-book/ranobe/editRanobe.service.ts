@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EditRanobeRepository } from './editRanobe.repository';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { RanobeFileService } from 'src/modules/file/ranobeFile.service';
 import { EditedRanobe } from './dto/editedRanobe.dto';
 import { MutateRanobeDto } from './dto/mutateRanobe.dto';
@@ -15,7 +15,7 @@ export class EditRanobeService implements EditBookServiceInterface {
         private fileService: RanobeFileService,
     ) {}
 
-    async getEditedBook(bookId: RanobeId, lang: LangType): Promise<EditedRanobe> {
+    async getEditedBook(bookId: RanobeId, lang: Lang): Promise<EditedRanobe> {
         return await this.repository.getEditedBook(bookId, lang);
     }
 

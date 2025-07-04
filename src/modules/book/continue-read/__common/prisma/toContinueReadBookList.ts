@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { getContinueReadBookListSelect } from './getContinueReadBookListSelect';
 import { ContinueReadBookList, ContinueReadBookListItem } from '../dto/continueReadBookList.dto';
 
@@ -13,7 +13,7 @@ type GetContinueReadBookList = Prisma.PromiseReturnType<typeof getContinueReadBo
 
 export function toContinueReadBookList(
     data: GetContinueReadBookList,
-    lang: LangType,
+    lang: Lang,
 ): ContinueReadBookList {
     const books: ContinueReadBookListItem[] = data.map((item) => {
         return {

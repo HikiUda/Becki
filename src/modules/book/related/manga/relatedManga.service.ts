@@ -3,7 +3,7 @@ import { RelatedBookServiceInterface } from '../__common/interfaces/relatedBookS
 import { RelatedBookDtoList } from '../__common/dto/relatedBook.dto';
 import { RelatedMangaRepository } from './relatedManga.repository';
 import { RelatedBookRepository } from '../__common/relatedBook.repository';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { AddBookRelated, getAddedBookRelated } from '../__common/dto/addRelatedBooks.dto';
 import { UpdateRelatedBookDto, DeleteRelatedBookDto } from '../__common/dto/mutateRelatedBook.dto';
 import { BookRelatedDefault } from '../__common/bookRelated';
@@ -16,7 +16,7 @@ export class RelatedMangaService implements RelatedBookServiceInterface {
         private relatedBookRepository: RelatedBookRepository,
     ) {}
 
-    async getRelatedBooks(bookId: MangaId, lang: LangType): Promise<RelatedBookDtoList> {
+    async getRelatedBooks(bookId: MangaId, lang: Lang): Promise<RelatedBookDtoList> {
         const bookRelated = await this.repository.getBookRelated(bookId);
         if (!bookRelated) return { data: [] };
         const books = await this.relatedBookRepository.getRelatedBooks(bookRelated, lang);

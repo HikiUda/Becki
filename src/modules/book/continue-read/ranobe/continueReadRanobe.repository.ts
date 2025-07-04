@@ -8,12 +8,12 @@ import {
 } from '../__common/dto/continueReadBookList.dto';
 import { getContinueReadBookListSelect } from '../__common/prisma/getContinueReadBookListSelect';
 import { toContinueReadBookList } from '../__common/prisma/toContinueReadBookList';
-import { getBookBookmarksId } from '../__common/getBookBookmarksId';
 import { getContinueReadRanobe } from './prisma/getContinueReadRanobe';
 import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
 import { UserId } from 'src/modules/user/auth';
 import { RanobeId } from '../../_common/model/bookId';
 import { SetContinueReadRanobeParams } from '../__common/dto/setContinueReadBookParams';
+import { getBookBookmarksId } from '../../bookmarks';
 
 @Injectable()
 export class ContinueReadRanobeRepository implements ContinueReadBookRepositoryInterface {
@@ -45,7 +45,7 @@ export class ContinueReadRanobeRepository implements ContinueReadBookRepositoryI
             where: { id: getBookBookmarksId(userId, bookId) },
             data: {
                 show: !!chapterId,
-                chapter: chapterId ? { connect: { id: chapterId } } : { disconnect: true },
+                chapterId: chapterId,
             },
         });
         return;

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseArrayData } from 'src/shared/types/pagination';
+import { ResponseArrayData } from 'src/shared/dto/pagination.dto';
 
 export class EditedBookCover {
     @ApiProperty()

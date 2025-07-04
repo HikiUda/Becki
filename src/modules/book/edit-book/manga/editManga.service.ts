@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EditMangaRepository } from './editManga.repository';
-import { LangType } from 'src/shared/dto/query/langQuery.dto';
+import { Lang } from 'src/shared/dto/langQuery.dto';
 import { MangaFileService } from 'src/modules/file/mangaFile.service';
 import { EditBookServiceInterface } from '../__common/interfaces/editBookService';
 import { EditedManga } from './dto/editedManga.dto';
@@ -14,7 +14,7 @@ export class EditMangaService implements EditBookServiceInterface {
         private fileService: MangaFileService,
     ) {}
 
-    async getEditedBook(bookId: MangaId, lang: LangType): Promise<EditedManga> {
+    async getEditedBook(bookId: MangaId, lang: Lang): Promise<EditedManga> {
         return await this.repository.getEditedBook(bookId, lang);
     }
 

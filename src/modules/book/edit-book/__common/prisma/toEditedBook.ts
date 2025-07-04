@@ -1,5 +1,5 @@
 import { EditedBook } from '../dto/editedBook.dto';
-import { AgeRatingEnum } from 'src/modules/book/_common/model/ageRating';
+import { AgeRating } from 'src/modules/book/_common/model/ageRating';
 import { GetEditedBookCategories } from './getEditedBookCategories';
 import { Prisma, PrismaClient } from '@prisma/client';
 
@@ -33,6 +33,6 @@ export function toEditedBook<T extends string>(
         genres: categories.genres,
         tags: categories.tags,
         banner: book.banner,
-        ageRating: AgeRatingEnum.parse(book.ageRating),
+        ageRating: book.ageRating as AgeRating,
     };
 }

@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { EditedBookChapterList, EditedBookChapterListQuery } from '../dto/editedBookChapterList';
-import { getPagination } from 'src/shared/helpers/pagination/getPagination';
+import { getPagination } from 'src/shared/dto/pagination.dto';
 
 const getEditedBookChapterList = async (prisma: PrismaClient) => {
     const chapters = await prisma.bookChapters.findMany({

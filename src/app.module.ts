@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
-
 import { ConfigModule } from '@nestjs/config';
-import { FileModule } from './modules/file/file.module';
 import { UserModule } from './modules/user/user.module';
-import { validateEnv } from './shared/helpers/envConfigValidator/env.validation';
+import { validateEnv } from './shared/config/env.validation';
 import { BookModule } from './modules/book/book.module';
 
 @Module({
     imports: [
-        UserModule,
         ConfigModule.forRoot({ isGlobal: true, validate: validateEnv }),
-        FileModule,
+        UserModule,
         BookModule,
     ],
 })

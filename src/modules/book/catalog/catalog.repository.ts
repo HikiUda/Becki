@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CatalogRepositoryInterface } from './interfaces/publicMangaRepository';
 import { getCatalogManga } from './prisma/getCatalogManga';
-import { getPagination } from 'src/shared/helpers/pagination/getPagination';
+import { getPagination } from 'src/shared/dto/pagination.dto';
 import { CatalogMangaQuery } from './dto/catalogMangaQuery.dto';
 import { CatalogMangaList } from './dto/catalogManga.dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';

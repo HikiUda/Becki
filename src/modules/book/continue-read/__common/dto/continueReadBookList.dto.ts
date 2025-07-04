@@ -1,7 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { ApiProperty } from '@nestjs/swagger';
-import { LangQueryScheme } from 'src/shared/dto/query/langQuery.dto';
-import { ResponseArrayData } from 'src/shared/types/pagination';
+import { LangQueryScheme } from 'src/shared/dto/langQuery.dto';
+import { ResponseArrayData } from 'src/shared/dto/pagination.dto';
 import { z } from 'zod';
 
 export class ContinueReadBookListItem {

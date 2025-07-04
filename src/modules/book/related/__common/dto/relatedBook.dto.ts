@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BookStatus, MangaType, RanobeType } from '@prisma/client';
 import { BookRelationship } from '../bookRelated';
-import { ResponseArrayData } from 'src/shared/types/pagination';
+import { ResponseArrayData } from 'src/shared/dto/pagination.dto';
 
 export abstract class RelatedBookDto {
     @ApiProperty()
