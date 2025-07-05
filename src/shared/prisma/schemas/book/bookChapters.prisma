@@ -33,20 +33,17 @@ model UserLikeBookChapters {
     user      User         @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
-    isLiked   Boolean      @default(true)
     createdAt DateTime     @default(now())
-    updatedAt DateTime     @default(now()) @updatedAt
 }
 
+// * Abstract
 model UserViewBookChapters {
     id        String       @id
     chapter   BookChapters @relation(fields: [chapterId], references: [id])
     user      User         @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
-    isViewed  Boolean      @default(true)
     createdAt DateTime     @default(now())
-    updatedAt DateTime     @default(now()) @updatedAt
 }
 
 // * Abstract

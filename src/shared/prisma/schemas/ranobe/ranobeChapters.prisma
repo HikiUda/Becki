@@ -41,9 +41,7 @@ model UserLikeRanobeChapters {
     user      User           @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
-    isLiked   Boolean        @default(true)
     createdAt DateTime       @default(now())
-    updatedAt DateTime       @default(now()) @updatedAt
 }
 
 model UserViewRanobeChapters {
@@ -52,9 +50,7 @@ model UserViewRanobeChapters {
     user      User           @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
-    isViewed  Boolean        @default(true)
     createdAt DateTime       @default(now())
-    updatedAt DateTime       @default(now()) @updatedAt
 }
 
 model RanobeChaptersComments {

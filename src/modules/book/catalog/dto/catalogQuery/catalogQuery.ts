@@ -5,8 +5,8 @@ import { BookStatusEnum } from 'src/modules/book/_common/model/bookStatus';
 import { BookmarksEnum } from 'src/modules/book/_common/model/bookmarks';
 import { AgeRating, AgeRatingEnum } from 'src/modules/book/_common/model/ageRating';
 import { RangeScheme } from './rangeScheme';
-import { LangQueryScheme } from 'src/shared/dto/langQuery.dto';
-import { PaginationQueryScheme } from 'src/shared/dto/pagination.dto';
+import { LangQuerySchema } from 'src/shared/dto/langQuery.dto';
+import { PaginationQuerySchema } from 'src/shared/dto/pagination.dto';
 import { Bookmarks, BookStatus } from '@prisma/client';
 
 export const CatalogQueryBase = z
@@ -33,5 +33,5 @@ export const CatalogQueryBase = z
         ),
     })
     .merge(RangeScheme)
-    .merge(LangQueryScheme)
-    .merge(PaginationQueryScheme);
+    .merge(LangQuerySchema)
+    .merge(PaginationQuerySchema);

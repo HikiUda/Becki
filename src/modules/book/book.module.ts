@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MangaModule, RanobeModule } from './book';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { CatalogModule } from './catalog/catalog.module';
+import { CategoriesModule } from './categories/categories.module';
 import { ContinueReadBookModule } from './continue-read/continueRead.module';
 import { EditBookModule } from './edit-book/editBook.module';
 import { EditBookCoversModule } from './edit-covers/editCover.module';
@@ -17,6 +18,7 @@ import { RelatedBookModule } from './related/relatedBook.module';
         RanobeModule,
         BookmarksModule,
         CatalogModule,
+        CategoriesModule,
         ContinueReadBookModule,
         EditBookModule,
         EditBookChaptersModule,

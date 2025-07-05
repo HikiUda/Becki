@@ -2,11 +2,11 @@ import { z } from 'zod';
 import { createZodDto } from '@anatine/zod-nestjs';
 import { ApiProperty } from '@nestjs/swagger';
 
-export const PaginationQueryScheme = z.object({
+export const PaginationQuerySchema = z.object({
     page: z.coerce.number().int().default(1),
     limit: z.coerce.number().min(1).default(10),
 });
-export class PaginationQuery extends createZodDto(PaginationQueryScheme) {}
+export class PaginationQuery extends createZodDto(PaginationQuerySchema) {}
 
 export abstract class ResponseArrayData<T> {
     abstract data: T[];

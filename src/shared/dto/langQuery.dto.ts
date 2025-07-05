@@ -8,7 +8,7 @@ export const Lang = {
 export const LangEnum = z.nativeEnum(Lang);
 export type Lang = z.infer<typeof LangEnum>;
 
-export const LangQueryScheme = z.object({
+export const LangQuerySchema = z.object({
     lang: LangEnum.default('ru'),
 });
-export class LangQuery extends createZodDto(LangQueryScheme) {}
+export class LangQuery extends createZodDto(LangQuerySchema) {}

@@ -1,6 +1,6 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQueryScheme } from 'src/shared/dto/langQuery.dto';
-import { PaginationQueryScheme } from 'src/shared/dto/pagination.dto';
+import { LangQuerySchema } from 'src/shared/dto/langQuery.dto';
+import { PaginationQuerySchema } from 'src/shared/dto/pagination.dto';
 import { z } from 'zod';
 
 const LastUpdatedScopeEnum = z.enum(['all', 'popular', 'my']).describe('"my" for authorized users');
@@ -10,7 +10,7 @@ const LastUpdatedQueryScheme = z
     .object({
         scope: LastUpdatedScopeEnum.default('all'),
     })
-    .merge(LangQueryScheme)
-    .merge(PaginationQueryScheme);
+    .merge(LangQuerySchema)
+    .merge(PaginationQuerySchema);
 
 export class LastUpdatedQuery extends createZodDto(LastUpdatedQueryScheme) {}
