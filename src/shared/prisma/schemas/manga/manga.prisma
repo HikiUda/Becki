@@ -58,7 +58,6 @@ model MangaCovers {
 }
 
 model MangaRating {
-    id        String   @id
     rate      Int
     book      Manga    @relation(fields: [bookId], references: [id])
     user      User     @relation(fields: [userId], references: [id])
@@ -66,6 +65,8 @@ model MangaRating {
     userId    Int
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    @@id([userId, bookId])
 }
 
 model MangaComments {
@@ -94,7 +95,6 @@ model UserLikeMangaComments {
 }
 
 model MangaBookmarks {
-    id        String         @id
     bookmark  Bookmarks      @default(Reading)
     show      Boolean        @default(true)
     user      User           @relation(fields: [userId], references: [id])
@@ -105,13 +105,15 @@ model MangaBookmarks {
     chapterId Int?
     createdAt DateTime       @default(now())
     updatedAt DateTime       @default(now()) @updatedAt
+
+    @@id([userId, bookId])
 }
 
 model MangaStatistic {
     id                Int      @id @default(autoincrement())
     rate              Float    @default(0)
-    views             Int      @default(0)
-    likes             Int      @default(0)
+    viewCount         Int      @default(0)
+    likeCount         Int      @default(0)
     rateCount         Int      @default(0)
     chapterCount      Int      @default(0)
     bookmarkCount     Int      @default(0)

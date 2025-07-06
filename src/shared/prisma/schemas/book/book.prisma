@@ -63,7 +63,6 @@ model BookCovers {
 
 // * Abstract
 model BookRating {
-    id        String   @id
     rate      Int
     book      Book     @relation(fields: [bookId], references: [id])
     user      User     @relation(fields: [userId], references: [id])
@@ -71,6 +70,8 @@ model BookRating {
     userId    Int
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    @@id([userId, bookId])
 }
 
 // * Abstract
@@ -102,7 +103,6 @@ model UserLikeBookComments {
 
 // * Abstract
 model BookBookmarks {
-    id        String        @id
     bookmark  Bookmarks     @default(Reading)
     show      Boolean       @default(true)
     user      User          @relation(fields: [userId], references: [id])
@@ -113,14 +113,16 @@ model BookBookmarks {
     chapterId Int?
     createdAt DateTime      @default(now())
     updatedAt DateTime      @default(now()) @updatedAt
+
+    @@id([userId, bookId])
 }
 
 // * Abstract
 model BookStatistic {
     id                Int      @id @default(autoincrement())
     rate              Float    @default(0)
-    views             Int      @default(0)
-    likes             Int      @default(0)
+    viewCount         Int      @default(0)
+    likeCount         Int      @default(0)
     rateCount         Int      @default(0)
     chapterCount      Int      @default(0) // ? public chapters (available for users)
     bookmarkCount     Int      @default(0)

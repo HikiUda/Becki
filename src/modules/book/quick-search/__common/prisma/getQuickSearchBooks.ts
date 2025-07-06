@@ -22,7 +22,7 @@ export const getQuickSearchBooksSelectInput = () => {
         type: true,
         title: { select: { ru: true, en: true, origin: true } },
         covers: { where: { main: true }, select: { cover: true } },
-        statistic: { select: { views: true, likes: true, bookmarkCount: true } },
+        statistic: { select: { viewCount: true, likeCount: true, bookmarkCount: true } },
     } satisfies Prisma.BookSelect;
 };
 
@@ -44,8 +44,8 @@ export function toQuickSearchBooks<T extends string>(
             title: book.title?.[lang] || book.title?.ru || '',
             type: book.type,
             cover: book.covers?.[0].cover || '',
-            views: book.statistic?.views || 0,
-            likes: book.statistic?.likes || 0,
+            views: book.statistic?.viewCount || 0,
+            likes: book.statistic?.likeCount || 0,
             bookmarks: book.statistic?.bookmarkCount || 0,
         };
     });

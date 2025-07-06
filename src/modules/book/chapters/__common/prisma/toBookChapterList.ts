@@ -24,7 +24,7 @@ export function toBookChapterList(
         chapter: chapter.chapter,
         title: chapter.title && (chapter.title[query.lang] || chapter.title.ru),
         createdAt: chapter.createdAt,
-        isUserViewed: !!chapter.usersView.length,
+        isUserViewed: !!chapter.usersView?.length,
     }));
     return {
         data: chapters,

@@ -3,6 +3,7 @@ import { MangaModule, RanobeModule } from './book';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ChaptersModule } from './chapters/chapters.module';
 import { ContinueReadBookModule } from './continue-read/continueRead.module';
 import { EditBookModule } from './edit-book/editBook.module';
 import { EditBookCoversModule } from './edit-covers/editCover.module';
@@ -11,6 +12,7 @@ import { LastUpdatedModule } from './last-updated/lastUpdated.module';
 import { QuickSearchModule } from './quick-search/quickSearch.module';
 import { RateModule } from './rate/rate.module';
 import { RelatedBookModule } from './related/relatedBook.module';
+import { UserChapterActionsModule } from './user-chapter-actions/userChapterActions.module';
 
 @Module({
     imports: [
@@ -19,6 +21,7 @@ import { RelatedBookModule } from './related/relatedBook.module';
         BookmarksModule,
         CatalogModule,
         CategoriesModule,
+        ChaptersModule,
         ContinueReadBookModule,
         EditBookModule,
         EditBookChaptersModule,
@@ -27,6 +30,7 @@ import { RelatedBookModule } from './related/relatedBook.module';
         QuickSearchModule,
         RateModule,
         RelatedBookModule,
+        UserChapterActionsModule,
     ],
 })
 export class BookModule {}

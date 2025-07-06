@@ -28,22 +28,24 @@ model BookChaptersTitle {
 
 // * Abstract
 model UserLikeBookChapters {
-    id        String       @id
     chapter   BookChapters @relation(fields: [chapterId], references: [id])
     user      User         @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
     createdAt DateTime     @default(now())
+
+    @@id([userId, chapterId])
 }
 
 // * Abstract
 model UserViewBookChapters {
-    id        String       @id
     chapter   BookChapters @relation(fields: [chapterId], references: [id])
     user      User         @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
     createdAt DateTime     @default(now())
+
+    @@id([userId, chapterId])
 }
 
 // * Abstract

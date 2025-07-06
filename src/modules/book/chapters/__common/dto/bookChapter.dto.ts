@@ -23,10 +23,11 @@ export class BookChapter {
     bookTitle: string;
 
     @ApiProperty({ type: NeighbourBookChapter, nullable: true })
-    prevChapterId: NeighbourBookChapter | null;
+    prevChapter: NeighbourBookChapter | null;
     @ApiProperty({ type: NeighbourBookChapter, nullable: true })
-    nextChapterId: NeighbourBookChapter | null;
+    nextChapter: NeighbourBookChapter | null;
 
+    // ? is really need in likeCount and isUserLiked. Possible delete
     @ApiProperty()
     likeCount: number;
     @ApiProperty()

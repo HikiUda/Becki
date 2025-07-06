@@ -13,7 +13,6 @@ import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
 import { UserId } from 'src/modules/user/auth';
 import { MangaId } from '../../_common/model/bookId';
 import { SetContinueReadMangaParams } from '../__common/dto/setContinueReadBookParams';
-import { getBookBookmarksId } from '../../bookmarks';
 
 @Injectable()
 export class ContinueReadMangaRepository implements ContinueReadBookRepositoryInterface {
@@ -42,7 +41,7 @@ export class ContinueReadMangaRepository implements ContinueReadBookRepositoryIn
         { mangaId: bookId, chapterId }: SetContinueReadMangaParams,
     ): Promise<void> {
         await this.prisma.mangaBookmarks.update({
-            where: { id: getBookBookmarksId(userId, bookId) },
+            where: { userId_bookId: { userId, bookId } },
             data: {
                 show: !!chapterId,
                 chapterId: chapterId,

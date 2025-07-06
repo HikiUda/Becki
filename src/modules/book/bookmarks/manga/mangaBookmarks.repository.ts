@@ -5,7 +5,6 @@ import { UserId } from 'src/modules/user/auth';
 import { MangaId } from '../../_common/model/bookId';
 import { AddMangaBookmarkDto } from '../__common/dto/addBookBookmark.dto';
 import { UserBookBookmark } from '../__common/dto/userBookBookmark.dto';
-import { getBookBookmarksId } from '../__common/getBookBookmarksId';
 
 @Injectable()
 export class MangaBookmarksRepository implements BookBookmarksRepositoryInterface {
@@ -13,7 +12,7 @@ export class MangaBookmarksRepository implements BookBookmarksRepositoryInterfac
 
     async getBookmark(bookId: MangaId, userId: UserId): Promise<UserBookBookmark> {
         const data = await this.prisma.mangaBookmarks.findUnique({
-            where: { id: getBookBookmarksId(userId, bookId) },
+            where: { userId_bookId: { userId, bookId } },
             select: { bookmark: true },
         });
 
@@ -25,11 +24,10 @@ export class MangaBookmarksRepository implements BookBookmarksRepositoryInterfac
     }
 
     async setBookmark(bookId: MangaId, userId: UserId, data: AddMangaBookmarkDto): Promise<void> {
-        const bookBookmarkId = getBookBookmarksId(userId, bookId);
         const show = data.bookmark === 'Reading' || data.bookmark === 'Planned';
         await this.prisma.mangaBookmarks.upsert({
-            where: { id: bookBookmarkId },
-            create: { id: bookBookmarkId, bookId, userId, ...data, show },
+            where: { userId_bookId: { userId, bookId } },
+            create: { bookId, userId, ...data, show },
             update: { bookmark: data.bookmark, show },
         });
         return;
@@ -37,7 +35,7 @@ export class MangaBookmarksRepository implements BookBookmarksRepositoryInterfac
 
     async deleteBookmark(bookId: MangaId, userId: UserId): Promise<void> {
         await this.prisma.mangaBookmarks.delete({
-            where: { id: getBookBookmarksId(userId, bookId) },
+            where: { userId_bookId: { userId, bookId } },
         });
         return;
     }

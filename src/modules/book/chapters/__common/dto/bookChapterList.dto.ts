@@ -8,6 +8,7 @@ export class BookChapterListItem {
     tome: number;
     @ApiProperty()
     chapter: number;
+
     @ApiProperty({ type: 'string', nullable: true })
     title: string | null;
     @ApiProperty()

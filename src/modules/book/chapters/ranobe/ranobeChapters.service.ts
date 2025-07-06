@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { BookChaptersServiceInterface } from '../__common/interfaces/bookChapterService';
 import { UserId } from 'src/modules/user/auth';
 import { Lang } from 'src/shared/dto/langQuery.dto';
-import { MangaId, MangaChapterParams } from '../../_common/model/bookId';
+import { RanobeId, RanobeChapterParams } from '../../_common/model/bookId';
 import { BookChapter } from '../__common/dto/bookChapter.dto';
 import { BookChapterList } from '../__common/dto/bookChapterList.dto';
 import { BookChapterListQuery } from '../__common/dto/bookChapterListQuery.dto';
-import { MangaChaptersRepository } from './mangaChapters.repository';
+import { RanobeChaptersRepository } from './ranobeChapters.repository';
 
 @Injectable()
-export class MangaChaptersService implements BookChaptersServiceInterface {
-    constructor(private repository: MangaChaptersRepository) {}
+export class RanobeChaptersService implements BookChaptersServiceInterface {
+    constructor(private repository: RanobeChaptersRepository) {}
 
     async getChapterList(
-        bookId: MangaId,
+        bookId: RanobeId,
         query: BookChapterListQuery,
         userId?: UserId,
     ): Promise<BookChapterList> {
@@ -21,7 +21,7 @@ export class MangaChaptersService implements BookChaptersServiceInterface {
     }
 
     async getChapter(
-        params: MangaChapterParams,
+        params: RanobeChapterParams,
         lang: Lang,
         userId?: UserId,
     ): Promise<BookChapter> {

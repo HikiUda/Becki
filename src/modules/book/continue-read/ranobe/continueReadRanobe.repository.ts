@@ -13,7 +13,6 @@ import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
 import { UserId } from 'src/modules/user/auth';
 import { RanobeId } from '../../_common/model/bookId';
 import { SetContinueReadRanobeParams } from '../__common/dto/setContinueReadBookParams';
-import { getBookBookmarksId } from '../../bookmarks';
 
 @Injectable()
 export class ContinueReadRanobeRepository implements ContinueReadBookRepositoryInterface {
@@ -42,7 +41,7 @@ export class ContinueReadRanobeRepository implements ContinueReadBookRepositoryI
         { ranobeId: bookId, chapterId }: SetContinueReadRanobeParams,
     ): Promise<void> {
         await this.prisma.ranobeBookmarks.update({
-            where: { id: getBookBookmarksId(userId, bookId) },
+            where: { userId_bookId: { userId, bookId } },
             data: {
                 show: !!chapterId,
                 chapterId: chapterId,

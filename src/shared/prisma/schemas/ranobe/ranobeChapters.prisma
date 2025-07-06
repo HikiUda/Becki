@@ -36,21 +36,23 @@ model RanobeChaptersPages {
 }
 
 model UserLikeRanobeChapters {
-    id        String         @id
     chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
     user      User           @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
     createdAt DateTime       @default(now())
+
+    @@id([userId, chapterId])
 }
 
 model UserViewRanobeChapters {
-    id        String         @id
     chapter   RanobeChapters @relation(fields: [chapterId], references: [id])
     user      User           @relation(fields: [userId], references: [id])
     chapterId Int
     userId    Int
     createdAt DateTime       @default(now())
+
+    @@id([userId, chapterId])
 }
 
 model RanobeChaptersComments {

@@ -11,7 +11,7 @@ export const getChapterListSelect = (lang: Lang, userId?: UserId) => {
         createdAt: true,
         usersView: userId && {
             where: { userId },
-            select: { id: false },
+            select: { userId: true },
         },
     } satisfies Prisma.BookChaptersSelect;
 };
