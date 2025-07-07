@@ -11,7 +11,6 @@ export const getChapterSelect = (lang: Lang, userId?: UserId) => {
         book: {
             select: {
                 title: { select: { ru: true, en: lang === 'en' } },
-                statistic: { select: { likeCount: true } },
             },
         },
         usersLike: userId && {

@@ -33,12 +33,11 @@ export class UserRanobeChapterActionsRepository
     }
 
     async getUserLikeChapter(
-        { ranobeId: bookId, chapterId }: RanobeChapterParams,
+        { chapterId }: RanobeChapterParams,
         userId?: UserId,
     ): Promise<UserLikeBookChapterDto> {
-        const statistic = await this.prisma.ranobeStatistic.findUnique({
-            where: { bookId },
-            select: { likeCount: true },
+        const likeCount = await this.prisma.userLikeRanobeChapters.count({
+            where: { chapterId },
         });
         const isLiked =
             !!userId &&
@@ -46,7 +45,7 @@ export class UserRanobeChapterActionsRepository
                 where: { userId_chapterId: { userId, chapterId } },
                 select: { userId: true },
             }));
-        return { isLiked: !!isLiked, likeCount: statistic?.likeCount || 0 };
+        return { isLiked: !!isLiked, likeCount };
     }
 
     async setUserLikeChapter(

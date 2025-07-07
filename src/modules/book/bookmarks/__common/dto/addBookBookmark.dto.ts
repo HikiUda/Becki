@@ -1,6 +1,6 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { MangaChapterId, RanobeChapterId } from 'src/modules/book/_common/model/bookId';
-import { BookmarksEnum } from 'src/modules/book/_common/model/bookmarks';
+import { BookmarksEnum } from 'src/modules/book/_common/model/book';
 import { z } from 'zod';
 
 const AddMangaBookmarkSchema = z.object({

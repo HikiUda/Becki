@@ -1,7 +1,7 @@
 import { getMutateBookSchema, getParseBodyMutateBook } from '../../__common/dto/mutateBook.dto';
 import { createZodDto } from '@anatine/zod-nestjs';
 import { ApiHideProperty } from '@nestjs/swagger';
-import { RanobeTypeEnum } from 'src/modules/book/_common/model/ranobeType';
+import { RanobeTypeEnum } from 'src/modules/book/_common/model/book';
 
 const MutateRanobeSchema = getMutateBookSchema(RanobeTypeEnum.optional());
 const ParseBodyMutateRanobeSchema = getParseBodyMutateBook(MutateRanobeSchema);

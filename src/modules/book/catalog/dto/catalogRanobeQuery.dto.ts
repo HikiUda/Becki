@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RanobeTypeEnum } from '../../_common/model/ranobeType';
+import { RanobeTypeEnum } from '../../_common/model/book';
 import { StringToStringArray } from './catalogQuery/stringToArray';
 import { CatalogQueryBase } from './catalogQuery/catalogQuery';
 import { createZodDto } from '@anatine/zod-nestjs';

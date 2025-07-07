@@ -33,12 +33,11 @@ export class UserMangaChapterActionsRepository
     }
 
     async getUserLikeChapter(
-        { mangaId: bookId, chapterId }: MangaChapterParams,
+        { chapterId }: MangaChapterParams,
         userId?: UserId,
     ): Promise<UserLikeBookChapterDto> {
-        const statistic = await this.prisma.mangaStatistic.findUnique({
-            where: { bookId },
-            select: { likeCount: true },
+        const likeCount = await this.prisma.userLikeMangaChapters.count({
+            where: { chapterId },
         });
         const isLiked =
             !!userId &&
@@ -46,7 +45,7 @@ export class UserMangaChapterActionsRepository
                 where: { userId_chapterId: { userId, chapterId } },
                 select: { userId: true },
             }));
-        return { isLiked: !!isLiked, likeCount: statistic?.likeCount || 0 };
+        return { isLiked: !!isLiked, likeCount };
     }
 
     async setUserLikeChapter(

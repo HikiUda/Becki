@@ -12,6 +12,7 @@ import { LastUpdatedModule } from './last-updated/lastUpdated.module';
 import { QuickSearchModule } from './quick-search/quickSearch.module';
 import { RateModule } from './rate/rate.module';
 import { RelatedBookModule } from './related/relatedBook.module';
+import { StatisticModule } from './statistic/statistic.module';
 import { UserChapterActionsModule } from './user-chapter-actions/userChapterActions.module';
 
 @Module({
@@ -30,6 +31,7 @@ import { UserChapterActionsModule } from './user-chapter-actions/userChapterActi
         QuickSearchModule,
         RateModule,
         RelatedBookModule,
+        StatisticModule,
         UserChapterActionsModule,
     ],
 })

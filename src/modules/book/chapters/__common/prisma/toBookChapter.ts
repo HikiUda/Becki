@@ -32,7 +32,6 @@ export function toBookChapter(
         tome: chapter.tome,
         chapter: chapter.chapter,
         bookTitle: chapter.book.title?.[lang] || chapter.book.title?.ru || '',
-        likeCount: chapter.book.statistic?.likeCount || 0,
         prevChapter,
         nextChapter,
         isUserLiked: !!chapter.usersLike?.length,
