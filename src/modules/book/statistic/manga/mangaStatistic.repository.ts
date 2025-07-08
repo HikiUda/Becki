@@ -2,11 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { BookStatisticRepositoryInterface } from '../__common/interfaces/bookStatisticRepository';
 import { MangaId } from '../../_common/model/bookId';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
-import { RateStatisticSchema, RateSummaryStatistic } from '../__common/dto/rateStatistic';
-import {
-    BookmarkStatisticSchema,
-    BookmarkSummaryStatistic,
-} from '../__common/dto/bookmarkStatistic.dto';
+import { RateSummaryStatistic } from '../__common/dto/rateSummaryStatistic.dto';
+import { RateStatisticSchema } from '../../_common/model/bookStatistic';
+import { BookmarkSummaryStatistic } from '../__common/dto/bookmarkSummaryStatistic.dto';
+import { BookmarkStatisticSchema } from '../../_common/model/bookStatistic';
 
 @Injectable()
 export class MangaStatisticRepository implements BookStatisticRepositoryInterface {

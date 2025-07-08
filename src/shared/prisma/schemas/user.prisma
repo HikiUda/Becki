@@ -44,6 +44,7 @@ model User {
   userViewRanobeChapters        UserViewRanobeChapters[]
 }
 
+// TODO many-to-many to one-to-many
 model UserAuthToken {
   id        Int      @id @default(autoincrement())
   user      User[]

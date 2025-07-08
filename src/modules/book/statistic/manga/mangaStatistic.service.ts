@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { BookStatisticServiceInterface } from '../__common/interfaces/bookStatisticService';
 import { MangaStatisticRepository } from './mangaStatistic.repository';
 import { MangaId } from '../../_common/model/bookId';
-import { BookmarkSummaryStatistic } from '../__common/dto/bookmarkStatistic.dto';
-import { RateSummaryStatistic } from '../__common/dto/rateStatistic';
+import { BookmarkSummaryStatistic } from '../__common/dto/bookmarkSummaryStatistic.dto';
+import { RateSummaryStatistic } from '../__common/dto/rateSummaryStatistic.dto';
 
 @Injectable()
 export class MangaStatisticService implements BookStatisticServiceInterface {

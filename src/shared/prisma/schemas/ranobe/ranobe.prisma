@@ -19,6 +19,9 @@ model Ranobe {
     bookmarks          RanobeBookmarks[]
     chapters           RanobeChapters[]
     statistic          RanobeStatistic?
+    authors            RanobeAuthor[]     @relation("RanobeAuthors")
+    publishers         RanobePublisher[]  @relation("RanobePublishers")
+    artists            RanobeArtist[]     @relation("RanobeArtists")
     moderated          Boolean            @default(false)
     lastChapterAddedAt DateTime           @default(now())
     createdAt          DateTime           @default(now())

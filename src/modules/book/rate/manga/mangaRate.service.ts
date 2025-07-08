@@ -4,7 +4,7 @@ import { BookRateServiceInterface } from '../__common/interfaces/bookRateService
 import { UserId } from 'src/modules/user/auth';
 import { MangaId } from '../../_common/model/bookId';
 import { UserBookRate } from '../__common/dto/userBookRate.dto';
-import { UpdateMangaStatisticService } from '../../statistic/updateStatistic.module';
+import { UpdateMangaStatisticService } from '../../update-statistic';
 
 @Injectable()
 export class MangaRateService implements BookRateServiceInterface {

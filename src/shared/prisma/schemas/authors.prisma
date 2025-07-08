@@ -1,0 +1,121 @@
+model Authors {
+    id        Int          @id @default(autoincrement())
+    name      String       @unique
+    role      AuthorRole[]
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @default(now()) @updatedAt
+
+    // * Abstarct Book
+    bookAsAuthor    BookAuthor[]    @relation("BookAuthors")
+    bookAsPublisher BookPublisher[] @relation("BookPublishers")
+    bookAsArtist    BookArtist[]    @relation("BookArtists")
+
+    // * Manga
+    mangaAsAuthor    MangaAuthor[]    @relation("MangaAuthors")
+    mangaAsPublisher MangaPublisher[] @relation("MangaPublishers")
+    mangaAsArtist    MangaArtist[]    @relation("MangaArtists")
+
+    // * Ranobe
+    ranobeAsAuthor    RanobeAuthor[]    @relation("RanobeAuthors")
+    ranobeAsPublisher RanobePublisher[] @relation("RanobePublishers")
+    ranobeAsArtist    RanobeArtist[]    @relation("RanobeArtists")
+}
+
+// ** Book
+// * Abstarct
+model BookAuthor {
+    bookId   Int
+    authorId Int
+    book     Book    @relation("BookAuthors", fields: [bookId], references: [id])
+    author   Authors @relation("BookAuthors", fields: [authorId], references: [id])
+
+    @@id([bookId, authorId])
+}
+
+// * Abstarct
+model BookPublisher {
+    bookId   Int
+    authorId Int
+    book     Book    @relation("BookPublishers", fields: [bookId], references: [id])
+    author   Authors @relation("BookPublishers", fields: [authorId], references: [id])
+
+    @@id([bookId, authorId])
+}
+
+// * Abstarct
+model BookArtist {
+    bookId   Int
+    authorId Int
+    book     Book    @relation("BookArtists", fields: [bookId], references: [id])
+    author   Authors @relation("BookArtists", fields: [authorId], references: [id])
+
+    @@id([bookId, authorId])
+}
+
+// ** Book
+
+// ** Manga
+model MangaAuthor {
+    mangaId  Int
+    authorId Int
+    manga    Manga   @relation("MangaAuthors", fields: [mangaId], references: [id])
+    author   Authors @relation("MangaAuthors", fields: [authorId], references: [id])
+
+    @@id([mangaId, authorId])
+}
+
+model MangaPublisher {
+    mangaId  Int
+    authorId Int
+    manga    Manga   @relation("MangaPublishers", fields: [mangaId], references: [id])
+    author   Authors @relation("MangaPublishers", fields: [authorId], references: [id])
+
+    @@id([mangaId, authorId])
+}
+
+model MangaArtist {
+    mangaId  Int
+    authorId Int
+    manga    Manga   @relation("MangaArtists", fields: [mangaId], references: [id])
+    author   Authors @relation("MangaArtists", fields: [authorId], references: [id])
+
+    @@id([mangaId, authorId])
+}
+
+// ** Manga
+
+// ** Ranobe
+model RanobeAuthor {
+    ranobeId Int
+    authorId Int
+    ranobe   Ranobe  @relation("RanobeAuthors", fields: [ranobeId], references: [id])
+    author   Authors @relation("RanobeAuthors", fields: [authorId], references: [id])
+
+    @@id([ranobeId, authorId])
+}
+
+model RanobePublisher {
+    ranobeId Int
+    authorId Int
+    ranobe   Ranobe  @relation("RanobePublishers", fields: [ranobeId], references: [id])
+    author   Authors @relation("RanobePublishers", fields: [authorId], references: [id])
+
+    @@id([ranobeId, authorId])
+}
+
+model RanobeArtist {
+    ranobeId Int
+    authorId Int
+    ranobe   Ranobe  @relation("RanobeArtists", fields: [ranobeId], references: [id])
+    author   Authors @relation("RanobeArtists", fields: [authorId], references: [id])
+
+    @@id([ranobeId, authorId])
+}
+
+// ** Ranobe
+
+enum AuthorRole {
+    Author
+    Artist
+    Publisher
+}

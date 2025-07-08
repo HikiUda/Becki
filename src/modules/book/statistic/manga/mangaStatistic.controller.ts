@@ -2,8 +2,8 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { BookStatisticControllerInterface } from '../__common/interfaces/bookStatisticController';
 import { MangaStatisticService } from './mangaStatistic.service';
 import { MangaIdParam } from '../../_common/model/bookId';
-import { BookmarkSummaryStatistic } from '../__common/dto/bookmarkStatistic.dto';
-import { RateSummaryStatistic } from '../__common/dto/rateStatistic';
+import { BookmarkSummaryStatistic } from '../__common/dto/bookmarkSummaryStatistic.dto';
+import { RateSummaryStatistic } from '../__common/dto/rateSummaryStatistic.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
 
