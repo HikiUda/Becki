@@ -58,7 +58,7 @@ export class EditRanobeController implements EditBookControllerInterface {
     async updateBook(
         @Param() params: RanobeIdParam,
         @Body('body') body: ParseBodyMutateRanobeDto,
-        @UploadedFile() banner: Express.Multer.File,
+        @UploadedFile() banner?: Express.Multer.File,
     ): Promise<void> {
         return await this.service.updateBook(body, params.ranobeId, banner);
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EditBookCoversServiceInterface } from '../__common/interfaces/editBookCoversService';
 import { EditMangaCoversRepository } from './editMangaCovers.repository';
-import { MangaFileService } from 'src/modules/file/mangaFile.service';
+import { MangaFileService } from 'src/modules/file/services/mangaFile.service';
 import { EditedBookCoverList } from '../__common/dto/editedBookCovers.dto';
 import { MangaId } from '../../_common/model/bookId';
 import { MangaCoverId } from '../__common/dto/setMainCoverParams.dto';

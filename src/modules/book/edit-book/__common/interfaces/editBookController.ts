@@ -10,6 +10,6 @@ export interface EditBookControllerInterface {
     updateBook: (
         params: BookIdParam,
         body: MutateBookDto,
-        banner: Express.Multer.File,
+        banner?: Express.Multer.File,
     ) => Promise<void>;
 }

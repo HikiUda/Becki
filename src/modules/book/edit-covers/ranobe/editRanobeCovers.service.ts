@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EditBookCoversServiceInterface } from '../__common/interfaces/editBookCoversService';
 import { EditRanobeCoversRepository } from './editRanobeCovers.repository';
-import { RanobeFileService } from 'src/modules/file/ranobeFile.service';
+import { RanobeFileService } from 'src/modules/file/services/ranobeFile.service';
 import { EditedBookCoverList } from '../__common/dto/editedBookCovers.dto';
 import { RanobeId } from '../../_common/model/bookId';
 import { RanobeCoverId } from '../__common/dto/setMainCoverParams.dto';

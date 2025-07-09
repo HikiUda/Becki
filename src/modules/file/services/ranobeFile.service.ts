@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FileLocalRepository } from './fileLocal.repository';
+import { FileLocalRepository } from '../fileLocal.repository';
 import { join } from 'path';
 
 export interface RanobeFileServiceInterface {

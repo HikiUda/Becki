@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EditMangaRepository } from './editManga.repository';
 import { Lang } from 'src/shared/dto/langQuery.dto';
-import { MangaFileService } from 'src/modules/file/mangaFile.service';
+import { MangaFileService } from 'src/modules/file/services/mangaFile.service';
 import { EditBookServiceInterface } from '../__common/interfaces/editBookService';
 import { EditedManga } from './dto/editedManga.dto';
 import { MutateMangaDto } from './dto/mutateManga.dto';

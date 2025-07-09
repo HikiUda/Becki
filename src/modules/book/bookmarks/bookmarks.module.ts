@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MangaBookmarksModule } from './manga/mangaBookmarks.module';
-import { ranobeBookmarksModule } from './ranobe/ranobeBookmarks.module';
+import { RanobeBookmarksModule } from './ranobe/ranobeBookmarks.module';
 
 @Module({
-    imports: [MangaBookmarksModule, ranobeBookmarksModule],
+    imports: [MangaBookmarksModule, RanobeBookmarksModule],
 })
 export class BookmarksModule {}

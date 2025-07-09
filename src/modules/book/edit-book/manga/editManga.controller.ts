@@ -58,7 +58,7 @@ export class EditMangaController implements EditBookControllerInterface {
     async updateBook(
         @Param() params: MangaIdParam,
         @Body('body') body: ParseBodyMutateMangaDto,
-        @UploadedFile() banner: Express.Multer.File,
+        @UploadedFile() banner?: Express.Multer.File,
     ): Promise<void> {
         return await this.service.updateBook(body, params.mangaId, banner);
     }

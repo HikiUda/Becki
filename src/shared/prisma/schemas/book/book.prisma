@@ -21,8 +21,8 @@ model Book {
     chapters           BookChapters[]
     statistic          BookStatistic?
     authors            BookAuthor[]     @relation("BookAuthors")
-    publishers         BookPublisher[]  @relation("BookPublishers")
     artists            BookArtist[]     @relation("BookArtists")
+    publishers         BookPublisher[]  @relation("BookPublishers")
     moderated          Boolean          @default(false)
     lastChapterAddedAt DateTime         @default(now())
     createdAt          DateTime         @default(now())

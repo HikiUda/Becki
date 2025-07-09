@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FileLocalRepository } from './fileLocal.repository';
+import { FileLocalRepository } from '../fileLocal.repository';
 import { join } from 'path';
 import { Lang } from 'src/shared/dto/langQuery.dto';
 

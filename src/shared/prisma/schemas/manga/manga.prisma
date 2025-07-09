@@ -20,8 +20,8 @@ model Manga {
     chapters           MangaChapters[]
     statistic          MangaStatistic?
     authors            MangaAuthor[]     @relation("MangaAuthors")
-    publishers         MangaPublisher[]  @relation("MangaPublishers")
     artists            MangaArtist[]     @relation("MangaArtists")
+    publishers         MangaPublisher[]  @relation("MangaPublishers")
     moderated          Boolean           @default(false)
     lastChapterAddedAt DateTime          @default(now())
     createdAt          DateTime          @default(now())

@@ -1,29 +1,22 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
 
-export function ApiMutateBookDto(mutateBookDto: any, withCover: boolean = true) {
+export function ApiMutatePerson(mutateDto: any) {
     return applyDecorators(
-        ApiExtraModels(mutateBookDto),
+        ApiExtraModels(mutateDto),
         ApiConsumes('multipart/form-data'),
         ApiResponse({ status: 204 }),
         ApiBody({
             schema: {
                 type: 'object',
                 properties: {
-                    ...(withCover && {
-                        covers: {
-                            type: 'string',
-                            format: 'binary',
-                            description: '1 обложка (формат — файл)',
-                        },
-                    }),
-                    banner: {
+                    avatar: {
                         type: 'string',
                         format: 'binary',
-                        description: '1 баннер (формат — файл)',
+                        description: '1 аватар (формат — файл)',
                     },
                     body: {
-                        $ref: getSchemaPath(mutateBookDto),
+                        $ref: getSchemaPath(mutateDto),
                         description: 'In JSON.stringfy format',
                     },
                 },

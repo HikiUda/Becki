@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EditRanobeRepository } from './editRanobe.repository';
 import { Lang } from 'src/shared/dto/langQuery.dto';
-import { RanobeFileService } from 'src/modules/file/ranobeFile.service';
+import { RanobeFileService } from 'src/modules/file/services/ranobeFile.service';
 import { EditedRanobe } from './dto/editedRanobe.dto';
 import { MutateRanobeDto } from './dto/mutateRanobe.dto';
 import { MutateBookFilesDto } from '../__common/dto/mutateBookFiles.dto';

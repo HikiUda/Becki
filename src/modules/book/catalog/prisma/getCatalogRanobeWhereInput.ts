@@ -11,6 +11,7 @@ import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapte
 import { getRanobeType } from './book/whereInput/ranobeType';
 import { CatalogRanobeQuery } from '../dto/catalogRanobeQuery.dto';
 import { UserId } from 'src/modules/user/auth';
+import { getPeople } from './book/whereInput/people';
 
 export const getCatalogRanobeWhereInput = (
     query: CatalogRanobeQuery,
@@ -46,6 +47,9 @@ export const getCatalogRanobeWhereInput = (
     // By chapterCount
     if (query.chapterCountFrom) AND.push(getChapterCountFrom(query.chapterCountFrom));
     if (query.chapterCountTo) AND.push(getChapterCountTo(query.chapterCountTo));
+
+    // By People
+    if (query.person) AND.push(getPeople(query.person));
 
     where.AND = AND;
     return where;

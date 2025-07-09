@@ -31,6 +31,9 @@ export const CatalogQueryBase = z
         bookmarks: StringToStringArray.describe(Object.values(Bookmarks).join(',')).pipe(
             z.array(BookmarksEnum),
         ),
+
+        // * People
+        person: z.string().optional(),
     })
     .merge(RangeScheme)
     .merge(LangQuerySchema)

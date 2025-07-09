@@ -10,4 +10,4 @@ import { UpdateStatisticModule } from '../../update-statistic/updateStatistic.mo
     controllers: [RanobeBookmarksController],
     providers: [RanobeBookmarksService, RanobeBookmarksRepository, PrismaService],
 })
-export class ranobeBookmarksModule {}
+export class RanobeBookmarksModule {}
