@@ -9,6 +9,7 @@ import { MutateMangaDto } from './dto/mutateManga.dto';
 import { createBookInput } from '../__common/prisma/getCreateBookInput';
 import { getUpdateBookInput } from '../__common/prisma/getUpdateBookInput';
 import { MangaId } from '../../_common/model/bookId';
+import { getEditedBookIncludeInput } from '../__common/prisma/getEditedBookIncludeInput';
 
 @Injectable()
 export class EditMangaRepository implements EditBookRepositoryInterface {
@@ -17,10 +18,7 @@ export class EditMangaRepository implements EditBookRepositoryInterface {
     async getEditedBook(bookId: MangaId, lang: Lang): Promise<EditedManga> {
         const data = await this.prisma.manga.findUnique({
             where: { id: bookId },
-            include: {
-                title: true,
-                description: true,
-            },
+            include: getEditedBookIncludeInput(),
         });
         if (!data) throw new NotFoundException('Такого тайтла не существует.');
         const categories = await getEditedBookCategories(this.prisma, {

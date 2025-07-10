@@ -17,5 +17,8 @@ export const getBookSelect = (lang: Lang) => {
         covers: { where: { main: true }, select: { cover: true } },
         banner: true,
         owner: { select: { id: true, name: true, avatar: true } },
+        authors: { select: { id: true, name: true, avatar: true } },
+        artists: { select: { id: true, name: true, avatar: true } },
+        publishers: { select: { id: true, name: true, avatar: true } },
     } satisfies Prisma.BookSelect;
 };

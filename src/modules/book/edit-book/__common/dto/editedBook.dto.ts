@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BookStatus } from '@prisma/client';
+import { BookStatus, PeopleRole } from '@prisma/client';
 import { AgeRating } from 'src/modules/book/_common/model/ageRating';
 
 export class EditedBookTitle {
@@ -23,6 +23,15 @@ export class EditedBookCategory {
     id: number;
     @ApiProperty()
     title: string;
+}
+
+export class EditedBookPerson {
+    @ApiProperty()
+    id: number;
+    @ApiProperty()
+    name: string;
+    @ApiProperty({ type: 'string', nullable: true })
+    avatar: string | null;
 }
 
 export abstract class EditedBook {
@@ -60,4 +69,13 @@ export abstract class EditedBook {
 
     @ApiProperty({ enum: AgeRating })
     ageRating: AgeRating;
+
+    @ApiProperty()
+    authors: EditedBookPerson[];
+
+    @ApiProperty()
+    artists: EditedBookPerson[];
+
+    @ApiProperty()
+    publishers: EditedBookPerson[];
 }

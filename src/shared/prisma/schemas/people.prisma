@@ -9,19 +9,19 @@ model People {
     updatedAt   DateTime           @default(now()) @updatedAt
 
     // * Abstarct Book
-    bookAsAuthor    BookAuthor[]    @relation("BookAuthors")
-    bookAsArtist    BookArtist[]    @relation("BookArtists")
-    bookAsPublisher BookPublisher[] @relation("BookPublishers")
+    bookAsAuthor    Book[] @relation("BookAuthors")
+    bookAsArtist    Book[] @relation("BookArtists")
+    bookAsPublisher Book[] @relation("BookPublishers")
 
     // * Manga
-    mangaAsAuthor    MangaAuthor[]    @relation("MangaAuthors")
-    mangaAsArtist    MangaArtist[]    @relation("MangaArtists")
-    mangaAsPublisher MangaPublisher[] @relation("MangaPublishers")
+    mangaAsAuthor    Manga[] @relation("MangaAuthors")
+    mangaAsArtist    Manga[] @relation("MangaArtists")
+    mangaAsPublisher Manga[] @relation("MangaPublishers")
 
     // * Ranobe
-    ranobeAsAuthor    RanobeAuthor[]    @relation("RanobeAuthors")
-    ranobeAsArtist    RanobeArtist[]    @relation("RanobeArtists")
-    ranobeAsPublisher RanobePublisher[] @relation("RanobePublishers")
+    ranobeAsAuthor    Ranobe[] @relation("RanobeAuthors")
+    ranobeAsArtist    Ranobe[] @relation("RanobeArtists")
+    ranobeAsPublisher Ranobe[] @relation("RanobePublishers")
 }
 
 model PeopleDescription {
@@ -33,99 +33,6 @@ model PeopleDescription {
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 }
-
-// ** Book
-// * Abstarct
-model BookAuthor {
-    bookId   Int
-    peopleId Int
-    book     Book   @relation("BookAuthors", fields: [bookId], references: [id])
-    people   People @relation("BookAuthors", fields: [peopleId], references: [id])
-
-    @@id([bookId, peopleId])
-}
-
-// * Abstarct
-model BookArtist {
-    bookId   Int
-    peopleId Int
-    book     Book   @relation("BookArtists", fields: [bookId], references: [id])
-    people   People @relation("BookArtists", fields: [peopleId], references: [id])
-
-    @@id([bookId, peopleId])
-}
-
-// * Abstarct
-model BookPublisher {
-    bookId   Int
-    peopleId Int
-    book     Book   @relation("BookPublishers", fields: [bookId], references: [id])
-    people   People @relation("BookPublishers", fields: [peopleId], references: [id])
-
-    @@id([bookId, peopleId])
-}
-
-// ** Book
-
-// ** Manga
-model MangaAuthor {
-    mangaId  Int
-    peopleId Int
-    manga    Manga  @relation("MangaAuthors", fields: [mangaId], references: [id])
-    people   People @relation("MangaAuthors", fields: [peopleId], references: [id])
-
-    @@id([mangaId, peopleId])
-}
-
-model MangaArtist {
-    mangaId  Int
-    peopleId Int
-    manga    Manga  @relation("MangaArtists", fields: [mangaId], references: [id])
-    people   People @relation("MangaArtists", fields: [peopleId], references: [id])
-
-    @@id([mangaId, peopleId])
-}
-
-model MangaPublisher {
-    mangaId  Int
-    peopleId Int
-    manga    Manga  @relation("MangaPublishers", fields: [mangaId], references: [id])
-    people   People @relation("MangaPublishers", fields: [peopleId], references: [id])
-
-    @@id([mangaId, peopleId])
-}
-
-// ** Manga
-
-// ** Ranobe
-model RanobeAuthor {
-    ranobeId Int
-    peopleId Int
-    ranobe   Ranobe @relation("RanobeAuthors", fields: [ranobeId], references: [id])
-    people   People @relation("RanobeAuthors", fields: [peopleId], references: [id])
-
-    @@id([ranobeId, peopleId])
-}
-
-model RanobeArtist {
-    ranobeId Int
-    peopleId Int
-    ranobe   Ranobe @relation("RanobeArtists", fields: [ranobeId], references: [id])
-    people   People @relation("RanobeArtists", fields: [peopleId], references: [id])
-
-    @@id([ranobeId, peopleId])
-}
-
-model RanobePublisher {
-    ranobeId Int
-    peopleId Int
-    ranobe   Ranobe @relation("RanobePublishers", fields: [ranobeId], references: [id])
-    people   People @relation("RanobePublishers", fields: [peopleId], references: [id])
-
-    @@id([ranobeId, peopleId])
-}
-
-// ** Ranobe
 
 enum PeopleRole {
     Author

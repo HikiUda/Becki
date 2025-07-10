@@ -28,6 +28,9 @@ export const getMutateBookSchema = <T extends z.ZodTypeAny>(type: T) =>
         tags: z.number().int().array().optional(),
         banner: z.string().optional().describe('Only Becki field process'),
         ageRating: AgeRatingEnum.optional(),
+        authors: z.number().int().array().optional(),
+        artists: z.number().int().array().optional(),
+        publishers: z.number().int().array().optional(),
     });
 
 const MutateBookSchema = getMutateBookSchema(z.string().optional());

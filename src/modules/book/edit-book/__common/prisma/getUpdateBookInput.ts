@@ -25,5 +25,14 @@ export const getUpdateBookInput = <T extends string>(dto: MutateBookDto & { type
         banner: dto.banner,
         genres: dto.genres,
         tags: dto.tags,
+        authors: dto.authors && {
+            set: dto.authors.map((id) => ({ id })),
+        },
+        artists: dto.artists && {
+            set: dto.artists.map((id) => ({ id })),
+        },
+        publishers: dto.publishers && {
+            set: dto.publishers.map((id) => ({ id })),
+        },
     } satisfies Prisma.BookUpdateInput;
 };

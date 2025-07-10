@@ -19,9 +19,9 @@ model Manga {
     bookmarks          MangaBookmarks[]
     chapters           MangaChapters[]
     statistic          MangaStatistic?
-    authors            MangaAuthor[]     @relation("MangaAuthors")
-    artists            MangaArtist[]     @relation("MangaArtists")
-    publishers         MangaPublisher[]  @relation("MangaPublishers")
+    authors            People[]          @relation("MangaAuthors")
+    artists            People[]          @relation("MangaArtists")
+    publishers         People[]          @relation("MangaPublishers")
     moderated          Boolean           @default(false)
     lastChapterAddedAt DateTime          @default(now())
     createdAt          DateTime          @default(now())

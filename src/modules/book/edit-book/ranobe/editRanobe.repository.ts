@@ -9,6 +9,7 @@ import { EditBookRepositoryInterface } from '../__common/interfaces/editBookRepo
 import { getUpdateBookInput } from '../__common/prisma/getUpdateBookInput';
 import { createBookInput } from '../__common/prisma/getCreateBookInput';
 import { RanobeId } from '../../_common/model/bookId';
+import { getEditedBookIncludeInput } from '../__common/prisma/getEditedBookIncludeInput';
 
 @Injectable()
 export class EditRanobeRepository implements EditBookRepositoryInterface {
@@ -17,10 +18,7 @@ export class EditRanobeRepository implements EditBookRepositoryInterface {
     async getEditedBook(bookId: RanobeId, lang: Lang): Promise<EditedRanobe> {
         const data = await this.prisma.ranobe.findUnique({
             where: { id: bookId },
-            include: {
-                title: true,
-                description: true,
-            },
+            include: getEditedBookIncludeInput(),
         });
         if (!data) throw new NotFoundException('Такого тайтла не существует.');
         const categories = await getEditedBookCategories(this.prisma, {
