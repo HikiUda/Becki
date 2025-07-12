@@ -1,5 +1,4 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQuerySchema } from 'src/shared/dto/langQuery.dto';
 import { PaginationQuerySchema } from 'src/shared/dto/pagination.dto';
 import { z } from 'zod';
 import { Pagination } from 'src/shared/dto/pagination.dto';
@@ -30,7 +29,6 @@ export const EditedBookChapterListQuerySchema = z
         search: z.string().default(''),
         order: z.enum(['asc', 'desc']).default('desc'),
     })
-    .merge(LangQuerySchema)
     .merge(PaginationQuerySchema);
 
 export class EditedBookChapterListQuery extends createZodDto(EditedBookChapterListQuerySchema) {}

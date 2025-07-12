@@ -3,11 +3,7 @@ import { EditedBookChapterList, EditedBookChapterListQuery } from '../dto/edited
 import { getPagination } from 'src/shared/dto/pagination.dto';
 
 const getEditedBookChapterList = async (prisma: PrismaClient) => {
-    const chapters = await prisma.bookChapters.findMany({
-        include: {
-            title: true,
-        },
-    });
+    const chapters = await prisma.bookChapters.findMany({});
 
     const count: number = 0;
     return [chapters, count] as const;
@@ -19,12 +15,12 @@ export function toEditedBookChapterList(
     data: GetEditedBookChapterList,
     query: EditedBookChapterListQuery,
 ): EditedBookChapterList {
-    const { lang, limit, page } = query;
+    const { limit, page } = query;
     const chapters = data[0].map((chapter) => ({
         id: chapter.id,
         tome: chapter.tome,
         chapter: chapter.chapter,
-        title: chapter.title && (chapter.title[lang] || chapter.title.ru),
+        title: chapter.title,
         createdAt: chapter.createdAt,
         publish: chapter.publish,
     }));

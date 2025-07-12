@@ -1,6 +1,5 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { ApiProperty } from '@nestjs/swagger';
-import { LangQuerySchema } from 'src/shared/dto/langQuery.dto';
 import { ResponseArrayData } from 'src/shared/dto/pagination.dto';
 import { z } from 'zod';
 
@@ -32,9 +31,7 @@ export class ContinueReadBookList extends ResponseArrayData<ContinueReadBookList
     data: ContinueReadBookListItem[];
 }
 
-const ContinueReadBookListQuerySchema = z
-    .object({
-        limit: z.number().int().default(10),
-    })
-    .merge(LangQuerySchema);
+const ContinueReadBookListQuerySchema = z.object({
+    limit: z.number().int().default(10),
+});
 export class ContinueReadBookListQuery extends createZodDto(ContinueReadBookListQuerySchema) {}

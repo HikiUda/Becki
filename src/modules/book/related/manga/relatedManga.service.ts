@@ -16,10 +16,10 @@ export class RelatedMangaService implements RelatedBookServiceInterface {
         private relatedBookRepository: RelatedBookRepository,
     ) {}
 
-    async getRelatedBooks(bookId: MangaId, lang: Lang): Promise<RelatedBookDtoList> {
+    async getRelatedBooks(bookId: MangaId): Promise<RelatedBookDtoList> {
         const bookRelated = await this.repository.getBookRelated(bookId);
         if (!bookRelated) return { data: [] };
-        const books = await this.relatedBookRepository.getRelatedBooks(bookRelated, lang);
+        const books = await this.relatedBookRepository.getRelatedBooks(bookRelated);
         return { data: books };
     }
 

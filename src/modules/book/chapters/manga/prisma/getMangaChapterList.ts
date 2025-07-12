@@ -11,7 +11,7 @@ export const getMangaChapterList = async (
     query: BookChapterListQuery,
     userId?: UserId,
 ) => {
-    const { search, limit, page, order, lang } = query;
+    const { search, limit, page, order } = query;
     const skip = limit * (page - 1);
 
     const chapters = await prisma.mangaChapters.findMany({
@@ -19,7 +19,7 @@ export const getMangaChapterList = async (
         orderBy: [{ tome: order }, { chapter: order }],
         skip,
         take: limit,
-        select: getChapterListSelect(lang, userId),
+        select: getChapterListSelect(userId),
     });
 
     const book = await prisma.manga.findUnique({

@@ -20,7 +20,7 @@ export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
     ): Promise<LastUpdatedMangaList> {
         const [manga, count] = await getLastUpdatedManga(this.prisma, query, userId);
         return {
-            data: toLastUpdatedBook(manga, query.lang),
+            data: toLastUpdatedBook(manga),
             ...getPagination(count, query.page, query.limit),
         };
     }
@@ -31,7 +31,7 @@ export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {
     ): Promise<LastUpdatedRanobeList> {
         const [ranboe, count] = await getLastUpdatedRanobe(this.prisma, query, userId);
         return {
-            data: toLastUpdatedBook(ranboe, query.lang),
+            data: toLastUpdatedBook(ranboe),
             ...getPagination(count, query.page, query.limit),
         };
     }

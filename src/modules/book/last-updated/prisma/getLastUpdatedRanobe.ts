@@ -9,13 +9,13 @@ export const getLastUpdatedRanobe = async (
     query: LastUpdatedQuery,
     userId?: UserId,
 ) => {
-    const { scope, lang, limit, page } = query;
+    const { scope, limit, page, bookLang } = query;
     const skip = limit * (page - 1);
 
     const ranobe = await prisma.ranobeChapters.findMany({
         orderBy: { createdAt: 'desc' },
-        where: getLastUpdatedWhereInput(scope, userId),
-        select: getLastUpdatedSelect(lang),
+        where: getLastUpdatedWhereInput({ scope, userId, bookLang }),
+        select: getLastUpdatedSelect(),
         distinct: scope === 'popular' ? ['bookId'] : undefined,
         skip,
         take: limit,
@@ -23,9 +23,11 @@ export const getLastUpdatedRanobe = async (
 
     const count =
         scope === 'popular'
-            ? await prisma.ranobe.count({ where: getLastUpdatedWhereInput(scope, userId).book })
+            ? await prisma.ranobe.count({
+                  where: getLastUpdatedWhereInput({ scope, userId, bookLang }).book,
+              })
             : await prisma.ranobeChapters.count({
-                  where: getLastUpdatedWhereInput(scope, userId),
+                  where: getLastUpdatedWhereInput({ scope, userId, bookLang }),
               });
 
     return [ranobe, count] as const;

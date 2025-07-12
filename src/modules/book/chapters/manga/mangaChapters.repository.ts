@@ -3,7 +3,7 @@ import { BookChaptersRepositoryInterface } from '../__common/interfaces/bookChap
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { UserId } from 'src/modules/user/auth';
 import { Lang } from 'src/shared/dto/langQuery.dto';
-import { MangaChapterParams, MangaId } from '../../_common/model/bookId';
+import { BookChapterParams, MangaChapterParams, MangaId } from '../../_common/model/bookId';
 import { BookChapter } from '../__common/dto/bookChapter.dto';
 import { BookChapterList } from '../__common/dto/bookChapterList.dto';
 import { BookChapterListQuery } from '../__common/dto/bookChapterListQuery.dto';
@@ -19,6 +19,7 @@ import {
     getPrevChapterWhereInput,
 } from '../__common/prisma/getPrevChapter';
 import { toBookChapter } from '../__common/prisma/toBookChapter';
+import { MangaChapterPages, MangaChapterPagesSchema } from '../../_common/model/mangaChapterPages';
 
 @Injectable()
 export class MangaChaptersRepository implements BookChaptersRepositoryInterface {
@@ -35,12 +36,11 @@ export class MangaChaptersRepository implements BookChaptersRepositoryInterface 
 
     async getChapter(
         { mangaId: bookId, chapterId }: MangaChapterParams,
-        lang: Lang,
         userId?: UserId,
     ): Promise<BookChapter> {
         const chapter = await this.prisma.mangaChapters.findUnique({
             where: { id: chapterId, publish: true },
-            select: getChapterSelect(lang, userId),
+            select: getChapterSelect(userId),
         });
 
         if (!chapter) throw new NotFoundException('Такой главы не существует!');
@@ -57,6 +57,15 @@ export class MangaChaptersRepository implements BookChaptersRepositoryInterface 
             select: { id: true, tome: true, chapter: true },
         });
 
-        return toBookChapter(chapter, prevChapter, nextChapter, lang);
+        return toBookChapter(chapter, prevChapter, nextChapter);
+    }
+
+    async getPages({ chapterId }: BookChapterParams): Promise<MangaChapterPages> {
+        const data = await this.prisma.mangaChapters.findUnique({
+            where: { id: chapterId },
+            select: { pages: true },
+        });
+        if (!data) throw new NotFoundException('Такой главы не существует');
+        return MangaChapterPagesSchema.parse(data.pages);
     }
 }

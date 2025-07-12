@@ -16,9 +16,6 @@ export const getEditedMangaChapterList = async (
         orderBy: [{ tome: order }, { chapter: order }],
         skip,
         take: limit,
-        include: {
-            title: true,
-        },
     });
 
     const chapterCount = await prisma.mangaChapters.count({

@@ -8,10 +8,7 @@ export const getChapterListWhereInput = (bookId: BookId, search: string) => {
     const OR = [];
 
     if (search) {
-        OR.push(
-            { title: { ru: { contains: search, mode: 'insensitive' } } } satisfies WhereInput,
-            { title: { en: { contains: search, mode: 'insensitive' } } } satisfies WhereInput,
-        );
+        OR.push({ title: { contains: search, mode: 'insensitive' } } satisfies WhereInput);
     }
     if (searchNumber) {
         OR.push(

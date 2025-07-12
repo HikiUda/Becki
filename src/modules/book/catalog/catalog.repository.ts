@@ -17,7 +17,7 @@ export class CatalogRepository implements CatalogRepositoryInterface {
 
     async getCatalogManga(query: CatalogMangaQuery, userId?: UserId): Promise<CatalogMangaList> {
         const [manga, count] = await getCatalogManga(this.prisma, query, userId);
-        const data = toCatalogBook(manga, query.lang);
+        const data = toCatalogBook(manga);
         return {
             data,
             ...getPagination(count, query.page, query.limit),
@@ -26,7 +26,7 @@ export class CatalogRepository implements CatalogRepositoryInterface {
 
     async getCatalogRanobe(query: CatalogRanobeQuery, userId?: UserId): Promise<CatalogRanobeList> {
         const [ranobe, count] = await getCatalogRanobe(this.prisma, query, userId);
-        const data = toCatalogBook(ranobe, query.lang);
+        const data = toCatalogBook(ranobe);
         return {
             data,
             ...getPagination(count, query.page, query.limit),

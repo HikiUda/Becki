@@ -32,7 +32,6 @@ export class EditRanobeChaptersRepository implements EditBookChaptersRepositoryI
     ): Promise<EditedBookChapter> {
         const chapter = await this.prisma.ranobeChapters.findUnique({
             where: { id: chapterId, bookId },
-            include: { title: true },
         });
         if (!chapter) throw new NotFoundException('Такой Главы не существует!');
         return toEditedBookChapterDto(chapter);

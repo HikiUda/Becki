@@ -1,14 +1,15 @@
 model Manga {
-    id                 Int               @id @default(autoincrement())
-    urlId              String            @unique @default(uuid()) @db.VarChar(255)
+    id                 Int              @id @default(autoincrement())
+    urlId              String           @unique @default(uuid()) @db.VarChar(255)
     title              MangaTitle?
-    description        MangaDescription?
+    description        String           @default("")
     releaseDate        DateTime?
-    type               MangaType         @default(Manga)
-    status             BookStatus        @default(Ongoing)
-    ageRating          Int               @default(0)
+    type               MangaType        @default(Manga)
+    status             BookStatus       @default(Ongoing)
+    ageRating          Int              @default(0)
+    lang               BookLang         @default(ru)
     covers             MangaCovers[]
-    owner              User              @relation(fields: [ownerId], references: [id])
+    owner              User             @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
     genres             Int[]
@@ -19,18 +20,18 @@ model Manga {
     bookmarks          MangaBookmarks[]
     chapters           MangaChapters[]
     statistic          MangaStatistic?
-    authors            People[]          @relation("MangaAuthors")
-    artists            People[]          @relation("MangaArtists")
-    publishers         People[]          @relation("MangaPublishers")
-    moderated          Boolean           @default(false)
-    lastChapterAddedAt DateTime          @default(now())
-    createdAt          DateTime          @default(now())
-    updatedAt          DateTime          @default(now()) @updatedAt
+    authors            People[]         @relation("MangaAuthors")
+    artists            People[]         @relation("MangaArtists")
+    publishers         People[]         @relation("MangaPublishers")
+    moderated          Boolean          @default(false)
+    lastChapterAddedAt DateTime         @default(now())
+    createdAt          DateTime         @default(now())
+    updatedAt          DateTime         @default(now()) @updatedAt
 }
 
 model MangaTitle {
     id          Int      @id @default(autoincrement())
-    ru          String
+    main        String   @default("")
     en          String?
     origin      String?
     otherTitles String   @default("")
@@ -38,16 +39,6 @@ model MangaTitle {
     bookId      Int      @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
-}
-
-model MangaDescription {
-    id        Int      @id @default(autoincrement())
-    ru        String
-    en        String?
-    book      Manga    @relation(fields: [bookId], references: [id])
-    bookId    Int      @unique
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model MangaCovers {

@@ -7,7 +7,7 @@ import { BookChapter } from '../dto/bookChapter.dto';
 const getChapter = async (prisma: PrismaClient) => {
     return await prisma.bookChapters.findUnique({
         where: { id: 0 },
-        select: getChapterSelect('ru', 0 as UserId),
+        select: getChapterSelect(0 as UserId),
     });
 };
 type GetChapter = Prisma.PromiseReturnType<typeof getChapter>;
@@ -24,14 +24,13 @@ export function toBookChapter(
     chapter: Exclude<GetChapter, null>,
     prevChapter: GetNeighbourChapter,
     nextChapter: GetNeighbourChapter,
-    lang: Lang,
 ): BookChapter {
     return {
         id: chapter.id,
-        title: chapter.title && (chapter.title[lang] || chapter.title.ru),
+        title: chapter.title,
         tome: chapter.tome,
         chapter: chapter.chapter,
-        bookTitle: chapter.book.title?.[lang] || chapter.book.title?.ru || '',
+        bookTitle: chapter.book.title?.main || '',
         prevChapter,
         nextChapter,
         isUserLiked: !!chapter.usersLike?.length,

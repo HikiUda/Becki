@@ -26,9 +26,9 @@ export class ContinueReadMangaRepository implements ContinueReadBookRepositoryIn
             where: { userId, show: true },
             orderBy: { updatedAt: 'desc' },
             take: query.limit,
-            select: getContinueReadBookListSelect(query.lang),
+            select: getContinueReadBookListSelect(),
         });
-        return toContinueReadBookList(data, query.lang);
+        return toContinueReadBookList(data);
     }
 
     async getContinueReadBook(userId: UserId | null, bookId: MangaId): Promise<ContinueReadBook> {

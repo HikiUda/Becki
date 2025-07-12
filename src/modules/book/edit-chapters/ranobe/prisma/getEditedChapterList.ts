@@ -16,9 +16,6 @@ export const getEditedRanobeChapterList = async (
         orderBy: [{ tome: order }, { chapter: order }],
         skip,
         take: limit,
-        include: {
-            title: true,
-        },
     });
 
     const chapterCount = await prisma.ranobeChapters.count({

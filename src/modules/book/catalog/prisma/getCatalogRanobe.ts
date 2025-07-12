@@ -10,7 +10,7 @@ export const getCatalogRanobe = async (
     query: CatalogRanobeQuery,
     userId?: UserId,
 ) => {
-    const { limit, page, lang } = query;
+    const { limit, page } = query;
     const skip = limit * (page - 1);
 
     const manga = await prisma.ranobe.findMany({
@@ -18,7 +18,7 @@ export const getCatalogRanobe = async (
         skip,
         orderBy: getOrderInput(query),
         where: getCatalogRanobeWhereInput(query, userId),
-        select: getSelectInput(lang, userId),
+        select: getSelectInput(userId),
     });
     const count = await prisma.ranobe.count({
         where: getCatalogRanobeWhereInput(query),

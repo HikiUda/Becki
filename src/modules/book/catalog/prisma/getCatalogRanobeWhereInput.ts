@@ -12,6 +12,7 @@ import { getRanobeType } from './book/whereInput/ranobeType';
 import { CatalogRanobeQuery } from '../dto/catalogRanobeQuery.dto';
 import { UserId } from 'src/modules/user/auth';
 import { getPeople } from './book/whereInput/people';
+import { getBookLang } from './book/whereInput/lang';
 
 export const getCatalogRanobeWhereInput = (
     query: CatalogRanobeQuery,
@@ -50,6 +51,9 @@ export const getCatalogRanobeWhereInput = (
 
     // By People
     if (query.person) AND.push(getPeople(query.person));
+
+    // By BookLang
+    if (query.bookLang) AND.push(getBookLang(query.bookLang));
 
     where.AND = AND;
     return where;

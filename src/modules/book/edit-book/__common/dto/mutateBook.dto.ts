@@ -1,26 +1,21 @@
 import { z } from 'zod';
 import { AgeRatingEnum } from 'src/modules/book/_common/model/ageRating';
 import { BookStatusEnum } from 'src/modules/book/_common/model/book';
+import { BookLang } from '@prisma/client';
 
 export const MutateBookTitleSchema = z.object({
-    ru: z.string().optional(),
+    main: z.string().optional(),
     en: z.string().optional(),
     origin: z.string().optional(),
 });
 export type MutateBookTitle = z.infer<typeof MutateBookTitleSchema>;
-
-export const MutateBookDescriptionSchema = z.object({
-    ru: z.string().optional(),
-    en: z.string().optional(),
-});
-export type MutateBookDescription = z.infer<typeof MutateBookDescriptionSchema>;
 
 export const getMutateBookSchema = <T extends z.ZodTypeAny>(type: T) =>
     z.object({
         urlId: z.string().optional(),
         title: MutateBookTitleSchema.optional(),
         otherTitles: z.string().array().optional(),
-        description: MutateBookDescriptionSchema.optional(),
+        description: z.string().optional(),
         type,
         status: BookStatusEnum.optional(),
         releaseDate: z.coerce.date().optional(),
@@ -31,6 +26,7 @@ export const getMutateBookSchema = <T extends z.ZodTypeAny>(type: T) =>
         authors: z.number().int().array().optional(),
         artists: z.number().int().array().optional(),
         publishers: z.number().int().array().optional(),
+        lang: z.nativeEnum(BookLang).optional(),
     });
 
 const MutateBookSchema = getMutateBookSchema(z.string().optional());

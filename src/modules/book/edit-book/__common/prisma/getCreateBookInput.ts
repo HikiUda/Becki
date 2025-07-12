@@ -5,12 +5,7 @@ export const createBookInput = (dto: MutateBookDto) => {
     return {
         title: {
             create: {
-                ru: dto.title?.ru || 'Название на русском обязательно',
-            },
-        },
-        description: {
-            create: {
-                ru: dto.description?.ru || '',
+                main: dto.title?.main || 'Название на русском обязательно',
             },
         },
         statistic: { create: {} },

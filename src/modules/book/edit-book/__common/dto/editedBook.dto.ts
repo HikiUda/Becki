@@ -1,21 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BookStatus, PeopleRole } from '@prisma/client';
+import { BookLang, BookStatus } from '@prisma/client';
 import { AgeRating } from 'src/modules/book/_common/model/ageRating';
 
 export class EditedBookTitle {
     @ApiProperty()
-    ru: string;
+    main: string;
     @ApiProperty({ type: 'string', nullable: true })
     en: string | null;
     @ApiProperty({ type: 'string', nullable: true })
     origin: string | null;
-}
-
-export class EditedBookDescription {
-    @ApiProperty()
-    ru: string;
-    @ApiProperty({ type: 'string', nullable: true })
-    en: string | null;
 }
 
 export class EditedBookCategory {
@@ -48,7 +41,7 @@ export abstract class EditedBook {
     otherTitles: string[];
 
     @ApiProperty()
-    description: EditedBookDescription;
+    description: string;
 
     @ApiProperty({ type: 'string', format: 'date-time', nullable: true })
     releaseDate: Date | null;
@@ -78,4 +71,7 @@ export abstract class EditedBook {
 
     @ApiProperty()
     publishers: EditedBookPerson[];
+
+    @ApiProperty({ enum: BookLang })
+    lang: BookLang;
 }

@@ -9,13 +9,13 @@ export const getLastUpdatedManga = async (
     query: LastUpdatedQuery,
     userId?: UserId,
 ) => {
-    const { scope, lang, limit, page } = query;
+    const { scope, limit, page, bookLang } = query;
     const skip = limit * (page - 1);
 
     const manga = await prisma.mangaChapters.findMany({
         orderBy: { createdAt: 'desc' },
-        where: getLastUpdatedWhereInput(scope, userId),
-        select: getLastUpdatedSelect(lang),
+        where: getLastUpdatedWhereInput({ scope, userId, bookLang }),
+        select: getLastUpdatedSelect(),
         distinct: scope === 'popular' ? ['bookId'] : undefined,
         skip,
         take: limit,
@@ -23,9 +23,11 @@ export const getLastUpdatedManga = async (
 
     const count =
         scope === 'popular'
-            ? await prisma.manga.count({ where: getLastUpdatedWhereInput(scope, userId).book })
+            ? await prisma.manga.count({
+                  where: getLastUpdatedWhereInput({ scope, userId, bookLang }).book,
+              })
             : await prisma.mangaChapters.count({
-                  where: getLastUpdatedWhereInput(scope, userId),
+                  where: getLastUpdatedWhereInput({ scope, userId, bookLang }),
               });
 
     return [manga, count] as const;

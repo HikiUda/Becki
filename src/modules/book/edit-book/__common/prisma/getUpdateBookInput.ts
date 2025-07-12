@@ -6,22 +6,18 @@ export const getUpdateBookInput = <T extends string>(dto: MutateBookDto & { type
         urlId: dto.urlId,
         title: {
             update: {
-                ru: dto.title?.ru,
+                main: dto.title?.main,
                 en: dto.title?.en,
                 origin: dto.title?.origin,
                 otherTitles: dto.otherTitles?.join('/n'),
             },
         },
-        description: {
-            update: {
-                ru: dto.description?.ru,
-                en: dto.description?.en,
-            },
-        },
+        description: dto.description,
         releaseDate: dto.releaseDate,
         status: dto.status,
         type: dto.type,
         ageRating: dto.ageRating,
+        lang: dto.lang,
         banner: dto.banner,
         genres: dto.genres,
         tags: dto.tags,

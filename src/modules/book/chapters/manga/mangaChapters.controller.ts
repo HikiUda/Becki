@@ -7,15 +7,16 @@ import { BookChapterList } from '../__common/dto/bookChapterList.dto';
 import { MangaChapterParams, MangaIdParam } from '../../_common/model/bookId';
 import { BookChapterListQuery } from '../__common/dto/bookChapterListQuery.dto';
 import { BookChapter } from '../__common/dto/bookChapter.dto';
-import { LangQuery } from 'src/shared/dto/langQuery.dto';
+import { PublicMangaChapterPages } from '../../_common/model/mangaChapterPages';
+import { ApiCustomNotFoundResponse } from 'src/shared/decorators/api40xResponses';
 
-@ApiBearerAuth()
 @Controller('manga/:mangaId/chapters')
 export class MangaChaptersController implements BookChaptersControllerInterface {
     constructor(private service: MangaChaptersService) {}
 
     @Get()
     @ApiOkResponse({ type: BookChapterList })
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @UseInterceptors(AuthInterceptor)
     async getChapterList(
@@ -28,13 +29,20 @@ export class MangaChaptersController implements BookChaptersControllerInterface 
 
     @Get(':chapterId')
     @ApiOkResponse({ type: BookChapter })
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @UseInterceptors(AuthInterceptor)
     async getChapter(
         @Req() req: OptionalAuthUserRequest,
         @Param() params: MangaChapterParams,
-        @Query() query: LangQuery,
     ): Promise<BookChapter> {
-        return await this.service.getChapter(params, query.lang, req.user?.id);
+        return await this.service.getChapter(params, req.user?.id);
+    }
+
+    @Get(':chapterId/pages')
+    @ApiOkResponse({ type: PublicMangaChapterPages })
+    @ApiCustomNotFoundResponse()
+    async getPages(@Param() params: MangaChapterParams): Promise<PublicMangaChapterPages> {
+        return await this.service.getPages(params);
     }
 }

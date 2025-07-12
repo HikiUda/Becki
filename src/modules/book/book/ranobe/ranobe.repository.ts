@@ -16,7 +16,7 @@ export class RanobeRepository implements BookRepositoryInterface {
     async getBook(bookId: RanobeId, lang: Lang): Promise<Ranobe> {
         const data = await this.prisma.ranobe.findUnique({
             where: { id: bookId },
-            select: getBookSelect(lang),
+            select: getBookSelect(),
         });
         if (!data) throw new NotFoundException('Такой ранобе не существует!');
         const categories = await getBookCategories(this.prisma, {
@@ -24,7 +24,7 @@ export class RanobeRepository implements BookRepositoryInterface {
             tagsIds: data.tags,
             lang,
         });
-        return toBook(data, categories, lang);
+        return toBook(data, categories);
     }
 
     async getBookCovers(bookId: RanobeId): Promise<BookCover[]> {

@@ -5,20 +5,19 @@ import { LastUpdatedBook } from '../dto/lastUpdatedBook.dto';
 
 const getLastUpdatedBooks = async (prisma: PrismaClient) => {
     return await prisma.bookChapters.findMany({
-        select: getLastUpdatedSelect('ru'),
+        select: getLastUpdatedSelect(),
     });
 };
 export type GetLastUpdatedBooks = Prisma.PromiseReturnType<typeof getLastUpdatedBooks>[number];
 
 export function toLastUpdatedBook<T extends string>(
     data: (GetLastUpdatedBooks & { book: { type: T } })[],
-    lang: Lang,
 ): (LastUpdatedBook & { type: T })[] {
     return data.map((chapter) => {
         return {
             id: chapter.book.id,
             urlId: chapter.book.urlId,
-            title: chapter.book.title?.[lang] || chapter.book.title?.ru || '',
+            title: chapter.book.title?.main || '',
             cover: chapter.book.covers[0]?.cover || '',
             type: chapter.book.type,
             tome: chapter.tome,

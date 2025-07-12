@@ -1,11 +1,10 @@
 import { Prisma } from '@prisma/client';
 import { UserId } from 'src/modules/user/auth';
-import { Lang } from 'src/shared/dto/langQuery.dto';
 
-export const getChapterListSelect = (lang: Lang, userId?: UserId) => {
+export const getChapterListSelect = (userId?: UserId) => {
     return {
         id: true,
-        title: { select: { ru: true, en: lang === 'en' } },
+        title: true,
         tome: true,
         chapter: true,
         createdAt: true,

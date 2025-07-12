@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { FileLocalRepository } from '../fileLocal.repository';
 import { join } from 'path';
-import { Lang } from 'src/shared/dto/langQuery.dto';
 
 export interface MangaFileServiceInterface {
     saveBanner: (banner: Express.Multer.File, mangaId: number) => Promise<string>;
     saveCovers: (covers: Express.Multer.File[], mangaId: number) => Promise<string[]>;
-    saveChapterPage: (
-        page: Express.Multer.File,
-        mangaId: number,
-        chapterId: number,
-        lang: Lang,
-    ) => Promise<string>;
+    saveChapterPage: (props: {
+        page: Express.Multer.File;
+        mangaId: number;
+        chapterId: number;
+    }) => Promise<string>;
     deleteFiles: (filesUrl: string[]) => Promise<void>;
 }
 
@@ -31,13 +29,13 @@ export class MangaFileService implements MangaFileServiceInterface {
         return savedCovers.map((cover) => cover.url);
     }
 
-    async saveChapterPage(
-        page: Express.Multer.File,
-        mangaId: number,
-        chapterId: number,
-        lang: Lang,
-    ): Promise<string> {
-        const key = join('mangas', `${mangaId}`, 'chapters', `${chapterId}`, lang);
+    async saveChapterPage(props: {
+        page: Express.Multer.File;
+        mangaId: number;
+        chapterId: number;
+    }): Promise<string> {
+        const { page, mangaId, chapterId } = props;
+        const key = join('manga', `${mangaId}`, 'chapters', `${chapterId}`);
         const savedPage = await this.fileRepository.saveFiles([page], key);
         return savedPage[0].url;
     }

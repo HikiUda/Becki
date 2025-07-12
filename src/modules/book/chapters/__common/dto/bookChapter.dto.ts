@@ -27,7 +27,7 @@ export class BookChapter {
     @ApiProperty({ type: NeighbourBookChapter, nullable: true })
     nextChapter: NeighbourBookChapter | null;
 
-    // ? is really need in  isUserLiked. Possible delete
+    // ? is really need in isUserLiked. Possible delete
     @ApiProperty()
     isUserLiked: boolean;
     @ApiProperty()

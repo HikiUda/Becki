@@ -12,6 +12,7 @@ import { getRateCountFrom, getRateCountTo } from './book/whereInput/rateCount';
 import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapterCount';
 import { UserId } from 'src/modules/user/auth';
 import { getPeople } from './book/whereInput/people';
+import { getBookLang } from './book/whereInput/lang';
 
 export const getCatalogMangaWhereInput = (
     query: CatalogMangaQuery,
@@ -50,6 +51,9 @@ export const getCatalogMangaWhereInput = (
 
     // By People
     if (query.person) AND.push(getPeople(query.person));
+
+    // By BookLang
+    if (query.bookLang) AND.push(getBookLang(query.bookLang));
 
     where.AND = AND;
     return where;

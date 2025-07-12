@@ -1,9 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { RelatedBookControllerInterface } from '../__common/interfaces/relatedBookController';
 import { RelatedMangaService } from './relatedManga.service';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { RelatedBookDtoList } from '../__common/dto/relatedBook.dto';
-import { LangQuery } from 'src/shared/dto/langQuery.dto';
 import { AddRelatedBooksDto } from '../__common/dto/addRelatedBooks.dto';
 import { UpdateRelatedBookDto, DeleteRelatedBookDto } from '../__common/dto/mutateRelatedBook.dto';
 import { MangaIdParam } from '../../_common/model/bookId';
@@ -16,11 +15,8 @@ export class RelatedMangaController implements RelatedBookControllerInterface {
     @ApiOkResponse({
         type: RelatedBookDtoList,
     })
-    async getRelatedBooks(
-        @Param() params: MangaIdParam,
-        @Query() query: LangQuery,
-    ): Promise<RelatedBookDtoList> {
-        return await this.service.getRelatedBooks(params.mangaId, query.lang);
+    async getRelatedBooks(@Param() params: MangaIdParam): Promise<RelatedBookDtoList> {
+        return await this.service.getRelatedBooks(params.mangaId);
     }
 
     @Post()

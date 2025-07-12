@@ -7,7 +7,7 @@ import { getPagination } from 'src/shared/dto/pagination.dto';
 
 const getChapterList = async (prisma: PrismaClient) => {
     const chapters = await prisma.bookChapters.findMany({
-        select: getChapterListSelect('ru', 0 as UserId),
+        select: getChapterListSelect(0 as UserId),
     });
     const chaptersCount: number = 0;
     return [chapters, chaptersCount] as const;
@@ -22,7 +22,7 @@ export function toBookChapterList(
         id: chapter.id,
         tome: chapter.tome,
         chapter: chapter.chapter,
-        title: chapter.title && (chapter.title[query.lang] || chapter.title.ru),
+        title: chapter.title,
         createdAt: chapter.createdAt,
         isUserViewed: !!chapter.usersView?.length,
     }));

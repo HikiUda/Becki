@@ -17,11 +17,11 @@ export class QuickSearchRanobeRepository implements QuickSearchRepositoryInterfa
     async getBooks(query: QuickSearchQuery): Promise<QuickSearchRanobe[]> {
         const ranobe = await this.prisma.ranobe.findMany({
             take: query.limit,
-            where: getQuickSearchBooksWhereInput(query.search),
+            where: getQuickSearchBooksWhereInput(query.search, query.bookLang),
             orderBy: { statistic: { rate: 'desc' } },
             select: getQuickSearchBooksSelectInput(),
         });
-        return toQuickSearchBooks(ranobe, query.lang);
+        return toQuickSearchBooks(ranobe);
     }
 
     async getUserLastQueries(userId: UserId): Promise<string[]> {

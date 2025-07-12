@@ -8,6 +8,7 @@ import { ContinueReadBookModule } from './continue-read/continueRead.module';
 import { EditBookModule } from './edit-book/editBook.module';
 import { EditBookChaptersModule } from './edit-chapters/editBookChapters.module';
 import { EditBookCoversModule } from './edit-covers/editCover.module';
+import { EditMangaChaptersPagesModule } from './edit-manga-chapters-pages/editMangaChaptersPages.module';
 import { EditPeopleModule } from './edit-people/editPeople.module';
 import { LastUpdatedModule } from './last-updated/lastUpdated.module';
 import { PeopleModule } from './people/people.module';
@@ -29,6 +30,7 @@ import { UserChapterActionsModule } from './user-chapter-actions/userChapterActi
         EditBookModule,
         EditBookChaptersModule,
         EditBookCoversModule,
+        EditMangaChaptersPagesModule,
         EditPeopleModule,
         LastUpdatedModule,
         PeopleModule,

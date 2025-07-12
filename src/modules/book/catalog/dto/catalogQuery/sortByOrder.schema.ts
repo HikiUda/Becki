@@ -4,7 +4,7 @@ export const SortByEnum = z.enum([
     'rating',
     'updateDate',
     'createDate',
-    'ruAlphabetically',
+    'alphabetically',
     'enAlphabetically',
     'views',
     'likes',

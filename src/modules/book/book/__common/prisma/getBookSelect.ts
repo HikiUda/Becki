@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { Lang } from 'src/shared/dto/langQuery.dto';
 
-export const getBookSelect = (lang: Lang) => {
+export const getBookSelect = () => {
     return {
         id: true,
         urlId: true,
@@ -11,8 +10,9 @@ export const getBookSelect = (lang: Lang) => {
         type: true,
         releaseDate: true,
         ageRating: true,
-        description: { select: { ru: true, en: lang === 'en' } },
-        title: { select: { ru: true, en: true, origin: true, otherTitles: true } },
+        description: true,
+        lang: true,
+        title: { select: { main: true, en: true, origin: true, otherTitles: true } },
         statistic: { select: { rateCount: true, rate: true } },
         covers: { where: { main: true }, select: { cover: true } },
         banner: true,

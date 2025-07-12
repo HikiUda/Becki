@@ -1,12 +1,11 @@
 import { createZodDto } from '@anatine/zod-nestjs';
-import { LangQuerySchema } from 'src/shared/dto/langQuery.dto';
+import { BookLang } from '@prisma/client';
 import { z } from 'zod';
 
-const QuickSearchQuerySchema = z
-    .object({
-        search: z.string().default(''),
-        limit: z.coerce.number().default(6),
-    })
-    .merge(LangQuerySchema);
+const QuickSearchQuerySchema = z.object({
+    search: z.string().default(''),
+    limit: z.coerce.number().default(6),
+    bookLang: z.nativeEnum(BookLang),
+});
 
 export class QuickSearchQuery extends createZodDto(QuickSearchQuerySchema) {}

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BookStatus, PeopleRole } from '@prisma/client';
+import { BookLang, BookStatus, PeopleRole } from '@prisma/client';
 import { AgeRating } from 'src/modules/book/_common/model/ageRating';
 import { UserBaseDto } from 'src/modules/user/profile/dto/userBase.dto';
 
 export class BookTitle {
     @ApiProperty()
-    ru: string;
+    main: string;
     @ApiProperty({ type: 'string', nullable: true })
     en: string | null;
     @ApiProperty({ type: 'string', nullable: true })
@@ -80,4 +80,7 @@ export abstract class Book {
 
     @ApiProperty()
     people: BookPerson[];
+
+    @ApiProperty({ enum: BookLang })
+    lang: BookLang;
 }

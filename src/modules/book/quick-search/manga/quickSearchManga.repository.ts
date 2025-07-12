@@ -17,11 +17,11 @@ export class QuickSearchMangaRepository implements QuickSearchRepositoryInterfac
     async getBooks(query: QuickSearchQuery): Promise<QuickSearchManga[]> {
         const manga = await this.prisma.manga.findMany({
             take: query.limit,
-            where: getQuickSearchBooksWhereInput(query.search),
+            where: getQuickSearchBooksWhereInput(query.search, query.bookLang),
             orderBy: { statistic: { rate: 'desc' } },
             select: getQuickSearchBooksSelectInput(),
         });
-        return toQuickSearchBooks(manga, query.lang);
+        return toQuickSearchBooks(manga);
     }
 
     async getUserLastQueries(userId: UserId): Promise<string[]> {

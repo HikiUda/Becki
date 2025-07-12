@@ -16,7 +16,7 @@ export class MangaRepository implements BookRepositoryInterface {
     async getBook(bookId: MangaId, lang: Lang): Promise<Manga> {
         const data = await this.prisma.manga.findUnique({
             where: { id: bookId },
-            select: getBookSelect(lang),
+            select: getBookSelect(),
         });
         if (!data) throw new NotFoundException('Такой манги не существует!');
         const categories = await getBookCategories(this.prisma, {
@@ -24,7 +24,7 @@ export class MangaRepository implements BookRepositoryInterface {
             tagsIds: data.tags,
             lang,
         });
-        return toBook(data, categories, lang);
+        return toBook(data, categories);
     }
 
     async getBookCovers(bookId: MangaId): Promise<BookCover[]> {

@@ -3,12 +3,7 @@ import { MutateBookChapterDto } from '../dto/mutateChapter.dto';
 
 export const getUpdateChapterInput = (dto: MutateBookChapterDto) => {
     return {
-        title: {
-            update: {
-                ru: dto.title?.ru,
-                en: dto.title?.en,
-            },
-        },
+        title: dto.title,
         tome: dto.tome,
         chapter: dto.chapter,
     } satisfies Prisma.BookChaptersUpdateInput;

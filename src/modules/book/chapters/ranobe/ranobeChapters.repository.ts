@@ -3,7 +3,7 @@ import { BookChaptersRepositoryInterface } from '../__common/interfaces/bookChap
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { UserId } from 'src/modules/user/auth';
 import { Lang } from 'src/shared/dto/langQuery.dto';
-import { RanobeChapterParams, RanobeId } from '../../_common/model/bookId';
+import { BookChapterParams, RanobeChapterParams, RanobeId } from '../../_common/model/bookId';
 import { BookChapter } from '../__common/dto/bookChapter.dto';
 import { BookChapterList } from '../__common/dto/bookChapterList.dto';
 import { BookChapterListQuery } from '../__common/dto/bookChapterListQuery.dto';
@@ -35,12 +35,11 @@ export class RanobeChaptersRepository implements BookChaptersRepositoryInterface
 
     async getChapter(
         { ranobeId: bookId, chapterId }: RanobeChapterParams,
-        lang: Lang,
         userId?: UserId,
     ): Promise<BookChapter> {
         const chapter = await this.prisma.ranobeChapters.findUnique({
             where: { id: chapterId, publish: true },
-            select: getChapterSelect(lang, userId),
+            select: getChapterSelect(userId),
         });
 
         if (!chapter) throw new NotFoundException('Такой главы не существует!');
@@ -57,6 +56,8 @@ export class RanobeChaptersRepository implements BookChaptersRepositoryInterface
             select: { id: true, tome: true, chapter: true },
         });
 
-        return toBookChapter(chapter, prevChapter, nextChapter, lang);
+        return toBookChapter(chapter, prevChapter, nextChapter);
     }
+
+    getPages: (params: BookChapterParams) => Promise<any>;
 }

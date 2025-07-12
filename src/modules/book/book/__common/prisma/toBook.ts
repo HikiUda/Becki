@@ -1,6 +1,5 @@
 import { PeopleRole, Prisma, PrismaClient } from '@prisma/client';
 import { getBookSelect } from './getBookSelect';
-import { Lang } from 'src/shared/dto/langQuery.dto';
 import { Book, BookPerson } from '../dto/book.dto';
 import { AgeRating } from 'src/modules/book/_common/model/ageRating';
 import { GetBookCategories } from './getBookCategories';
@@ -8,7 +7,7 @@ import { GetBookCategories } from './getBookCategories';
 const getBook = async (prisma: PrismaClient) => {
     return await prisma.book.findUnique({
         where: { id: 0 },
-        select: getBookSelect('ru'),
+        select: getBookSelect(),
     });
 };
 type GetBook = Exclude<Prisma.PromiseReturnType<typeof getBook>, null>;
@@ -50,18 +49,17 @@ function toBookPeople({
 export function toBook<T extends string>(
     book: GetBook & { type: T },
     categories: GetBookCategories,
-    lang: Lang,
 ): Book & { type: T } {
     return {
         id: book.id,
         urlId: book.urlId,
         title: {
-            ru: book.title?.ru || '',
+            main: book.title?.main || '',
             en: book.title?.en || null,
             origin: book.title?.origin || null,
         },
         otherTitles: book.title?.otherTitles?.split('\n') || [],
-        description: book.description?.[lang] || book.description?.ru || '',
+        description: book.description,
         rate: book.statistic?.rate || 0,
         rateCount: book.statistic?.rateCount || 0,
         releaseDate: book.releaseDate,
@@ -74,5 +72,6 @@ export function toBook<T extends string>(
         banner: book.banner,
         owner: { id: book.owner.id, name: book.owner.name, avatar: book.owner.avatar },
         people: toBookPeople(book),
+        lang: book.lang,
     };
 }

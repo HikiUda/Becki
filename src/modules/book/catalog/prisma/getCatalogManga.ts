@@ -10,7 +10,7 @@ export const getCatalogManga = async (
     query: CatalogMangaQuery,
     userId?: UserId,
 ) => {
-    const { limit, page, lang } = query;
+    const { limit, page } = query;
     const skip = limit * (page - 1);
 
     const manga = await prisma.manga.findMany({
@@ -18,7 +18,7 @@ export const getCatalogManga = async (
         skip,
         orderBy: getOrderInput(query),
         where: getCatalogMangaWhereInput(query, userId),
-        select: getSelectInput(lang, userId),
+        select: getSelectInput(userId),
     });
     const count = await prisma.manga.count({
         where: getCatalogMangaWhereInput(query),

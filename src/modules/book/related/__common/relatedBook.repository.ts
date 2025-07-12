@@ -9,7 +9,7 @@ import { getBooksByUrlIds } from './prisma/getBooksByUrlIds';
 import { BooksByUrlIds } from './dto/addRelatedBooks.dto';
 
 interface RelatedBookRepositoryInt {
-    getRelatedBooks: (bookRelated: BookRelated, lang: Lang) => Promise<RelatedBookDto[]>;
+    getRelatedBooks: (bookRelated: BookRelated) => Promise<RelatedBookDto[]>;
     getBooksByUrlIds: (ids: string[]) => Promise<BooksByUrlIds>;
 }
 
@@ -17,11 +17,11 @@ interface RelatedBookRepositoryInt {
 export class RelatedBookRepository implements RelatedBookRepositoryInt {
     constructor(private prisma: PrismaService) {}
 
-    async getRelatedBooks(bookRelated: BookRelated, lang: Lang): Promise<RelatedBookDto[]> {
-        const { manga, ranobe } = await getRelatedBooks(this.prisma, bookRelated, lang);
+    async getRelatedBooks(bookRelated: BookRelated): Promise<RelatedBookDto[]> {
+        const { manga, ranobe } = await getRelatedBooks(this.prisma, bookRelated);
         return [
-            ...toRelatedBookDto(manga, bookRelated, 'manga', lang),
-            ...toRelatedBookDto(ranobe, bookRelated, 'ranobe', lang),
+            ...toRelatedBookDto(manga, bookRelated, 'manga'),
+            ...toRelatedBookDto(ranobe, bookRelated, 'ranobe'),
         ];
     }
 

@@ -3,10 +3,9 @@ import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth'
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { BookChaptersControllerInterface } from '../__common/interfaces/bookChapterController';
 import { BookChapterList } from '../__common/dto/bookChapterList.dto';
-import { RanobeChapterParams, RanobeIdParam } from '../../_common/model/bookId';
+import { BookChapterParams, RanobeChapterParams, RanobeIdParam } from '../../_common/model/bookId';
 import { BookChapterListQuery } from '../__common/dto/bookChapterListQuery.dto';
 import { BookChapter } from '../__common/dto/bookChapter.dto';
-import { LangQuery } from 'src/shared/dto/langQuery.dto';
 import { RanobeChaptersService } from './ranobeChapters.service';
 
 @ApiBearerAuth()
@@ -33,8 +32,9 @@ export class RanobeChaptersController implements BookChaptersControllerInterface
     async getChapter(
         @Req() req: OptionalAuthUserRequest,
         @Param() params: RanobeChapterParams,
-        @Query() query: LangQuery,
     ): Promise<BookChapter> {
-        return await this.service.getChapter(params, query.lang, req.user?.id);
+        return await this.service.getChapter(params, req.user?.id);
     }
+
+    getPages: (params: BookChapterParams) => Promise<any>;
 }

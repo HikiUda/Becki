@@ -1,25 +1,21 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { Lang } from 'src/shared/dto/langQuery.dto';
 import { getContinueReadBookListSelect } from './getContinueReadBookListSelect';
 import { ContinueReadBookList, ContinueReadBookListItem } from '../dto/continueReadBookList.dto';
 
 const getContinueReadBookList = async (prisma: PrismaClient) => {
     return await prisma.bookBookmarks.findMany({
         where: { chapter: { isNot: null } },
-        select: getContinueReadBookListSelect('ru'),
+        select: getContinueReadBookListSelect(),
     });
 };
 type GetContinueReadBookList = Prisma.PromiseReturnType<typeof getContinueReadBookList>;
 
-export function toContinueReadBookList(
-    data: GetContinueReadBookList,
-    lang: Lang,
-): ContinueReadBookList {
+export function toContinueReadBookList(data: GetContinueReadBookList): ContinueReadBookList {
     const books: ContinueReadBookListItem[] = data.map((item) => {
         return {
             id: item.book.id,
             urlId: item.book.urlId,
-            title: item.book.title?.[lang] || item.book.title?.ru || '',
+            title: item.book.title?.main || '',
             cover: item.book.covers[0]?.cover || '',
             tome: item.chapter?.tome || 0,
             chapter: item.chapter?.chapter || 0,

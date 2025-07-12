@@ -1,14 +1,15 @@
 model Ranobe {
-    id                 Int                @id @default(autoincrement())
-    urlId              String             @unique @default(uuid()) @db.VarChar(255)
+    id                 Int               @id @default(autoincrement())
+    urlId              String            @unique @default(uuid()) @db.VarChar(255)
     title              RanobeTitle?
-    description        RanobeDescription?
+    description        String            @default("")
     releaseDate        DateTime?
-    type               RanobeType         @default(Japan)
-    status             BookStatus         @default(Ongoing)
-    ageRating          Int                @default(0)
+    type               RanobeType        @default(Japan)
+    status             BookStatus        @default(Ongoing)
+    ageRating          Int               @default(0)
+    lang               BookLang          @default(ru)
     covers             RanobeCovers[]
-    owner              User               @relation(fields: [ownerId], references: [id])
+    owner              User              @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
     genres             Int[]
@@ -19,18 +20,18 @@ model Ranobe {
     bookmarks          RanobeBookmarks[]
     chapters           RanobeChapters[]
     statistic          RanobeStatistic?
-    authors            People[]           @relation("RanobeAuthors")
-    artists            People[]           @relation("RanobeArtists")
-    publishers         People[]           @relation("RanobePublishers")
-    moderated          Boolean            @default(false)
-    lastChapterAddedAt DateTime           @default(now())
-    createdAt          DateTime           @default(now())
-    updatedAt          DateTime           @default(now()) @updatedAt
+    authors            People[]          @relation("RanobeAuthors")
+    artists            People[]          @relation("RanobeArtists")
+    publishers         People[]          @relation("RanobePublishers")
+    moderated          Boolean           @default(false)
+    lastChapterAddedAt DateTime          @default(now())
+    createdAt          DateTime          @default(now())
+    updatedAt          DateTime          @default(now()) @updatedAt
 }
 
 model RanobeTitle {
     id          Int      @id @default(autoincrement())
-    ru          String
+    main        String   @default("")
     en          String?
     origin      String?
     otherTitles String   @default("")
@@ -38,16 +39,6 @@ model RanobeTitle {
     bookId      Int      @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
-}
-
-model RanobeDescription {
-    id        Int      @id @default(autoincrement())
-    ru        String
-    en        String?
-    book      Ranobe   @relation(fields: [bookId], references: [id])
-    bookId    Int      @unique
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model RanobeCovers {

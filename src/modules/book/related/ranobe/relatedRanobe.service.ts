@@ -3,7 +3,6 @@ import { RelatedBookServiceInterface } from '../__common/interfaces/relatedBookS
 import { RelatedBookDtoList } from '../__common/dto/relatedBook.dto';
 import { RelatedRanobeRepository } from './relatedRanobe.repository';
 import { RelatedBookRepository } from '../__common/relatedBook.repository';
-import { Lang } from 'src/shared/dto/langQuery.dto';
 import { AddBookRelated, getAddedBookRelated } from '../__common/dto/addRelatedBooks.dto';
 import { UpdateRelatedBookDto, DeleteRelatedBookDto } from '../__common/dto/mutateRelatedBook.dto';
 import { BookRelatedDefault } from '../__common/bookRelated';
@@ -16,10 +15,10 @@ export class RelatedRanobeService implements RelatedBookServiceInterface {
         private relatedBookRepository: RelatedBookRepository,
     ) {}
 
-    async getRelatedBooks(bookId: RanobeId, lang: Lang): Promise<RelatedBookDtoList> {
+    async getRelatedBooks(bookId: RanobeId): Promise<RelatedBookDtoList> {
         const bookRelated = await this.repository.getBookRelated(bookId);
         if (!bookRelated) return { data: [] };
-        const books = await this.relatedBookRepository.getRelatedBooks(bookRelated, lang);
+        const books = await this.relatedBookRepository.getRelatedBooks(bookRelated);
         return { data: books };
     }
 

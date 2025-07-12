@@ -29,7 +29,6 @@ export class EditMangaChaptersRepository implements EditBookChaptersRepositoryIn
     async getEditedChapter(bookId: MangaId, chapterId: MangaChapterId): Promise<EditedBookChapter> {
         const chapter = await this.prisma.mangaChapters.findUnique({
             where: { id: chapterId, bookId },
-            include: { title: true },
         });
         if (!chapter) throw new NotFoundException('Такой Главы не существует!');
         return toEditedBookChapterDto(chapter);

@@ -1,15 +1,16 @@
 // * Abstract
 model Book {
-    id                 Int              @id @default(autoincrement())
-    urlId              String           @unique @default(uuid()) @db.VarChar(255)
+    id                 Int             @id @default(autoincrement())
+    urlId              String          @unique @default(uuid()) @db.VarChar(255)
     title              BookTitle?
-    description        BookDescription?
+    description        String          @default("")
     releaseDate        DateTime?
-    type               String           @default("")
-    status             BookStatus       @default(Ongoing)
-    ageRating          Int              @default(0)
+    type               String          @default("")
+    status             BookStatus      @default(Ongoing)
+    ageRating          Int             @default(0)
+    lang               BookLang        @default(ru)
     covers             BookCovers[]
-    owner              User             @relation(fields: [ownerId], references: [id])
+    owner              User            @relation(fields: [ownerId], references: [id])
     ownerId            Int
     banner             String?
     genres             Int[]
@@ -20,19 +21,19 @@ model Book {
     bookmarks          BookBookmarks[]
     chapters           BookChapters[]
     statistic          BookStatistic?
-    authors            People[]         @relation("BookAuthors")
-    artists            People[]         @relation("BookArtists")
-    publishers         People[]         @relation("BookPublishers")
-    moderated          Boolean          @default(false)
-    lastChapterAddedAt DateTime         @default(now())
-    createdAt          DateTime         @default(now())
-    updatedAt          DateTime         @default(now()) @updatedAt
+    authors            People[]        @relation("BookAuthors")
+    artists            People[]        @relation("BookArtists")
+    publishers         People[]        @relation("BookPublishers")
+    moderated          Boolean         @default(false)
+    lastChapterAddedAt DateTime        @default(now())
+    createdAt          DateTime        @default(now())
+    updatedAt          DateTime        @default(now()) @updatedAt
 }
 
 // * Abstract
 model BookTitle {
     id          Int      @id @default(autoincrement())
-    ru          String
+    main        String   @default("")
     en          String?
     origin      String?
     otherTitles String   @default("")
@@ -40,17 +41,6 @@ model BookTitle {
     bookId      Int      @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
-}
-
-// * Abstract
-model BookDescription {
-    id        Int      @id @default(autoincrement())
-    ru        String
-    en        String?
-    book      Book     @relation(fields: [bookId], references: [id])
-    bookId    Int      @unique
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
 }
 
 // * Abstract
@@ -162,4 +152,9 @@ enum Bookmarks {
     Readed
     Abandoned
     Postponed
+}
+
+enum BookLang {
+    ru
+    en
 }
