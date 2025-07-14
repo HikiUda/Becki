@@ -13,9 +13,9 @@ import { ContinueReadMangaService } from './continueReadManga.service';
 import {
     AuthInterceptor,
     AuthUserRequest,
-    JwtAuthGuard,
+    AuthGuard,
     OptionalAuthUserRequest,
-} from 'src/modules/user/auth';
+} from 'src/modules/authorization';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ContinueReadBookControllerInterface } from '../__common/interfaces/continueReadBookController';
@@ -35,7 +35,7 @@ export class ContinueReadMangaController implements ContinueReadBookControllerIn
 
     @Get()
     @ApiOkResponse({ type: ContinueReadBookList })
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async getContinueReadBookList(
         @Req() req: AuthUserRequest,
         @Query() query: ContinueReadBookListQuery,
@@ -56,7 +56,7 @@ export class ContinueReadMangaController implements ContinueReadBookControllerIn
 
     @Patch(':mangaId/:chapterId')
     @ApiResponse({ status: 204 })
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async setContinueReadBook(
         @Req() req: AuthUserRequest,
         @Param() params: SetContinueReadMangaParams,
@@ -67,7 +67,7 @@ export class ContinueReadMangaController implements ContinueReadBookControllerIn
 
     @Delete(':mangaId')
     @ApiResponse({ status: 204 })
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async dontShowContinueReadBook(
         @Req() req: AuthUserRequest,
         @Param() params: MangaIdParam,

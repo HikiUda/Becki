@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
-import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
+import { AuthUserRequest, AuthGuard } from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 import { BookRateControllerInterface } from '../__common/interfaces/bookRateController';
@@ -10,7 +10,7 @@ import { RanobeRateService } from './ranobeRate.service';
 
 @ApiBearerAuth()
 @ApiCustomUnauthorizedResponse()
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard)
 @Controller('ranobe/:ranobeId/rate')
 export class RanobeRateController implements BookRateControllerInterface {
     constructor(private service: RanobeRateService) {}

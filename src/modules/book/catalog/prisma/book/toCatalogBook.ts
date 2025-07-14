@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getSelectInput } from './getSelectInput';
 import { CatalogBook } from '../../dto/catalogBook.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 const getCatalogBook = async (prisma: PrismaClient) => {
     return await prisma.book.findMany({

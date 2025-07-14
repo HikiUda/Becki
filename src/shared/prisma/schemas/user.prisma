@@ -7,7 +7,7 @@ model User {
   jsonSettings    Json                 @default("{}")
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @default(now()) @updatedAt
-  userAuthToken   UserAuthToken[]
+  sessions        UserSessions[]
   lastQuickSearch UserLastQuickSearch? // TODO init in auht module
 
   // * Abstarct Book
@@ -44,11 +44,11 @@ model User {
   userViewRanobeChapters        UserViewRanobeChapters[]
 }
 
-// TODO many-to-many to one-to-many
-model UserAuthToken {
+model UserSessions {
   id        Int      @id @default(autoincrement())
-  user      User[]
-  refresh   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @unique
+  refresh   String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

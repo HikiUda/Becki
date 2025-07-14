@@ -2,9 +2,9 @@ import { Controller, Get, Param, Patch, Req, UseGuards, UseInterceptors } from '
 import {
     AuthInterceptor,
     AuthUserRequest,
-    JwtAuthGuard,
+    AuthGuard,
     OptionalAuthUserRequest,
-} from 'src/modules/user/auth';
+} from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserMangaChapterActionsService } from './userMangaChapterActions.service';
 import { MangaChapterParams } from '../../_common/model/bookId';
@@ -26,7 +26,7 @@ export class UserMangaChapterActionsController
     @ApiResponse({ status: 204 })
     @ApiCustomBadRequestResponse()
     @ApiCustomUnauthorizedResponse()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async addUserViewChapter(
         @Req() req: AuthUserRequest,
         @Param() params: MangaChapterParams,
@@ -49,7 +49,7 @@ export class UserMangaChapterActionsController
     @Patch('like')
     @ApiResponse({ status: 204 })
     @ApiCustomUnauthorizedResponse()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async setUserLikeChapter(
         @Req() req: AuthUserRequest,
         @Param() params: MangaChapterParams,

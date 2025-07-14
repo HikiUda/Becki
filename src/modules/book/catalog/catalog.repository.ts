@@ -9,7 +9,7 @@ import { toCatalogBook } from './prisma/book/toCatalogBook';
 import { getCatalogRanobe } from './prisma/getCatalogRanobe';
 import { CatalogRanobeList } from './dto/catalogRanobe.dto';
 import { CatalogRanobeQuery } from './dto/catalogRanobeQuery.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 @Injectable()
 export class CatalogRepository implements CatalogRepositoryInterface {

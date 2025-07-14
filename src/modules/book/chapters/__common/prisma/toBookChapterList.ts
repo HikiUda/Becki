@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getChapterListSelect } from './getChapterListSelect';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { BookChapterList } from '../dto/bookChapterList.dto';
 import { BookChapterListQuery } from '../dto/bookChapterListQuery.dto';
 import { getPagination } from 'src/shared/dto/pagination.dto';

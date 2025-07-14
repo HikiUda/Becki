@@ -1,4 +1,4 @@
-import { AuthUserRequest } from 'src/modules/user/auth';
+import { AuthUserRequest } from 'src/modules/authorization';
 import { BookIdParam } from 'src/modules/book/_common/model/bookId';
 import { UserBookRate } from '../dto/userBookRate.dto';
 import { SetUserBookRateDto } from '../dto/setUserBookRate.dto';

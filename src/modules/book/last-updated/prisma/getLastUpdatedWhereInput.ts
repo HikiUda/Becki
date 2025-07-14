@@ -1,6 +1,6 @@
 import { BookLang, Prisma } from '@prisma/client';
 import { LastUpdatedScope } from '../dto/lastUpdatedQuery.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 type Props = {
     scope: LastUpdatedScope;

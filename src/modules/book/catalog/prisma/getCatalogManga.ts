@@ -3,7 +3,7 @@ import { getOrderInput } from './book/getOrderInput';
 import { getCatalogMangaWhereInput } from './getCatalogMangaWhereInput';
 import { CatalogMangaQuery } from '../dto/catalogMangaQuery.dto';
 import { getSelectInput } from './book/getSelectInput';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 export const getCatalogManga = async (
     prisma: PrismaClient,

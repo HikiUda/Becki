@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { getContinueReadBookChapterSelect } from '../../__common/prisma/getContinueReadBook';
 import { getReadedChapterCountWhereInput } from '../../__common/prisma/getContinueReadBook';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { MangaId } from 'src/modules/book/_common/model/bookId';
 
 export const getContinueReadManga = async (

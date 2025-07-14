@@ -1,5 +1,5 @@
 import { BookChapterParams, BookIdParam } from 'src/modules/book/_common/model/bookId';
-import { OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { OptionalAuthUserRequest } from 'src/modules/authorization';
 import { BookChapter } from '../dto/bookChapter.dto';
 import { BookChapterListQuery } from '../dto/bookChapterListQuery.dto';
 import { BookChapterList } from '../dto/bookChapterList.dto';

@@ -6,7 +6,7 @@ import {
     ContinueReadBookListQuery,
     ContinueReadBookList,
 } from '../__common/dto/continueReadBookList.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { MangaId } from '../../_common/model/bookId';
 import { SetContinueReadMangaParams } from '../__common/dto/setContinueReadBookParams';
 

@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 export const getChapterListSelect = (userId?: UserId) => {
     return {

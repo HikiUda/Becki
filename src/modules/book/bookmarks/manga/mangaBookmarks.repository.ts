@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BookBookmarksRepositoryInterface } from '../__common/interfaces/bookmarkRepository';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { MangaId } from '../../_common/model/bookId';
 import { AddMangaBookmarkDto } from '../__common/dto/addBookBookmark.dto';
 import { UserBookBookmark } from '../__common/dto/userBookBookmark.dto';

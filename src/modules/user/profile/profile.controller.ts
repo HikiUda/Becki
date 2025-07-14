@@ -1,25 +1,47 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 import { ProfileControllerInterface } from './interfaces/profileController';
 import { ProfileService } from './profile.service';
-import { AuthUserRequest } from '../auth/types/user';
+import { AuthUserRequest } from '../../authorization/dto/user.dto';
 import { UserDataDto } from './dto/userData.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
-import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
+import { AuthGuard } from '../../authorization/jwt/auth.guard';
+import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import {
+    ApiCustomBadRequestResponse,
+    ApiCustomUnauthorizedResponse,
+} from 'src/shared/decorators/api40xResponses';
 
+@ApiBearerAuth()
+@ApiCustomUnauthorizedResponse()
+@UseGuards(AuthGuard)
 @Controller('user')
 export class ProfileController implements ProfileControllerInterface {
-    constructor(private profileService: ProfileService) {}
+    constructor(private service: ProfileService) {}
 
     @Get()
     @ApiOkResponse({
         type: UserDataDto,
         description: 'User id get from token',
     })
-    @ApiBearerAuth()
-    @ApiCustomUnauthorizedResponse()
-    @UseGuards(JwtAuthGuard)
+    @ApiCustomBadRequestResponse()
     async getUserData(@Req() req: AuthUserRequest): Promise<UserDataDto> {
-        return await this.profileService.getUserData(req.user.id);
+        return await this.service.getUserData(req.user.id);
+    }
+
+    @Patch('json-settings')
+    @ApiOkResponse({
+        schema: {
+            type: 'object',
+            additionalProperties: true,
+        },
+    })
+    @ApiBody({
+        schema: {
+            type: 'object',
+            additionalProperties: true,
+        },
+    })
+    async updateJsonSettings(@Req() req: AuthUserRequest, @Body() body: object): Promise<void> {
+        await this.service.updateJsonSettings(req.user.id, body);
+        return;
     }
 }

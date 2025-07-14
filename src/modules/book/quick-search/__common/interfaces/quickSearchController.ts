@@ -1,4 +1,4 @@
-import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/authorization';
 import { DeleteQuickSearchLastDto } from '../dto/deleteQuickSearchLast.dto';
 import { QuickSearchQuery } from '../dto/quickSearchQuery.dto';
 import { QuickSearchLastList } from '../dto/quickSearchLastList.dto';

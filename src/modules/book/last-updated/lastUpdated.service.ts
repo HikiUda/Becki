@@ -4,7 +4,7 @@ import { LastUpdatedQuery } from './dto/lastUpdatedQuery.dto';
 import { LastUpdatedServiceInterface } from './interfaces/publicMangaService';
 import { LastUpdatedMangaList } from './dto/lastUpdatedManga.dto';
 import { LastUpdatedRanobeList } from './dto/lastUpdatedRanobe.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 @Injectable()
 export class LastUpdatedService implements LastUpdatedServiceInterface {

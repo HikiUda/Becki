@@ -7,7 +7,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { LastUpdatedService } from './lastUpdated.service';
-import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/authorization';
 import { LastUpdatedQuery } from './dto/lastUpdatedQuery.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';

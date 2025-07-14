@@ -1,9 +1,9 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import { ValidateTokenReturnType } from './types/user';
-import { toAuthUserDto } from './helpers/toAuthUserDto';
-import { AuthConfigService } from './authConfig.service';
+import { AuthUserDtoValidateToken } from '../dto/user.dto';
+import { toAuthUserDto } from '../helpers/toAuthUserDto';
+import { AuthConfigService } from './auth-config.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    validate(payload: ValidateTokenReturnType) {
-        return toAuthUserDto(payload, payload.sub);
+    validate(payload: AuthUserDtoValidateToken) {
+        return toAuthUserDto(payload, payload.sessionId);
     }
 }

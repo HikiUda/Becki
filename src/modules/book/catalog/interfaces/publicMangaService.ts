@@ -1,4 +1,4 @@
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { CatalogMangaList } from '../dto/catalogManga.dto';
 import { CatalogMangaQuery } from '../dto/catalogMangaQuery.dto';
 import { CatalogRanobeList } from '../dto/catalogRanobe.dto';

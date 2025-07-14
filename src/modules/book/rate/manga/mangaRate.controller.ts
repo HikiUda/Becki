@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
-import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
+import { AuthUserRequest, AuthGuard } from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 import { MangaRateService } from './mangaRate.service';
@@ -10,7 +10,7 @@ import { UserBookRate } from '../__common/dto/userBookRate.dto';
 
 @ApiBearerAuth()
 @ApiCustomUnauthorizedResponse()
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard)
 @Controller('manga/:mangaId/rate')
 export class MangaRateController implements BookRateControllerInterface {
     constructor(private service: MangaRateService) {}

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BookChaptersRepositoryInterface } from '../__common/interfaces/bookChapterRepository';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { Lang } from 'src/shared/dto/langQuery.dto';
 import { BookChapterParams, MangaChapterParams, MangaId } from '../../_common/model/bookId';
 import { BookChapter } from '../__common/dto/bookChapter.dto';

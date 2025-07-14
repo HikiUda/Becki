@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserBookChapterActionsRepositoryInterface } from '../__common/interfaces/userBookChapterActionsRepository';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { MangaChapterParams } from '../../_common/model/bookId';
 import { UserLikeBookChapterDto } from '../__common/dto/userLikeBookChapter.dto';
 

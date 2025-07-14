@@ -10,7 +10,7 @@ import { getContinueReadBookListSelect } from '../__common/prisma/getContinueRea
 import { toContinueReadBookList } from '../__common/prisma/toContinueReadBookList';
 import { getContinueReadRanobe } from './prisma/getContinueReadRanobe';
 import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { RanobeId } from '../../_common/model/bookId';
 import { SetContinueReadRanobeParams } from '../__common/dto/setContinueReadBookParams';
 

@@ -8,7 +8,7 @@ import { toLastUpdatedBook } from './prisma/toLastUpdatedBook';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { LastUpdatedRanobeList } from './dto/lastUpdatedRanobe.dto';
 import { getLastUpdatedRanobe } from './prisma/getLastUpdatedRanobe';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 @Injectable()
 export class LastUpdatedRepository implements LastUpdatedRepositoryInterface {

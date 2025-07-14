@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query, Req, UseInterceptors } from '@nestjs/common';
-import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { BookChaptersControllerInterface } from '../__common/interfaces/bookChapterController';
 import { BookChapterList } from '../__common/dto/bookChapterList.dto';

@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { getLastUpdatedSelect } from './getLastUpdatedSelect';
 import { LastUpdatedQuery } from '../dto/lastUpdatedQuery.dto';
 import { getLastUpdatedWhereInput } from './getLastUpdatedWhereInput';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 export const getLastUpdatedRanobe = async (
     prisma: PrismaClient,

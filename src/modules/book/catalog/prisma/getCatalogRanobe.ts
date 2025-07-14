@@ -3,7 +3,7 @@ import { getOrderInput } from './book/getOrderInput';
 import { getSelectInput } from './book/getSelectInput';
 import { CatalogRanobeQuery } from '../dto/catalogRanobeQuery.dto';
 import { getCatalogRanobeWhereInput } from './getCatalogRanobeWhereInput';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 export const getCatalogRanobe = async (
     prisma: PrismaClient,

@@ -12,9 +12,9 @@ import { QuickSearchControllerInterface } from '../__common/interfaces/quickSear
 import {
     AuthInterceptor,
     AuthUserRequest,
-    JwtAuthGuard,
+    AuthGuard,
     OptionalAuthUserRequest,
-} from 'src/modules/user/auth';
+} from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeleteQuickSearchLastDto } from '../__common/dto/deleteQuickSearchLast.dto';
 import { QuickSearchQuery } from '../__common/dto/quickSearchQuery.dto';
@@ -48,7 +48,7 @@ export class QuickSearchRanobeController implements QuickSearchControllerInterfa
         type: QuickSearchLastList,
     })
     @ApiCustomUnauthorizedResponse()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async getUserLastQueries(@Req() req: AuthUserRequest): Promise<QuickSearchLastList> {
         return await this.service.getUserLastQueries(req.user.id);
     }
@@ -57,7 +57,7 @@ export class QuickSearchRanobeController implements QuickSearchControllerInterfa
     @ApiBearerAuth()
     @ApiResponse({ status: 204 })
     @ApiCustomUnauthorizedResponse()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async deleteUserLastQuery(
         @Req() req: AuthUserRequest,
         @Body() body: DeleteQuickSearchLastDto,

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BookRateRepositoryInterface } from '../__common/interfaces/bookRateRepository';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { MangaId } from '../../_common/model/bookId';
 import { UserBookRate } from '../__common/dto/userBookRate.dto';
 

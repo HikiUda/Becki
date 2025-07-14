@@ -1,5 +1,5 @@
 import { BookIdParam } from 'src/modules/book/_common/model/bookId';
-import { AuthUserRequest } from 'src/modules/user/auth';
+import { AuthUserRequest } from 'src/modules/authorization';
 import { UserBookBookmark } from '../dto/userBookBookmark.dto';
 import { AddBookBookmarkDto } from '../dto/addBookBookmark.dto';
 

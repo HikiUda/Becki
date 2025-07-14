@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getChapterSelect } from './getChapterSelect';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { Lang } from 'src/shared/dto/langQuery.dto';
 import { BookChapter } from '../dto/bookChapter.dto';
 

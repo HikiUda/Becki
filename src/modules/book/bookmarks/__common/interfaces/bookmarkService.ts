@@ -1,5 +1,5 @@
 import { BookId } from 'src/modules/book/_common/model/bookId';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { UserBookBookmark } from '../dto/userBookBookmark.dto';
 import { AddBookBookmarkDto } from '../dto/addBookBookmark.dto';
 

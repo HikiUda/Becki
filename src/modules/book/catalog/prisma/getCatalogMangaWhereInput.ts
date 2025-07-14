@@ -10,7 +10,7 @@ import { getReleaseDateFrom, getReleaseDateTo } from './book/whereInput/releaseD
 import { getRateFrom, getRateTo } from './book/whereInput/rate';
 import { getRateCountFrom, getRateCountTo } from './book/whereInput/rateCount';
 import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapterCount';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { getPeople } from './book/whereInput/people';
 import { getBookLang } from './book/whereInput/lang';
 

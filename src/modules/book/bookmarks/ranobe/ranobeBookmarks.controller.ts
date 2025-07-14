@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
-import { AuthUserRequest, JwtAuthGuard } from 'src/modules/user/auth';
+import { AuthUserRequest, AuthGuard } from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { ApiCustomUnauthorizedResponse } from 'src/shared/decorators/api40xResponses';
 import { BookBookmarksControllerInterface } from '../__common/interfaces/bookmarkController';
@@ -10,7 +10,7 @@ import { UserBookBookmark } from '../__common/dto/userBookBookmark.dto';
 
 @ApiBearerAuth()
 @ApiCustomUnauthorizedResponse()
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard)
 @Controller('ranobe/:ranobeId/bookmark')
 export class RanobeBookmarksController implements BookBookmarksControllerInterface {
     constructor(private service: RanobeBookmarksService) {}

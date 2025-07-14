@@ -4,7 +4,7 @@ import { QuickSearchServiceInterface } from '../__common/interfaces/quickSearchS
 import { QuickSearchRanobeList } from './dto/quickSearchRanobe.dto';
 import { QuickSearchQuery } from '../__common/dto/quickSearchQuery.dto';
 import { QuickSearchLastList } from '../__common/dto/quickSearchLastList.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 @Injectable()
 export class QuickSearchRanobeService implements QuickSearchServiceInterface {

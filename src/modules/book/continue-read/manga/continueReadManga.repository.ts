@@ -10,7 +10,7 @@ import { getContinueReadBookListSelect } from '../__common/prisma/getContinueRea
 import { toContinueReadBookList } from '../__common/prisma/toContinueReadBookList';
 import { getContinueReadManga } from './prisma/getContinueReadManga';
 import { toContinueReadBook } from '../__common/prisma/toContinueReadBook';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { MangaId } from '../../_common/model/bookId';
 import { SetContinueReadMangaParams } from '../__common/dto/setContinueReadBookParams';
 

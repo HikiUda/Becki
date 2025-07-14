@@ -8,7 +8,7 @@ import {
     getQuickSearchBooksWhereInput,
     toQuickSearchBooks,
 } from '../__common/prisma/getQuickSearchBooks';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 
 @Injectable()
 export class QuickSearchRanobeRepository implements QuickSearchRepositoryInterface {

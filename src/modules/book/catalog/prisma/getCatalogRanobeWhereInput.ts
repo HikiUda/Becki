@@ -10,7 +10,7 @@ import { getRateCountFrom, getRateCountTo } from './book/whereInput/rateCount';
 import { getChapterCountFrom, getChapterCountTo } from './book/whereInput/chapterCount';
 import { getRanobeType } from './book/whereInput/ranobeType';
 import { CatalogRanobeQuery } from '../dto/catalogRanobeQuery.dto';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { getPeople } from './book/whereInput/people';
 import { getBookLang } from './book/whereInput/lang';
 

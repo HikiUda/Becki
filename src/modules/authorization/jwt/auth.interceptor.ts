@@ -1,8 +1,8 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Request } from 'express';
-import { toAuthUserDto } from './helpers/toAuthUserDto';
 import { TokenService } from './token.service';
+import { AccessToken } from '../dto/user.dto';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
@@ -12,9 +12,8 @@ export class AuthInterceptor implements NestInterceptor {
         const token = this.extractTokenFromHeader(request);
 
         if (token) {
-            const valideToken = await this.tokenService.validateAccessToken(token);
-            if (valideToken) {
-                const user = toAuthUserDto(valideToken, valideToken.sub);
+            const user = await this.tokenService.validateAccessToken(token);
+            if (user) {
                 request['user'] = user;
                 return next.handle().pipe();
             }
@@ -22,8 +21,9 @@ export class AuthInterceptor implements NestInterceptor {
         request['user'] = null;
         return next.handle().pipe();
     }
-    private extractTokenFromHeader(request: Request): string | undefined {
+
+    private extractTokenFromHeader(request: Request): AccessToken | undefined {
         const [type, token] = request.headers?.authorization?.split(' ') ?? [];
-        return type === 'Bearer' ? token : undefined;
+        return type === 'Bearer' ? (token as AccessToken) : undefined;
     }
 }

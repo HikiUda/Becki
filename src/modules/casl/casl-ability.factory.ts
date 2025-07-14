@@ -7,7 +7,7 @@ import {
 } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
 
-import { AuthUserDto } from '../auth/types/user';
+import { AuthUserDto } from '../authorization/dto/user.dto';
 import { CaslAction, CaslActionType } from './const/action';
 
 class Manga {

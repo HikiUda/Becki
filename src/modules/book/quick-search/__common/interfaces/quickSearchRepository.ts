@@ -1,4 +1,4 @@
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { QuickSearchBook } from '../dto/quickSearchBook.dto';
 import { QuickSearchQuery } from '../dto/quickSearchQuery.dto';
 

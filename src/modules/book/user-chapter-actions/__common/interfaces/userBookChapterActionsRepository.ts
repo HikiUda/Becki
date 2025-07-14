@@ -1,5 +1,5 @@
 import { BookChapterParams } from 'src/modules/book/_common/model/bookId';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { UserLikeBookChapterDto } from '../dto/userLikeBookChapter.dto';
 
 export interface UserBookChapterActionsRepositoryInterface {

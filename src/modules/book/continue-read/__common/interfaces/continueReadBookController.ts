@@ -1,4 +1,4 @@
-import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { AuthUserRequest, OptionalAuthUserRequest } from 'src/modules/authorization';
 import { ContinueReadBookList, ContinueReadBookListQuery } from '../dto/continueReadBookList.dto';
 import { ContinueReadBook } from '../dto/continueReadBook.dto';
 import { BookIdParam } from 'src/modules/book/_common/model/bookId';

@@ -1,7 +1,7 @@
 import { Controller, Get, Query, Req, UseInterceptors } from '@nestjs/common';
 import { CatalogService } from './catalog.service';
 import { CatalogControllerInterface } from './interfaces/publicMangaController';
-import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/user/auth';
+import { AuthInterceptor, OptionalAuthUserRequest } from 'src/modules/authorization';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { CatalogMangaQuery } from './dto/catalogMangaQuery.dto';
 import { CatalogMangaList } from './dto/catalogManga.dto';

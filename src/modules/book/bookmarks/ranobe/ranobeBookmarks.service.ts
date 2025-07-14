@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BookBookmarksServiceInterface } from '../__common/interfaces/bookmarkService';
 import { RanobeBookmarksRepository } from './ranobeBookmarks.repository';
-import { UserId } from 'src/modules/user/auth';
+import { UserId } from 'src/modules/authorization';
 import { RanobeId } from '../../_common/model/bookId';
 import { AddRanobeBookmarkDto } from '../__common/dto/addBookBookmark.dto';
 import { UserBookBookmark } from '../__common/dto/userBookBookmark.dto';
