@@ -13,13 +13,14 @@ export class MangaBookmarksRepository implements BookBookmarksRepositoryInterfac
     async getBookmark(bookId: MangaId, userId: UserId): Promise<UserBookBookmark> {
         const data = await this.prisma.mangaBookmarks.findUnique({
             where: { userId_bookId: { userId, bookId } },
-            select: { bookmark: true },
+            select: { bookmark: true, chapterId: true },
         });
 
         return {
             userId,
             bookId,
             bookmark: data?.bookmark || null,
+            chapterId: data?.chapterId || null,
         };
     }
 
@@ -28,7 +29,7 @@ export class MangaBookmarksRepository implements BookBookmarksRepositoryInterfac
         await this.prisma.mangaBookmarks.upsert({
             where: { userId_bookId: { userId, bookId } },
             create: { bookId, userId, ...data, show },
-            update: { bookmark: data.bookmark, show },
+            update: { bookmark: data.bookmark, chapterId: data.chapterId ?? undefined, show },
         });
         return;
     }

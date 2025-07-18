@@ -86,7 +86,7 @@ export abstract class Book {
     @ApiProperty()
     owner: BookOwner;
 
-    @ApiProperty()
+    @ApiProperty({ type: [BookPerson] })
     people: BookPerson[];
 
     @ApiProperty({ enum: BookLang })

@@ -6,6 +6,8 @@ export class UserBookBookmark {
     userId: number;
     @ApiProperty()
     bookId: number;
+    @ApiProperty({ type: 'number', nullable: true })
+    chapterId: number | null;
     @ApiProperty({ enum: Bookmarks, nullable: true })
     bookmark: Bookmarks | null;
 }

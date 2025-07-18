@@ -2,17 +2,18 @@ import { createZodDto } from '@anatine/zod-nestjs';
 import { z } from 'zod';
 
 const transformBookId = z
-    .string()
+    .union([z.string(), z.number()])
     .describe('urlId or just number id')
     .transform((value) => {
-        if (!Number.isNaN(Number(value))) {
-            return Number(value);
+        if (typeof value === 'number') {
+            return value;
         }
-        const extractId = value.split('---').slice(-1);
 
+        const extractId = value.split('---').slice(-1);
         if (!Number.isNaN(Number(extractId))) {
             return Number(extractId);
         }
+
         return null;
     });
 

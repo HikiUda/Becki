@@ -10,7 +10,7 @@ export class AuthRepository implements AuthRepositoryInterface {
 
     async createUser(dto: CreateUserDto): Promise<AuthUserData> {
         return await this.prisma.user.create({
-            data: { ...dto, name: dto.login },
+            data: { ...dto, name: dto.login, lastQuickSearch: { create: {} } },
             select: { id: true, name: true, login: true, password: true },
         });
     }

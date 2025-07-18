@@ -1,4 +1,3 @@
-import { Lang } from 'src/shared/dto/langQuery.dto';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { getLastUpdatedSelect } from './getLastUpdatedSelect';
 import { LastUpdatedBook } from '../dto/lastUpdatedBook.dto';

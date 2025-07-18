@@ -13,7 +13,7 @@ export const getLastUpdatedManga = async (
     const skip = limit * (page - 1);
 
     const manga = await prisma.mangaChapters.findMany({
-        orderBy: { createdAt: 'desc' },
+        orderBy: { updatedAt: 'desc' },
         where: getLastUpdatedWhereInput({ scope, userId, bookLang }),
         select: getLastUpdatedSelect(),
         distinct: scope === 'popular' ? ['bookId'] : undefined,
@@ -29,6 +29,5 @@ export const getLastUpdatedManga = async (
             : await prisma.mangaChapters.count({
                   where: getLastUpdatedWhereInput({ scope, userId, bookLang }),
               });
-
     return [manga, count] as const;
 };
