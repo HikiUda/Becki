@@ -9,7 +9,7 @@ export const getUpdateBookInput = <T extends string>(dto: MutateBookDto & { type
                 main: dto.title?.main,
                 en: dto.title?.en,
                 origin: dto.title?.origin,
-                otherTitles: dto.otherTitles?.join('/n'),
+                otherTitles: dto.otherTitles?.join('\n'),
             },
         },
         description: dto.description,

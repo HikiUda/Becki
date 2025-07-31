@@ -40,7 +40,7 @@ export class LastUpdatedController implements LastUpdatedControllerInterface {
     @ApiOperation({ summary: 'Optional auth endpoint' })
     @ApiBearerAuth()
     @ApiOkResponse({
-        type: LastUpdatedMangaList,
+        type: LastUpdatedRanobeList,
         description: "scope 'my' for authorized users only",
     })
     @ApiCustomUnauthorizedResponse()

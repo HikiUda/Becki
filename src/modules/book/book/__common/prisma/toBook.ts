@@ -58,7 +58,7 @@ export function toBook<T extends string>(
             en: book.title?.en || null,
             origin: book.title?.origin || null,
         },
-        otherTitles: book.title?.otherTitles?.split('\n') || [],
+        otherTitles: book.title?.otherTitles?.split('\n').filter(Boolean) || [],
         description: book.description,
         rate: book.statistic?.rate || 0,
         rateCount: book.statistic?.rateCount || 0,

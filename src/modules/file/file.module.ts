@@ -6,11 +6,11 @@ import { MangaFileService } from './services/mangaFile.service';
 import { RanobeFileService } from './services/ranobeFile.service';
 import { PeopleFileService } from './services/peopleFile.service';
 
-// TODO delete FileService
 @Module({
     imports: [
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', '..', '..', 'static'),
+            serveRoot: '/s3',
         }),
     ],
     providers: [FileLocalRepository, MangaFileService, RanobeFileService, PeopleFileService],

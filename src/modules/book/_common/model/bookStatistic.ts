@@ -36,6 +36,7 @@ export class BookmarkStatistic implements z.infer<typeof BookmarkStatisticSchema
     @ApiProperty()
     Postponed: PercentItem;
 }
+// * BookmarkStatistic
 
 // * RateStatistic
 export const RateStatisticSchema = z.object({
@@ -87,3 +88,4 @@ export const BookRating = {
     10: 10,
 } as const;
 export type BookRating = ValueOf<typeof BookRating>;
+// * RateStatistic
