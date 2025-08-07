@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MangaModule, RanobeModule } from './book';
+import { BookCommentsModule } from './book-comments/bookComments.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { CategoriesModule } from './categories/categories.module';
@@ -22,6 +23,7 @@ import { UserChapterActionsModule } from './user-chapter-actions/userChapterActi
     imports: [
         MangaModule,
         RanobeModule,
+        BookCommentsModule,
         BookmarksModule,
         CatalogModule,
         CategoriesModule,

@@ -64,18 +64,21 @@ model MangaRating {
 }
 
 model MangaComments {
-    id            Int                     @id @default(autoincrement())
-    content       String
-    book          Manga                   @relation(fields: [bookId], references: [id])
-    user          User                    @relation(fields: [userId], references: [id])
-    bookId        Int
-    userId        Int
-    usersLike     UserLikeMangaComments[]
-    predesessorId Int?
-    predecessor   MangaComments?          @relation("MangaCommentsFamily", fields: [predesessorId], references: [id])
-    successors    MangaComments[]         @relation("MangaCommentsFamily")
-    createdAt     DateTime                @default(now())
-    updatedAt     DateTime                @default(now()) @updatedAt
+    id           Int                     @id @default(autoincrement())
+    content      String
+    book         Manga                   @relation(fields: [bookId], references: [id])
+    user         User                    @relation(fields: [userId], references: [id])
+    bookId       Int
+    userId       Int
+    usersLike    UserLikeMangaComments[]
+    parentId     Int?
+    parent       MangaComments?          @relation("BookCommentsFamily", fields: [parentId], references: [id])
+    children     MangaComments[]         @relation("BookCommentsFamily")
+    rootComment  Int
+    nestingLevel Int
+    isDeleted    Boolean                 @default(false)
+    createdAt    DateTime                @default(now())
+    updatedAt    DateTime                @default(now()) @updatedAt
 }
 
 model UserLikeMangaComments {

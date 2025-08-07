@@ -38,6 +38,7 @@ model UserViewRanobeChapters {
 model RanobeChaptersComments {
     id            Int                              @id @default(autoincrement())
     content       String
+    // TODO string id
     page          Int
     chapter       RanobeChapters                   @relation(fields: [chapterId], references: [id])
     user          User                             @relation(fields: [userId], references: [id])

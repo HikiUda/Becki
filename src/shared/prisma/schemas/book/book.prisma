@@ -69,18 +69,21 @@ model BookRating {
 
 // * Abstract
 model BookComments {
-    id            Int                    @id @default(autoincrement())
-    content       String
-    book          Book                   @relation(fields: [bookId], references: [id])
-    user          User                   @relation(fields: [userId], references: [id])
-    bookId        Int
-    userId        Int
-    usersLike     UserLikeBookComments[]
-    predesessorId Int?
-    predecessor   BookComments?          @relation("BookCommentsFamily", fields: [predesessorId], references: [id])
-    successors    BookComments[]         @relation("BookCommentsFamily")
-    createdAt     DateTime               @default(now())
-    updatedAt     DateTime               @default(now()) @updatedAt
+    id           Int                    @id @default(autoincrement())
+    content      String
+    book         Book                   @relation(fields: [bookId], references: [id])
+    user         User                   @relation(fields: [userId], references: [id])
+    bookId       Int
+    userId       Int
+    usersLike    UserLikeBookComments[]
+    parentId     Int?
+    parent       BookComments?          @relation("BookCommentsFamily", fields: [parentId], references: [id])
+    children     BookComments[]         @relation("BookCommentsFamily")
+    rootComment  Int
+    nestingLevel Int
+    isDeleted    Boolean                @default(false)
+    createdAt    DateTime               @default(now())
+    updatedAt    DateTime               @default(now()) @updatedAt
 }
 
 // * Abstract
