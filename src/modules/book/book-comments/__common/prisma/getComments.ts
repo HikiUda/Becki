@@ -8,6 +8,7 @@ export const getCommentsSelect = {
     parentId: true,
     isDeleted: true,
     user: { select: { id: true, name: true, avatar: true } },
+    _count: { select: { children: true } },
 } satisfies Prisma.BookCommentsSelect;
 
 const getComments = async (prisma: PrismaClient) => {

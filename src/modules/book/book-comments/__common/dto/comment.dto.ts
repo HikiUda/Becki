@@ -11,8 +11,11 @@ export class Comment {
     @ApiProperty()
     createdAt: Date;
 
-    @ApiProperty({ nullable: true })
+    @ApiProperty({ type: 'number', nullable: true })
     parentId: number | null;
+
+    @ApiProperty()
+    hasChildrens: boolean;
 
     @ApiProperty({ type: 'number', nullable: true })
     userId: number | null;
@@ -25,7 +28,7 @@ export class CommentUser {
     @ApiProperty()
     name: string;
 
-    @ApiProperty({ nullable: true })
+    @ApiProperty({ type: 'string', nullable: true })
     avatar: string | null;
 }
 

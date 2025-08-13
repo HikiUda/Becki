@@ -97,11 +97,11 @@ export class MangaCommentsRepository implements BookCommentsRepositoryInterface 
     async deleteComment({ mangaId: bookId, commentId }: MangaCommentIdParam): Promise<void> {
         const deleteComment = await this.prisma.mangaComments.findUnique({
             where: { bookId, id: commentId },
-            select: { children: { select: { id: true } } },
+            select: { _count: { select: { children: true } } },
         });
         if (!deleteComment) return;
 
-        if (!deleteComment.children.length) {
+        if (!deleteComment._count.children) {
             await this.prisma.mangaComments.delete({ where: { bookId, id: commentId } });
             return;
         }
